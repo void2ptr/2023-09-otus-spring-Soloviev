@@ -1,18 +1,13 @@
 package ru.otus.spring.dao;
 
-import com.opencsv.CSVParser;
-import com.opencsv.CSVParserBuilder;
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.springframework.util.ResourceUtils;
+import org.springframework.core.io.ClassPathResource;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.QuestionImpl;
 
-import java.io.File;
-import java.io.FileReader;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,23 +15,20 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 
 @DisplayName("Класс LoaderCsv")
 class LoaderCsvTest {
-    private static final String PATH = "classpath:data/questions.EN.csv";
-    private static final Integer SKIP_LINES = 1;
+    private static final String PATH = "data/questions.EN.csv";
     private static final List<Question> questions = new ArrayList<>();
 
     @BeforeAll
     static void setUp(){
-        // Read FILE to ...
-        try {
-            File file = ResourceUtils.getFile(PATH);
+        ClassPathResource resource = new ClassPathResource(PATH);
 
-            CSVReader csvReader = new CSVReaderBuilder( new FileReader(file) )
-                    .withCSVParser( new CSVParserBuilder().withSeparator(';').build() )
-                    .withSkipLines(SKIP_LINES)
-                    .build();
+        try (InputStream inputStream = resource.getInputStream();
+             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream)))
+        {
+            String line;
 
-            for (String[] row : csvReader.readAll()) {
-                questions.add(new QuestionImpl(row));
+            while ((line = bufferedReader.readLine()) != null) {
+                questions.add( new QuestionImpl(line.split(";")) );
             }
 
         } catch (Exception e) {
@@ -49,7 +41,7 @@ class LoaderCsvTest {
         LoaderCsvImp loader = new LoaderCsvImp(PATH);
 
         for (Question expected : loader.getQuestions() ){
-            Question actual = questions.get( Integer.valueOf( expected.getOrder()) - SKIP_LINES );
+            Question actual = questions.get( Integer.valueOf( expected.getOrder()) - 1 );
             assertEquals( expected.getOrder()      , actual.getOrder() );
             assertEquals( expected.getDescription(), actual.getDescription() );
             assertEquals( expected.getQuestion1()  , actual.getQuestion1() );

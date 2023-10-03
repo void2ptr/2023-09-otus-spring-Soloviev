@@ -12,7 +12,9 @@
        </bean>
 
         <bean id="LoaderCsv" class="ru.otus.spring.dao.LoaderCsvImp">
-            <constructor-arg name="path" value="classpath:data/questions.EN.csv"/>
+            <constructor-arg name="path" value="data/questions.EN.csv"/>
         </bean>
+
+
 
 </beans>

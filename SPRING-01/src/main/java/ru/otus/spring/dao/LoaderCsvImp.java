@@ -1,19 +1,12 @@
 package ru.otus.spring.dao;
 
-import com.opencsv.CSVParser;
-import com.opencsv.CSVParserBuilder;
-import com.opencsv.CSVReader;
-import com.opencsv.CSVReaderBuilder;
-import org.springframework.util.ResourceUtils;
+import org.springframework.core.io.ClassPathResource;
 import ru.otus.spring.domain.Question;
 import ru.otus.spring.domain.QuestionImpl;
 
 import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 public class LoaderCsvImp implements LoaderCsv {
 
@@ -29,26 +22,15 @@ public class LoaderCsvImp implements LoaderCsv {
     }
 
     private void setQuestions(String path) {
-        try {
-            File file = ResourceUtils.getFile(path);
+        ClassPathResource resource = new ClassPathResource(path);
 
-            // Create an object of file reader class with CSV file as a parameter.
-            FileReader filereader = new FileReader(file);
+        try (InputStream inputStream = resource.getInputStream();
+             BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(inputStream)))
+        {
+            String line;
 
-            // create csvParser object with
-            // custom separator semicolon
-            CSVParser parser = new CSVParserBuilder().withSeparator(';').build();
-
-            // create csvReader object with parameter
-            // file reader and parser
-            CSVReader csvReader = new CSVReaderBuilder(filereader)
-                    .withCSVParser(parser)
-                    .withSkipLines(1) // Skip first line
-                    .build();
-
-            // Mapper Line to Object
-            for (String[] row : csvReader.readAll()) {
-                questions.add( new QuestionImpl(row) );
+            while ((line = bufferedReader.readLine()) != null) {
+                questions.add( new QuestionImpl(line.split(";")) );
             }
 
         } catch (Exception e) {
