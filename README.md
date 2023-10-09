@@ -4,4 +4,5 @@
 # Соловьев Александр Анатольевич
 
 # Задания:
-- SPRING-01 - Введение в Spring Framework 
+- [SPRING-01](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/SPRING-01) - Введение в Spring Framework 
+- [SPRING-02](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/SPRING-02) - Конфигурирование Spring-приложений.
