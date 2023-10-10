@@ -1,0 +1,23 @@
+#!/bin/sh
+
+COMMIT_MSG_FILE=$1
+COMMIT_SOURCE=$2
+SHA1=$3
+
+# skip: git commit -m
+if [[ -z "$COMMIT_SOURCE" ]]
+then
+    CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD);
+
+    cat << EOF > $COMMIT_MSG_FILE.tmp
+[$CURRENT_BRANCH] 
+
+- links:
+ref-jira: [$CURRENT_BRANCH]
+EOF
+
+    # uppend to standart commit message
+    cat $COMMIT_MSG_FILE >>  $COMMIT_MSG_FILE.tmp
+    mv  $COMMIT_MSG_FILE.tmp $COMMIT_MSG_FILE
+fi
+
