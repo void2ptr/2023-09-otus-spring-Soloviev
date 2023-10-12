@@ -12,11 +12,6 @@ class StreamsIOServiceTest {
     private final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private final StreamsIOService stream = new StreamsIOService(new PrintStream(outContent));
 
-    @BeforeEach
-    void resetContent() {
-        outContent.reset();
-    }
-
     @Test
     void printLine() {
         stream.printLine("Simple line");

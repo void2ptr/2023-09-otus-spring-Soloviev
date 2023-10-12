@@ -15,16 +15,13 @@ class TestServiceImplTest {
     private static final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private static final StreamsIOService stream = new StreamsIOService(new PrintStream(outContent));
 
-    @BeforeAll
-    public static void setUp(){
-        AppConfig appConfig = new AppConfig("questions.csv");
-        TestServiceImpl service = new TestServiceImpl(stream, appConfig);
-        service.executeTest();
-    }
-
     @DisplayName("My Questions contain the words")
     @Test
     void executeTest() {
+        AppConfig appConfig = new AppConfig("questions_test.csv");
+        TestServiceImpl service = new TestServiceImpl(stream, appConfig);
+        service.executeTest();
+
         String content = outContent.toString();
         assertTrue( content.contains("JunHu"), "contain [JunHu]");
         assertTrue( content.contains("Three Kingdoms"), "contain [Three Kingdoms]");

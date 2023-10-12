@@ -141,6 +141,10 @@
                                 <exclude>META-INF/*.txt</exclude>
                                 <exclude>META-INF/spring.*</exclude>
                                 <exclude>META-INF/spring/*</exclude>
+                                <exclude>META-INF/*/*/*/pom.properties</exclude>
+                                <exclude>META-INF/*/*/*/pom.xml</exclude>
+                                <exclude>META-INF/*/*/*/native-image.properties</exclude>
+                                <exclude>META-INF/*/incremental.annotation.processors</exclude>
                             </excludes>
                         </filter>
                     </filters>
