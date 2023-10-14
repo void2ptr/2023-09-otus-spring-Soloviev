@@ -22,18 +22,14 @@ public class CsvQuestionDao implements QuestionDao {
 
     @Override
     public List<Question> findAll() {
-        // Использовать CsvToBean
-        // https://opencsv.sourceforge.net/#collection_based_bean_fields_one_to_many_mappings
-        // Использовать QuestionReadException
         List<Question> questions = new ArrayList<>();
 
         try {
-            int SKIP_LINES = 1;
             ClassPathResource resource = new ClassPathResource(fileNameProvider.getTestFileName());
             InputStreamReader streamReader = new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8);
 
             CsvToBean<QuestionDto> csvToBeans = new CsvToBeanBuilder<QuestionDto>(streamReader)
-                    .withSkipLines(SKIP_LINES)
+                    .withSkipLines(1)
                     .withIgnoreLeadingWhiteSpace(true)
                     .withSeparator(';')
                     .withType(QuestionDto.class)
