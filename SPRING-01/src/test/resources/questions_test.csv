@@ -1,9 +1,6 @@
 question;answer
-Is there life on Mars?;Science doesn't know this yet%true|Certainly. The red UFO is from Mars. And green is from Venus%false|Absolutely not%false
-How should resources be loaded form jar in Java?;ClassLoader#geResourceAsStream or ClassPathResource#getInputStream%true|ClassLoader#geResource#getFile + FileReader%false|Wingardium Leviosa%false
-Which option is a good way to handle the exception?;@SneakyThrow%false|e.printStackTrace()%false|Rethrow with wrapping in business exception (for example, QuestionReadException)%true|Ignoring exception%false
-What is 'JunHu'?;Dish%false|Weapon%false|Nationality%false|Subculture%true
-What period is narrated in the 'Chronicles of the Three Kingdoms'?;Present Time%false|5400-5000 B.C.%false|0-300 A.D.%true|300-800 A.D.%false
-What is the name of the main character of the novel 'Dream in the Red Chamber'?;Bǎo Yù%true|Wèi Wúxiàn%false|Sūn Wùkōng%false|Sūn Zǐ%false
-Who wrote the novel 'River Backwaters' (14th A.D.) ?;Shi Nai-Yan%false|Luo Guan-Zhong%false|Wu-Yu%false|Guo Qiang%false|Subject of discussion%true
-What did Wu-Sung do when he saw the little finger of the Buddha?;Composed a hymn%false|Prayed%false|Peed on the little finger%true|Thought about the impermanence of being%false
+Question 1 ?;Answer 1%false|Answer 2%false|Answer 3%false|Answer 4%true
+Question 2 ?;Answer A%false|Answer B%false|Answer C%true |Answer D%false
+Question 3 ?;Answer X%true |Answer Y%false|Answer Z%false|Answer Q%false
+Question 4 ?;Answer 1%false|Answer 2%false|Answer 3%false|Answer 4%false|Answer 5%true
+Question 5 ?;Answer Q%false|Answer W%false|Answer E%true |Answer T%false

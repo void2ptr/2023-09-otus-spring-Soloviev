@@ -15,7 +15,7 @@ class TestServiceImplTest {
     private static final ByteArrayOutputStream outContent = new ByteArrayOutputStream();
     private static final StreamsIOService stream = new StreamsIOService(new PrintStream(outContent));
 
-    @DisplayName("My Questions contain the words")
+    @DisplayName("The questions [resource:file] contain the words")
     @Test
     void executeTest() {
         AppConfig appConfig = new AppConfig("questions_test.csv");
@@ -23,10 +23,10 @@ class TestServiceImplTest {
         service.executeTest();
 
         String content = outContent.toString();
-        assertTrue( content.contains("JunHu"), "contain [JunHu]");
-        assertTrue( content.contains("Three Kingdoms"), "contain [Three Kingdoms]");
-        assertTrue( content.contains("Red Chamber"), "contain [Red Chamber]");
-        assertTrue( content.contains("River Backwaters"), "contain [River Backwaters]");
-        assertTrue( content.contains("Wu-Sung"), "contain [Wu-Sung]");
+        assertTrue( content.contains("Question 1"), "contain [Question 1]");
+        assertTrue( content.contains("Question 2"), "contain [Question 2]");
+        assertTrue( content.contains("Question 3"), "contain [Question 3]");
+        assertTrue( content.contains("Question 4"), "contain [Question 4]");
+        assertTrue( content.contains("Question 5"), "contain [Question 5]");
     }
 }
