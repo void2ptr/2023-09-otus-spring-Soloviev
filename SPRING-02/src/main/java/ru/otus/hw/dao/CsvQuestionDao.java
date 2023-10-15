@@ -18,6 +18,10 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class CsvQuestionDao implements QuestionDao {
+    public static final int SKIP_LINES = 1;
+
+    public static final char FIELD_SEPARATOR = ';';
+
     private final TestFileNameProvider fileNameProvider;
 
     @Override
@@ -29,9 +33,9 @@ public class CsvQuestionDao implements QuestionDao {
             InputStreamReader streamReader = new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8);
 
             CsvToBean<QuestionDto> csvToBeans = new CsvToBeanBuilder<QuestionDto>(streamReader)
-                    .withSkipLines(1)
+                    .withSkipLines(SKIP_LINES)
                     .withIgnoreLeadingWhiteSpace(true)
-                    .withSeparator(';')
+                    .withSeparator(FIELD_SEPARATOR)
                     .withType(QuestionDto.class)
                     .build();
 
@@ -40,7 +44,7 @@ public class CsvQuestionDao implements QuestionDao {
             }
 
         } catch (Exception e) {
-            throw new QuestionReadException("CsvQuestionDao(): ", e);
+            throw new QuestionReadException("Problem to read Question: ", e);
         }
 
         return questions;
