@@ -1,8 +1,10 @@
 # Курс OTUS: Разработчик на Spring Framework
 Дата старта курса: 28 сентября 2023 г.
 
-# Соловьев Александр Анатольевич
+*Группа* - OTUS Spring-2023-09
 
-# Задания:
+*Слушатель* - Соловьев Александр Анатольевич
+
+# Структура репозитория (Домашние задания):
 - [SPRING-01](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/tree/main/SPRING-01) - Введение в Spring Framework (xml-config).
 - [SPRING-02](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/tree/main/SPRING-02) - Конфигурирование Spring-приложений (annotation-config).

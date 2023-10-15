@@ -10,7 +10,7 @@ then
     CURRENT_BRANCH=$(git rev-parse --abbrev-ref HEAD);
 
     cat << EOF > $COMMIT_MSG_FILE.tmp
-[$CURRENT_BRANCH] 
+[$CURRENT_BRANCH]
 
 - links:
 ref-jira: [$CURRENT_BRANCH]

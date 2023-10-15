@@ -2,14 +2,14 @@
 
 COMMIT_MSG_FILE="$1"
 
-if grep -qE "\[*-00*" "$COMMIT_MSG_FILE"; then
+if grep -qE "\[SPRING-00*" "$COMMIT_MSG_FILE"; then
   echo -e "\e[31mYou are smart and able to cheat the system :). It's your choice. Enter another fake task or please dude create a real task :)\e[0m" 1>&2
   exit 1
 fi
 
 if ! grep -qE "^\[SPRING-" "$COMMIT_MSG_FILE";
 then
-    echo -e "\e[31mYour commit message must contain the word 'DPK-XXX'\e[0m"
+    echo -e "\e[31mYour commit message must contain the word 'SPRING-XX'\e[0m"
     echo -e "\e[31mPlease enter the number of task(DPK-00 for jira or #00 for old tracker)\e[0m" 1>&2
     exit 1
 fi
