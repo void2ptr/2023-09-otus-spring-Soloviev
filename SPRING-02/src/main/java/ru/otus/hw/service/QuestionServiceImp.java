@@ -1,6 +1,5 @@
 package ru.otus.hw.service;
 
-import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.domain.Answer;
@@ -10,7 +9,16 @@ import ru.otus.hw.domain.Question;
 @RequiredArgsConstructor
 public class QuestionServiceImp implements QuestionService {
 
+    public static final String ASK_ANSWER_PROMPT = "Please input the correct answer number";
+
     private final IOService ioService;
+
+    // getter for test only.
+    // because lombok @Getter generate: [getASK_ANSWER_PROMPT()]
+    // Hmm-m-m. Is it chosen correctly? [getAskAnswerPrompt()]
+    public String getAskAnswerPrompt() {
+        return ASK_ANSWER_PROMPT;
+    }
 
     @Override
     public String showQuestion(Question question) {
@@ -29,8 +37,8 @@ public class QuestionServiceImp implements QuestionService {
     }
 
     @Override
-    public Boolean askQuestion(String prompt, Question question) {
-        return ioService.readStringWithPrompt(prompt)
+    public Boolean askQuestion(Question question) {
+        return ioService.readStringWithPrompt(ASK_ANSWER_PROMPT)
                 .contentEquals(
                         showQuestion(question)
                 );

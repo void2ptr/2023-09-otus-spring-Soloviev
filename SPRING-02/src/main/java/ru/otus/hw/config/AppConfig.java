@@ -9,7 +9,7 @@ import org.springframework.context.annotation.PropertySource;
 public class AppConfig implements TestConfig, TestFileNameProvider {
 
     // внедрить свойство из application.properties
-    @Value("${correct.answers.count}")
+    @Value("${test.rightAnswersCountToPass}")
     private int rightAnswersCountToPass;
 
     // внедрить свойство из application.properties

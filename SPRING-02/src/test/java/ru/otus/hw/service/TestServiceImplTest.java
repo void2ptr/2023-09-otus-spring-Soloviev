@@ -14,6 +14,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class TestServiceImplTest {
+    private final static String ASK_ANSWER_PROMPT = "Please input the correct answer number:";
     private final static StreamsIOService stubStreamsIOService = mock(StreamsIOService.class);
     private final static CsvQuestionDao stubCsvQuestionDao = mock(CsvQuestionDao.class);
     private final static QuestionService stubQuestionService = mock(QuestionService.class);
@@ -41,7 +42,10 @@ class TestServiceImplTest {
 
         // mock
         when(stubCsvQuestionDao.findAll()).thenReturn(questions);
-        when(stubQuestionService.askQuestion("Please input the correct answer number:", question)).thenReturn(true);
+        when(stubQuestionService.askQuestion(question)).thenReturn(true);
+        when(stubQuestionService.getAskAnswerPrompt()).thenReturn(ASK_ANSWER_PROMPT);
+        when(stubStreamsIOService.readStringWithPrompt(ASK_ANSWER_PROMPT)).thenReturn("2");
+        when(stubQuestionService.askQuestion(question)).thenReturn(true);
 
         // tested method
         TestResult actualResult = testServiceImpl.executeTestFor(student);

@@ -15,7 +15,6 @@ import static org.mockito.Mockito.when;
 @DisplayName("Service QuestionServiceImpTest")
 class QuestionServiceImpTest {
 
-    private final static String ASK_ANSWER_PROMPT = "Please input the correct answer number:";
     private final static StreamsIOService stubStreamsIOService = mock(StreamsIOService.class);
     private final static QuestionServiceImp questionService = new QuestionServiceImp(stubStreamsIOService);
 
@@ -49,10 +48,10 @@ class QuestionServiceImpTest {
         Question question = new Question("The question", answers);
 
         // mock
-        when(stubStreamsIOService.readStringWithPrompt(ASK_ANSWER_PROMPT)).thenReturn("2");
+        when(stubStreamsIOService.readStringWithPrompt(questionService.getAskAnswerPrompt())).thenReturn("2");
 
         // tested method
-        Boolean actualAnswer = questionService.askQuestion(ASK_ANSWER_PROMPT, question);
+        Boolean actualAnswer = questionService.askQuestion(question);
 
         // test
         assertEquals(true, actualAnswer);
