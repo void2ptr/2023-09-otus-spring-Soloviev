@@ -27,18 +27,16 @@ public class CsvQuestionDao implements QuestionDao {
     @Override
     public List<Question> findAll() {
         List<Question> questions = new ArrayList<>();
+        ClassPathResource resource = new ClassPathResource(fileNameProvider.getTestFileName());
 
-        try {
-            ClassPathResource resource = new ClassPathResource(fileNameProvider.getTestFileName());
-            InputStreamReader streamReader = new InputStreamReader(resource.getInputStream(), StandardCharsets.UTF_8);
-
+        try (InputStreamReader streamReader = new InputStreamReader(resource.getInputStream(),
+                StandardCharsets.UTF_8)) {
             CsvToBean<QuestionDto> csvToBeans = new CsvToBeanBuilder<QuestionDto>(streamReader)
                     .withSkipLines(SKIP_LINES)
                     .withIgnoreLeadingWhiteSpace(true)
                     .withSeparator(FIELD_SEPARATOR)
                     .withType(QuestionDto.class)
                     .build();
-
             for (QuestionDto dto : csvToBeans) {
                 questions.add(dto.toDomainObject());
             }

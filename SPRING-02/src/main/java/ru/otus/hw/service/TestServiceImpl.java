@@ -15,7 +15,7 @@ public class TestServiceImpl implements TestService {
 
     private final QuestionDao questionDao;
 
-    private final QuestionService questionService;
+    private final QuestionsService questionService;
 
     @Override
     public TestResult executeTestFor(@Value("${student}") Student student) {

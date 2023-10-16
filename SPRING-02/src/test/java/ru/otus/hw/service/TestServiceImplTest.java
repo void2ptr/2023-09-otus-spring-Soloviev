@@ -17,7 +17,7 @@ class TestServiceImplTest {
     private final static String ASK_ANSWER_PROMPT = "Please input the correct answer number:";
     private final static StreamsIOService stubStreamsIOService = mock(StreamsIOService.class);
     private final static CsvQuestionDao stubCsvQuestionDao = mock(CsvQuestionDao.class);
-    private final static QuestionService stubQuestionService = mock(QuestionService.class);
+    private final static QuestionsService stubQuestionService = mock(QuestionsService.class);
     private final static TestServiceImpl testServiceImpl = new TestServiceImpl(
             stubStreamsIOService,
             stubCsvQuestionDao,

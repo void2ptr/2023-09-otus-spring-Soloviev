@@ -7,7 +7,7 @@ import ru.otus.hw.domain.Question;
 
 @Service
 @RequiredArgsConstructor
-public class QuestionServiceImp implements QuestionService {
+public class QuestionsServiceImp implements QuestionsService {
 
     public static final String ASK_ANSWER_PROMPT = "Please input the correct answer number";
 
@@ -38,9 +38,12 @@ public class QuestionServiceImp implements QuestionService {
 
     @Override
     public Boolean askQuestion(Question question) {
-        return ioService.readStringWithPrompt(ASK_ANSWER_PROMPT)
-                .contentEquals(
-                        showQuestion(question)
-                );
+        String correctAnswer = showQuestion(question);
+        String userAnswer = ioService.readStringWithPrompt(ASK_ANSWER_PROMPT);
+        if (correctAnswer.contentEquals(userAnswer)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }

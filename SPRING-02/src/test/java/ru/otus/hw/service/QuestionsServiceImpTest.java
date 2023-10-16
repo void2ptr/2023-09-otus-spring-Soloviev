@@ -12,11 +12,11 @@ import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@DisplayName("Service QuestionServiceImpTest")
-class QuestionServiceImpTest {
+@DisplayName("Service QuestionsServiceImpTest")
+class QuestionsServiceImpTest {
 
     private final static StreamsIOService stubStreamsIOService = mock(StreamsIOService.class);
-    private final static QuestionServiceImp questionService = new QuestionServiceImp(stubStreamsIOService);
+    private final static QuestionsServiceImp questionService = new QuestionsServiceImp(stubStreamsIOService);
 
     @DisplayName("Show Question: [showQuestion()]")
     @Test
