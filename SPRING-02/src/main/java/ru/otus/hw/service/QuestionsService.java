@@ -8,5 +8,5 @@ public interface QuestionsService {
 
     String showQuestion(Question question);
 
-    Boolean askQuestion(Question question);
+    Boolean chooseAnswer(Question question);
 }

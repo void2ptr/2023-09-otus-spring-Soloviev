@@ -51,7 +51,7 @@ class QuestionsServiceImpTest {
         when(stubStreamsIOService.readStringWithPrompt(questionService.getAskAnswerPrompt())).thenReturn("2");
 
         // tested method
-        Boolean actualAnswer = questionService.askQuestion(question);
+        Boolean actualAnswer = questionService.chooseAnswer(question);
 
         // test
         assertEquals(true, actualAnswer);

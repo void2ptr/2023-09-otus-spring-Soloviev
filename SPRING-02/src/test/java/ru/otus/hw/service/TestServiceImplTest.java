@@ -42,10 +42,10 @@ class TestServiceImplTest {
 
         // mock
         when(stubCsvQuestionDao.findAll()).thenReturn(questions);
-        when(stubQuestionService.askQuestion(question)).thenReturn(true);
+        when(stubQuestionService.chooseAnswer(question)).thenReturn(true);
         when(stubQuestionService.getAskAnswerPrompt()).thenReturn(ASK_ANSWER_PROMPT);
         when(stubStreamsIOService.readStringWithPrompt(ASK_ANSWER_PROMPT)).thenReturn("2");
-        when(stubQuestionService.askQuestion(question)).thenReturn(true);
+        when(stubQuestionService.chooseAnswer(question)).thenReturn(true);
 
         // tested method
         TestResult actualResult = testServiceImpl.executeTestFor(student);
