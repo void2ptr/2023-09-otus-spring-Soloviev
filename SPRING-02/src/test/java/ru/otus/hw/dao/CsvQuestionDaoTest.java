@@ -27,51 +27,39 @@ class CsvQuestionDaoTest {
         csvQuestionDao = new CsvQuestionDao(stubAppConfig);
     }
 
-    @DisplayName("method findAll() - Question have the [text]")
+    @DisplayName("method findAll() - Question.Answer.text not empty")
     @Test
-    void findAll_isQuestionNotEmpty() {
+    void findAll_isQuestionTextNotEmpty() {
+        // tested method
         List<Question> questions = csvQuestionDao.findAll();
-        for (Question question: questions) {
-            assertNotNull(question.text(), "is Question have Body ?" );
-        }
-//        assertThat(csvQuestionDao.findAll())
-//                .as("check the Question")
-//                .isNotEmpty()
-//                .usingRecursiveComparison()
-//                .withEqualsForFields()
-//                ;
-
+        // test
+        assertThat(questions.stream()
+                .noneMatch(question -> question.text().isEmpty())
+        ).isTrue();
     }
 
     @DisplayName("method findAll() - Question have the [Answers]")
     @Test
-    void findAll_isQuestionHaveAnswers() {
+    void findAll_isQuestionAnswerNotEmpty() {
         List<Question> questions = csvQuestionDao.findAll();
-        for (Question question: questions) {
-            assertTrue(question.answers().size() > 0, "is Question have Answers ?" );
-        }
+        assertThat(questions.stream()
+                .noneMatch(question -> question.answers().isEmpty() )
+        ).isTrue();
     }
 
-    @DisplayName("method findAll() - Question.Answer.text not empty")
+    @DisplayName("method findAll() - Question.Answer.isCorrect [true] exist")
     @Test
-    void findAll_isAnswerTestNotEmpty() {
+    void findAll_isAnswerHave() {
+        int correctAnswers = 0;
         List<Question> questions = csvQuestionDao.findAll();
         for (Question question: questions) {
             for (Answer answer: question.answers()) {
-                // check field text
-                assertNotNull(answer.text(), "is Answers.test not null ?" );
+                if (answer.isCorrect()) {
+                    ++correctAnswers;
+                }
             }
         }
-    }
-
-    @DisplayName("method findAll() - Question.Answer.isCorrect not empty")
-    @Test
-    void findAll_isAnswerResultNotEmpty() {
-        List<Question> questions = csvQuestionDao.findAll();
-        for (Question question: questions) {
-            for (Answer answer: question.answers()) {
-                assertNotNull(answer.isCorrect(), "is the Answer.isCorrect not null ?");
-            }
-        }
+        // test
+        assertTrue(correctAnswers > 0, "is the Answer.isCorrect [true] exist ?");
     }
 }

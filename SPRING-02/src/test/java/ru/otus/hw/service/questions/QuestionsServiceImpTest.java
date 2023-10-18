@@ -1,9 +1,10 @@
-package ru.otus.hw.service;
+package ru.otus.hw.service.questions;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import ru.otus.hw.domain.Answer;
 import ru.otus.hw.domain.Question;
+import ru.otus.hw.service.io.StreamsIOService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +16,11 @@ import static org.mockito.Mockito.when;
 @DisplayName("Service QuestionsServiceImpTest")
 class QuestionsServiceImpTest {
 
-    private final static StreamsIOService stubStreamsIOService = mock(StreamsIOService.class);
-    private final static QuestionsServiceImp questionService = new QuestionsServiceImp(stubStreamsIOService);
+    private final QuestionsConst questionsConst = new QuestionsConstImp();
+    private final StreamsIOService mockStreamsIOService = mock(StreamsIOService.class);
+    private final QuestionsServiceImp questionService = new QuestionsServiceImp(mockStreamsIOService,
+            new QuestionsConstImp()
+    );
 
     @DisplayName("Show Question: [showQuestion()]")
     @Test
@@ -48,7 +52,7 @@ class QuestionsServiceImpTest {
         Question question = new Question("The question", answers);
 
         // mock
-        when(stubStreamsIOService.readStringWithPrompt(questionService.getAskAnswerPrompt())).thenReturn("2");
+        when(mockStreamsIOService.readStringWithPrompt(questionsConst.getAnswerPrompt())).thenReturn("2");
 
         // tested method
         Boolean actualAnswer = questionService.chooseAnswer(question);

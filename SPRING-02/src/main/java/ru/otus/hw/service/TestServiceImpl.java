@@ -6,6 +6,8 @@ import org.springframework.stereotype.Service;
 import ru.otus.hw.dao.QuestionDao;
 import ru.otus.hw.domain.Student;
 import ru.otus.hw.domain.TestResult;
+import ru.otus.hw.service.io.IOService;
+import ru.otus.hw.service.questions.QuestionsService;
 
 @Service
 @RequiredArgsConstructor

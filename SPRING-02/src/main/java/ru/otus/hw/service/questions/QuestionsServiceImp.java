@@ -1,24 +1,18 @@
-package ru.otus.hw.service;
+package ru.otus.hw.service.questions;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.domain.Answer;
 import ru.otus.hw.domain.Question;
+import ru.otus.hw.service.io.IOService;
 
 @Service
 @RequiredArgsConstructor
 public class QuestionsServiceImp implements QuestionsService {
 
-    public static final String ASK_ANSWER_PROMPT = "Please input the correct answer number";
-
     private final IOService ioService;
 
-    // getter for test only.
-    // because lombok @Getter generate: [getASK_ANSWER_PROMPT()]
-    // Hmm-m-m. Is it chosen correctly? [getAskAnswerPrompt()]
-    public String getAskAnswerPrompt() {
-        return ASK_ANSWER_PROMPT;
-    }
+    private final QuestionsConst questionsConst;
 
     @Override
     public String showQuestion(Question question) {
@@ -39,7 +33,7 @@ public class QuestionsServiceImp implements QuestionsService {
     @Override
     public Boolean chooseAnswer(Question question) {
         String correctAnswer = showQuestion(question);
-        String userAnswer = ioService.readStringWithPrompt(ASK_ANSWER_PROMPT);
+        String userAnswer = ioService.readStringWithPrompt(questionsConst.getAnswerPrompt());
         return correctAnswer.contentEquals(userAnswer);
     }
 }
