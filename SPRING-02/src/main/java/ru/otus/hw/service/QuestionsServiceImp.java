@@ -40,10 +40,6 @@ public class QuestionsServiceImp implements QuestionsService {
     public Boolean chooseAnswer(Question question) {
         String correctAnswer = showQuestion(question);
         String userAnswer = ioService.readStringWithPrompt(ASK_ANSWER_PROMPT);
-        if (correctAnswer.contentEquals(userAnswer)) {
-            return true;
-        } else {
-            return false;
-        }
+        return correctAnswer.contentEquals(userAnswer);
     }
 }

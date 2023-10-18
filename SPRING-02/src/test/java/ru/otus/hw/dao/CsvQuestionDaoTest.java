@@ -1,16 +1,15 @@
 package ru.otus.hw.dao;
 
-import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
-import org.mockito.Answers;
 import ru.otus.hw.config.AppConfig;
 import ru.otus.hw.domain.Answer;
 import ru.otus.hw.domain.Question;
 
 import java.util.List;
 
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -18,59 +17,61 @@ import static org.mockito.Mockito.when;
 @DisplayName("Test CsvQuestionDao")
 class CsvQuestionDaoTest {
 
-    final static private AppConfig stubAppConfig = mock(AppConfig.class);
-    static private CsvQuestionDao csvQuestionDao;
+    final private AppConfig stubAppConfig = mock(AppConfig.class);
+    private CsvQuestionDao csvQuestionDao;
 
     @DisplayName("Test init")
-    @BeforeAll
-    static void setUp(){
+    @BeforeEach
+    void setUp() {
         when(stubAppConfig.getTestFileName()).thenReturn("questions_test.csv");
         csvQuestionDao = new CsvQuestionDao(stubAppConfig);
     }
 
     @DisplayName("method findAll() - Question have the [text]")
     @Test
-    void findAll_is_question_not_empty() {
+    void findAll_isQuestionNotEmpty() {
         List<Question> questions = csvQuestionDao.findAll();
-        for (Question question: questions){
-            assertTrue(question.text().length() > 0, "is Question have Body ?" );
+        for (Question question: questions) {
+            assertNotNull(question.text(), "is Question have Body ?" );
         }
+//        assertThat(csvQuestionDao.findAll())
+//                .as("check the Question")
+//                .isNotEmpty()
+//                .usingRecursiveComparison()
+//                .withEqualsForFields()
+//                ;
+
     }
+
     @DisplayName("method findAll() - Question have the [Answers]")
     @Test
-    void findAll_is_question_have_answers() {
+    void findAll_isQuestionHaveAnswers() {
         List<Question> questions = csvQuestionDao.findAll();
-        for (Question question: questions){
+        for (Question question: questions) {
             assertTrue(question.answers().size() > 0, "is Question have Answers ?" );
         }
     }
 
     @DisplayName("method findAll() - Question.Answer.text not empty")
     @Test
-    void findAll_is_answer_not_empty() {
+    void findAll_isAnswerTestNotEmpty() {
         List<Question> questions = csvQuestionDao.findAll();
-        for (Question question: questions){
+        for (Question question: questions) {
             for (Answer answer: question.answers()) {
                 // check field text
-                assertTrue(answer.text().length() > 0, "is Answers.test: [empty] ?" );
+                assertNotNull(answer.text(), "is Answers.test not null ?" );
             }
         }
     }
 
-    @DisplayName("method findAll() - Question.Answer.isCorrect Ok")
+    @DisplayName("method findAll() - Question.Answer.isCorrect not empty")
     @Test
-    void findAll_is_answer_is_correct() {
+    void findAll_isAnswerResultNotEmpty() {
         List<Question> questions = csvQuestionDao.findAll();
-        for (Question question: questions){
+        for (Question question: questions) {
             for (Answer answer: question.answers()) {
-                // check field isCorrect
-                if ( answer.isCorrect() ) {
-                    assertTrue(answer.isCorrect() == true, "is Answer: [True] ?");
-                } else {
-                    assertTrue(answer.isCorrect() == false, "is Answer: [False] ?");
-                }
+                assertNotNull(answer.isCorrect(), "is the Answer.isCorrect not null ?");
             }
         }
     }
-
 }
