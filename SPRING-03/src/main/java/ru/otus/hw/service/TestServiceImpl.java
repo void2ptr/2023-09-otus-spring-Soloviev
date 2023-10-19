@@ -7,7 +7,7 @@ import ru.otus.hw.dao.QuestionDao;
 import ru.otus.hw.domain.Student;
 import ru.otus.hw.domain.TestResult;
 import ru.otus.hw.service.io.IOService;
-import ru.otus.hw.config.props.messages.QuestionsProps;
+import ru.otus.hw.config.props.translate.QuestionsProps;
 import ru.otus.hw.service.questions.QuestionsService;
 
 @Service

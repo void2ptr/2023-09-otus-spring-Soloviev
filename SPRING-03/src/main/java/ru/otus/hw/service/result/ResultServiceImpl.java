@@ -3,6 +3,7 @@ package ru.otus.hw.service.result;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.config.props.application.TestConfig;
+import ru.otus.hw.config.props.translate.TestResulBanner;
 import ru.otus.hw.domain.TestResult;
 import ru.otus.hw.service.io.IOService;
 
@@ -14,18 +15,20 @@ public class ResultServiceImpl implements ResultService {
 
     private final IOService ioService;
 
+    private final TestResulBanner testResulBanner;
+
     @Override
     public void showResult(TestResult testResult) {
-        ioService.printLine("");
-        ioService.printLine("Test results: ");
-        ioService.printFormattedLine("Student: %s", testResult.getStudent().getFullName());
-        ioService.printFormattedLine("Answered questions count: %d", testResult.getAnsweredQuestions().size());
-        ioService.printFormattedLine("Right answers count: %d", testResult.getRightAnswersCount());
+        ioService.printFormattedLine(testResulBanner.getResultBanner(),
+                testResult.getStudent().getFullName(),
+                testResult.getAnsweredQuestions().size(),
+                testResult.getRightAnswersCount()
+        );
 
         if (testResult.getRightAnswersCount() >= testConfig.getRightAnswersCountToPass()) {
-            ioService.printLine("Congratulations! You passed test!");
+            ioService.printLine(testResulBanner.getResultPass());
             return;
         }
-        ioService.printLine("Sorry. You fail test.");
+        ioService.printLine(testResulBanner.getResultError());
     }
 }

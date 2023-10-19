@@ -1,4 +1,4 @@
-package ru.otus.hw.config.props.messages;
+package ru.otus.hw.config.props.translate;
 
 public interface QuestionsProps {
     String getQuestionPrompt();

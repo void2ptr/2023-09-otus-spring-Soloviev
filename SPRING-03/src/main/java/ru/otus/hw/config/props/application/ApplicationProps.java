@@ -8,14 +8,14 @@ import java.util.Locale;
 
 @Getter
 @ConfigurationProperties(prefix = "application")
-public class ApplicationPropsImp implements TestConfig, TestFileNameProvider, TestLocale {
+public class ApplicationProps implements TestConfig, TestFileNameProvider, TestLocale {
     private final String message;
     private final Locale locale;
     private final int rightAnswersCountToPass;
     private final String testFileName;
 
     @ConstructorBinding
-    public ApplicationPropsImp(String message, Locale locale, int rightAnswersCountToPass, String testFileName) {
+    public ApplicationProps(String message, Locale locale, int rightAnswersCountToPass, String testFileName) {
         this.message = message;
         this.locale = locale;
         this.rightAnswersCountToPass = rightAnswersCountToPass;

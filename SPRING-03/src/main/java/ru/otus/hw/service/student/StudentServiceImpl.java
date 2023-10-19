@@ -4,7 +4,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.domain.Student;
 import ru.otus.hw.service.io.IOService;
-import ru.otus.hw.config.props.messages.StudentProps;
+import ru.otus.hw.config.props.translate.StudentProps;
 
 @Service
 @RequiredArgsConstructor

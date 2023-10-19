@@ -1,8 +1,8 @@
 package ru.otus.hw.service;
 
 import org.junit.jupiter.api.Test;
-import ru.otus.hw.config.props.messages.QuestionsProps;
-import ru.otus.hw.config.props.messages.QuestionsPropsImp;
+import ru.otus.hw.config.props.translate.QuestionsProps;
+import ru.otus.hw.config.props.translate.QuestionsPropsImp;
 import ru.otus.hw.dao.CsvQuestionDao;
 import ru.otus.hw.domain.Answer;
 import ru.otus.hw.domain.Question;

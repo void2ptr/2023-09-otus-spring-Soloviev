@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.otus.hw.domain.Answer;
 import ru.otus.hw.domain.Question;
 import ru.otus.hw.service.io.IOService;
-import ru.otus.hw.config.props.messages.QuestionsProps;
+import ru.otus.hw.config.props.translate.QuestionsProps;
 
 @Service
 @RequiredArgsConstructor
