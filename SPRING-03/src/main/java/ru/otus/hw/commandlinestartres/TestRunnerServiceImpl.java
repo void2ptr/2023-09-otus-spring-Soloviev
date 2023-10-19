@@ -7,8 +7,6 @@ import ru.otus.hw.service.TestService;
 import ru.otus.hw.service.result.ResultService;
 import ru.otus.hw.service.student.StudentService;
 
-import java.util.Arrays;
-
 @Service
 @RequiredArgsConstructor
 public class TestRunnerServiceImpl implements TestRunnerService, CommandLineRunner {
@@ -21,7 +19,7 @@ public class TestRunnerServiceImpl implements TestRunnerService, CommandLineRunn
 
     @Override
     public void run(String... args) {
-        var appArgs = Arrays.toString(args);
+//        var appArgs = Arrays.toString(args);
 
         var student = studentService.determineCurrentStudent();
         var testResult = testService.executeTestFor(student);
