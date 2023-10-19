@@ -1,12 +1,10 @@
 spring:
   messages:
-    basename: "i18n/appmesseges"
-    encoding: "UTF-8"
+    basename: "i18n/messages"
+    encoding: UTF-8
 
 application:
-  messages: ""
+  message: ""
   locale: ru_RU
-
-test:
+  testFileName: data/questions
   rightAnswersCountToPass: 4
-  fileName: questions.csv

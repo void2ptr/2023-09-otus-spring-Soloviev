@@ -1,4 +1,4 @@
-package ru.otus.hw.service;
+package ru.otus.hw.service.student;
 
 import ru.otus.hw.domain.Student;
 

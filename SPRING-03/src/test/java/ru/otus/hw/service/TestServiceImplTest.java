@@ -1,11 +1,16 @@
 package ru.otus.hw.service;
 
 import org.junit.jupiter.api.Test;
+import ru.otus.hw.config.props.messages.QuestionsProps;
+import ru.otus.hw.config.props.messages.QuestionsPropsImp;
 import ru.otus.hw.dao.CsvQuestionDao;
 import ru.otus.hw.domain.Answer;
 import ru.otus.hw.domain.Question;
 import ru.otus.hw.domain.Student;
 import ru.otus.hw.domain.TestResult;
+import ru.otus.hw.service.io.StreamsIOService;
+
+import ru.otus.hw.service.questions.QuestionsServiceImp;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,14 +19,17 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.*;
 
 class TestServiceImplTest {
-    private final static String ASK_ANSWER_PROMPT = "Please input the correct answer number:";
-    private final static StreamsIOService stubStreamsIOService = mock(StreamsIOService.class);
-    private final static CsvQuestionDao stubCsvQuestionDao = mock(CsvQuestionDao.class);
-    private final static QuestionsService stubQuestionService = mock(QuestionsService.class);
-    private final static TestServiceImpl testServiceImpl = new TestServiceImpl(
-            stubStreamsIOService,
-            stubCsvQuestionDao,
-            stubQuestionService
+
+    private final QuestionsPropsImp questionsConst = mock(QuestionsPropsImp.class);
+    private final StreamsIOService mockStreamsIOService = mock(StreamsIOService.class);
+    private final CsvQuestionDao mockCsvQuestionDao = mock(CsvQuestionDao.class);
+    private final QuestionsServiceImp mockQuestionService = mock(QuestionsServiceImp.class);
+    private final QuestionsProps mockQuestionsProps = mock(QuestionsPropsImp.class);
+    private final TestServiceImpl testServiceImpl = new TestServiceImpl(
+            mockStreamsIOService,
+            mockCsvQuestionDao,
+            mockQuestionService,
+            mockQuestionsProps
     );
 
     @Test
@@ -41,11 +49,10 @@ class TestServiceImplTest {
         expectedResult.applyAnswer(question, true);
 
         // mock
-        when(stubCsvQuestionDao.findAll()).thenReturn(questions);
-        when(stubQuestionService.chooseAnswer(question)).thenReturn(true);
-        when(stubQuestionService.getAskAnswerPrompt()).thenReturn(ASK_ANSWER_PROMPT);
-        when(stubStreamsIOService.readStringWithPrompt(ASK_ANSWER_PROMPT)).thenReturn("2");
-        when(stubQuestionService.chooseAnswer(question)).thenReturn(true);
+        when(questionsConst.getAnswerPrompt()).thenReturn("Start thr test:");
+        when(mockStreamsIOService.readStringWithPrompt(questionsConst.getAnswerPrompt())).thenReturn("3");
+        when(mockCsvQuestionDao.findAll()).thenReturn(questions);
+        when(mockQuestionService.chooseAnswer(question)).thenReturn(true);
 
         // tested method
         TestResult actualResult = testServiceImpl.executeTestFor(student);

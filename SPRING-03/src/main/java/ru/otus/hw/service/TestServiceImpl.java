@@ -6,6 +6,9 @@ import org.springframework.stereotype.Service;
 import ru.otus.hw.dao.QuestionDao;
 import ru.otus.hw.domain.Student;
 import ru.otus.hw.domain.TestResult;
+import ru.otus.hw.service.io.IOService;
+import ru.otus.hw.config.props.messages.QuestionsProps;
+import ru.otus.hw.service.questions.QuestionsService;
 
 @Service
 @RequiredArgsConstructor
@@ -17,10 +20,12 @@ public class TestServiceImpl implements TestService {
 
     private final QuestionsService questionService;
 
+    private final QuestionsProps questionsConst;
+
     @Override
     public TestResult executeTestFor(@Value("${student}") Student student) {
         ioService.printLine("");
-        ioService.printFormattedLine("Please answer the questions below%n");
+        ioService.printFormattedLine(questionsConst.getQuestionPrompt());
         var questions = questionDao.findAll();
         var testResult = new TestResult(student);
 

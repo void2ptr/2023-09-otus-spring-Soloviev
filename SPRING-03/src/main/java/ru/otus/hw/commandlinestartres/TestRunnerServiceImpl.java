@@ -3,11 +3,10 @@ package ru.otus.hw.commandlinestartres;
 import lombok.RequiredArgsConstructor;
 import org.springframework.boot.CommandLineRunner;
 import org.springframework.stereotype.Service;
-import ru.otus.hw.service.ResultService;
-import ru.otus.hw.service.StudentService;
 import ru.otus.hw.service.TestService;
+import ru.otus.hw.service.result.ResultService;
+import ru.otus.hw.service.student.StudentService;
 
-import java.lang.reflect.Array;
 import java.util.Arrays;
 
 @Service
