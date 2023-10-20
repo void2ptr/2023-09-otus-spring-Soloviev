@@ -1,6 +1,6 @@
 package ru.otus.hw.config.props.translate;
 
-public interface TestResulBanner {
+public interface BannerProps {
     String getResultBanner();
 
     String getResultPass();

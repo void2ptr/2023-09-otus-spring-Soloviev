@@ -4,14 +4,22 @@ import lombok.Getter;
 import org.springframework.context.MessageSource;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.config.props.application.TestLocale;
-import ru.otus.hw.domain.AnsiColors;
 
 @Service
 @Getter
-public class QuestionsPropsImp implements QuestionsProps, StudentProps, TestResulBanner {
+public class TranslatePropsImp implements QuestionsProps, StudentProps, BannerProps {
+    private static final String ANSI_RESET  = "\u001B[0m";
+    private static final String ANSI_BLACK  = "\u001B[30m";
+    private static final String ANSI_RED    = "\u001B[31m";
+    private static final String ANSI_GREEN  = "\u001B[32m";
+    private static final String ANSI_YELLOW = "\u001B[33m";
+    private static final String ANSI_BLUE   = "\u001B[34m";
+    private static final String ANSI_PURPLE = "\u001B[35m";
+    private static final String ANSI_CYAN   = "\u001B[36m";
+    private static final String ANSI_WHITE  = "\u001B[37m";
+
     private final TestLocale locale;
     private final MessageSource messageSource;
-    private final AnsiColors colors;
 
     private final String firstName;
     private final String lastName;
@@ -22,20 +30,18 @@ public class QuestionsPropsImp implements QuestionsProps, StudentProps, TestResu
     private final String resultPass;
     private final String resultError;
 
-    public QuestionsPropsImp(TestLocale locale, MessageSource messageSource, AnsiColors colors) {
+    public TranslatePropsImp(TestLocale locale, MessageSource messageSource) {
         this.locale = locale;
         this.messageSource = messageSource;
-        this.colors = colors;
 
-        String[] ansi   = new String[]{this.colors.getBlue(), this.colors.getRed(), this.colors.getReset() };
-        String[] banner = new String[]{this.colors.getRed(), this.colors.getReset()};
+        String[] ansi   = new String[]{ANSI_BLUE, ANSI_RED, ANSI_RESET };
         this.firstName      = messageSource.getMessage("ask.firstName", ansi, locale.getLocale());
         this.lastName       = messageSource.getMessage("ask.lastName", ansi, locale.getLocale());
         this.questionPrompt = messageSource.getMessage("prompt.question", ansi, locale.getLocale());
         this.answerPrompt   = messageSource.getMessage("prompt.answer", ansi, locale.getLocale());
 
         this.resultBanner   = messageSource.getMessage("result.banner", ansi, locale.getLocale());
-        this.resultPass     = messageSource.getMessage("result.pass", banner, locale.getLocale());
-        this.resultError    = messageSource.getMessage("result.error", banner, locale.getLocale());
+        this.resultPass     = messageSource.getMessage("result.pass", ansi, locale.getLocale());
+        this.resultError    = messageSource.getMessage("result.error", ansi, locale.getLocale());
     }
 }

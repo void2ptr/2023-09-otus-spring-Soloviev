@@ -5,7 +5,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
-import ru.otus.hw.config.props.application.TestFileNameProvider;
+import ru.otus.hw.config.props.application.TestFileName;
 import ru.otus.hw.dao.dto.QuestionDto;
 import ru.otus.hw.domain.Question;
 import ru.otus.hw.exceptions.QuestionReadException;
@@ -22,7 +22,7 @@ public class CsvQuestionDao implements QuestionDao {
 
     public static final char FIELD_SEPARATOR = ';';
 
-    private final TestFileNameProvider fileNameProvider;
+    private final TestFileName fileNameProvider;
 
     @Override
     public List<Question> findAll() {

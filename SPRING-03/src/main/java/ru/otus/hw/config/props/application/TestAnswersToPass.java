@@ -1,5 +1,5 @@
 package ru.otus.hw.config.props.application;
 
-public interface TestConfig {
+public interface TestAnswersToPass {
     int getRightAnswersCountToPass();
 }

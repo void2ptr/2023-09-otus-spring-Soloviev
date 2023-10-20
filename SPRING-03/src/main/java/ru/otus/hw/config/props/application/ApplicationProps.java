@@ -8,7 +8,7 @@ import java.util.Locale;
 
 @Getter
 @ConfigurationProperties(prefix = "application")
-public class ApplicationProps implements TestConfig, TestFileNameProvider, TestLocale {
+public class ApplicationProps implements TestAnswersToPass, TestFileName, TestLocale {
     private final String message;
     private final Locale locale;
     private final int rightAnswersCountToPass;
