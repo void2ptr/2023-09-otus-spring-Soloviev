@@ -1,7 +1,6 @@
 package ru.otus.hw.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.dao.QuestionDao;
 import ru.otus.hw.domain.Student;
@@ -20,7 +19,7 @@ public class TestServiceImpl implements TestService {
     private final QuestionsService questionService;
 
     @Override
-    public TestResult executeTestFor(@Value("${student}") Student student) {
+    public TestResult executeTestFor(Student student) {
         ioService.printLine("");
         ioService.printFormattedLine("Please answer the questions below%n");
         var questions = questionDao.findAll();

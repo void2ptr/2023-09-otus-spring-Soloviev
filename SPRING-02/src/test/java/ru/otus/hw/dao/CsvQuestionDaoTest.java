@@ -17,7 +17,7 @@ import static org.mockito.Mockito.when;
 @DisplayName("Test CsvQuestionDao")
 class CsvQuestionDaoTest {
 
-    final private AppConfig stubAppConfig = mock(AppConfig.class);
+    private final AppConfig stubAppConfig = mock(AppConfig.class);
     private CsvQuestionDao csvQuestionDao;
 
     @DisplayName("Test init")

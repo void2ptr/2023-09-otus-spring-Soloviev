@@ -18,9 +18,9 @@ import java.util.List;
 @Repository
 @RequiredArgsConstructor
 public class CsvQuestionDao implements QuestionDao {
-    public static final int SKIP_LINES = 1;
+    private static final int SKIP_LINES = 1;
 
-    public static final char FIELD_SEPARATOR = ';';
+    private static final char FIELD_SEPARATOR = ';';
 
     private final TestFileNameProvider fileNameProvider;
 
