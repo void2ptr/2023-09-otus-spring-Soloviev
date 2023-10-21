@@ -55,7 +55,7 @@ class QuestionsServiceImpTest {
         when(mockStreamsIOService.readStringWithPrompt(questionsConst.getAnswerPrompt())).thenReturn("2");
 
         // tested method
-        Boolean actualAnswer = questionService.chooseAnswer(question);
+        Boolean actualAnswer = questionService.isAnswerValid(question);
 
         // test
         assertEquals(true, actualAnswer);

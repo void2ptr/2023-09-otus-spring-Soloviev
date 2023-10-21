@@ -6,26 +6,13 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.PropertySource;
 
 @Configuration
-@PropertySource("classpath:/application.properties")
-public class AppConfig implements TestConfig, TestFileNameProvider {
-
-    // внедрить свойство из application.properties
-    @Value("${test.rightAnswersCountToPass:4}")
-    private int rightAnswersCountToPass;
-
-    // внедрить свойство из application.properties
-    @Value("${test.fileName}")
-    private String testFileName;
+@PropertySource("application.properties")
+public class AppConfig {
 
     @Bean
-    @Override
-    public int getRightAnswersCountToPass() {
-        return rightAnswersCountToPass;
-    }
-
-    @Bean
-    @Override
-    public String getTestFileName() {
-        return testFileName;
+    TestProperties getTestProperties(@Value("${test.rightAnswersCountToPass}") int rightAnswersCountToPass,
+                                     @Value("${test.fileName}")             String testFileName
+    ) {
+        return new TestProperties(rightAnswersCountToPass, testFileName);
     }
 }

@@ -22,7 +22,7 @@ public class ResultServiceImpl implements ResultService {
         ioService.printFormattedLine("Answered questions count: %d", testResult.getAnsweredQuestions().size());
         ioService.printFormattedLine("Right answers count: %d", testResult.getRightAnswersCount());
 
-        if (testResult.getRightAnswersCount() >= testConfig.getRightAnswersCountToPass()) {
+        if (testResult.getRightAnswersCount() >= testConfig.rightAnswersCountToPass()) {
             ioService.printLine("Congratulations! You passed test!");
             return;
         }

@@ -48,7 +48,7 @@ class TestServiceImplTest {
         // mock
         when(mockStreamsIOService.readStringWithPrompt(questionsConst.getAnswerPrompt())).thenReturn("3");
         when(mockCsvQuestionDao.findAll()).thenReturn(questions);
-        when(mockQuestionService.chooseAnswer(question)).thenReturn(true);
+        when(mockQuestionService.isAnswerValid(question)).thenReturn(true);
 
         // tested method
         TestResult actualResult = testServiceImpl.executeTestFor(student);
