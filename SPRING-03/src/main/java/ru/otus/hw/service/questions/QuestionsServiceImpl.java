@@ -9,7 +9,7 @@ import ru.otus.hw.config.props.translate.QuestionsProps;
 
 @Service
 @RequiredArgsConstructor
-public class QuestionsServiceImp implements QuestionsService {
+public class QuestionsServiceImpl implements QuestionsService {
 
     private final IOService ioService;
 
@@ -32,7 +32,7 @@ public class QuestionsServiceImp implements QuestionsService {
     }
 
     @Override
-    public Boolean chooseAnswer(Question question) {
+    public Boolean isAnswerValid(Question question) {
         String correctAnswer = showQuestion(question);
         String userAnswer = ioService.readStringWithPrompt(questionsConst.getAnswerPrompt());
         return correctAnswer.contentEquals(userAnswer);

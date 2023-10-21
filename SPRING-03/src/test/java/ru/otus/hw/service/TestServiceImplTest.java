@@ -2,7 +2,7 @@ package ru.otus.hw.service;
 
 import org.junit.jupiter.api.Test;
 import ru.otus.hw.config.props.translate.QuestionsProps;
-import ru.otus.hw.config.props.translate.TranslatePropsImp;
+import ru.otus.hw.config.props.translate.TranslateProps;
 import ru.otus.hw.dao.CsvQuestionDao;
 import ru.otus.hw.domain.Answer;
 import ru.otus.hw.domain.Question;
@@ -10,7 +10,7 @@ import ru.otus.hw.domain.Student;
 import ru.otus.hw.domain.TestResult;
 import ru.otus.hw.service.io.StreamsIOService;
 
-import ru.otus.hw.service.questions.QuestionsServiceImp;
+import ru.otus.hw.service.questions.QuestionsServiceImpl;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,11 +20,11 @@ import static org.mockito.Mockito.*;
 
 class TestServiceImplTest {
 
-    private final TranslatePropsImp questionsConst = mock(TranslatePropsImp.class);
+    private final TranslateProps questionsConst = mock(TranslateProps.class);
     private final StreamsIOService mockStreamsIOService = mock(StreamsIOService.class);
     private final CsvQuestionDao mockCsvQuestionDao = mock(CsvQuestionDao.class);
-    private final QuestionsServiceImp mockQuestionService = mock(QuestionsServiceImp.class);
-    private final QuestionsProps mockQuestionsProps = mock(TranslatePropsImp.class);
+    private final QuestionsServiceImpl mockQuestionService = mock(QuestionsServiceImpl.class);
+    private final QuestionsProps mockQuestionsProps = mock(TranslateProps.class);
     private final TestServiceImpl testServiceImpl = new TestServiceImpl(
             mockStreamsIOService,
             mockCsvQuestionDao,
@@ -53,7 +53,7 @@ class TestServiceImplTest {
         when(questionsConst.getAnswerPrompt()).thenReturn("Start thr test:");
         when(mockStreamsIOService.readStringWithPrompt(questionsConst.getAnswerPrompt())).thenReturn("3");
         when(mockCsvQuestionDao.findAll()).thenReturn(questions);
-        when(mockQuestionService.chooseAnswer(question)).thenReturn(true);
+        when(mockQuestionService.isAnswerValid(question)).thenReturn(true);
 
         // tested method
         TestResult actual = testServiceImpl.executeTestFor(student);

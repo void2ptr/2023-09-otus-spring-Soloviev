@@ -2,12 +2,10 @@ package ru.otus.hw.config.props.translate;
 
 import lombok.Getter;
 import org.springframework.context.MessageSource;
-import org.springframework.stereotype.Service;
 import ru.otus.hw.config.props.application.TestLocale;
 
-@Service
 @Getter
-public class TranslatePropsImp implements QuestionsProps, StudentProps, BannerProps {
+public class TranslateProps implements QuestionsProps, StudentProps, BannerProps {
     private static final String ANSI_RESET  = "\u001B[0m";
     private static final String ANSI_BLACK  = "\u001B[30m";
     private static final String ANSI_RED    = "\u001B[31m";
@@ -30,7 +28,7 @@ public class TranslatePropsImp implements QuestionsProps, StudentProps, BannerPr
     private final String resultPass;
     private final String resultError;
 
-    public TranslatePropsImp(TestLocale locale, MessageSource messageSource) {
+    public TranslateProps(TestLocale locale, MessageSource messageSource) {
         this.locale = locale;
         this.messageSource = messageSource;
 

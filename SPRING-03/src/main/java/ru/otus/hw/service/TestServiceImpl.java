@@ -30,7 +30,7 @@ public class TestServiceImpl implements TestService {
         var testResult = new TestResult(student);
 
         for (var question: questions) {
-            var isAnswerValid = questionService.chooseAnswer(question);
+            var isAnswerValid = questionService.isAnswerValid(question);
 
             testResult.applyAnswer(question, isAnswerValid);
         }
