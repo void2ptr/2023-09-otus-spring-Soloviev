@@ -28,17 +28,16 @@ class CsvQuestionDaoTest {
     @DisplayName("method findAll() - Question && Answer are not empty")
     @Test
     void shouldReturnListOfQuestionsWithNotEmptyAnswers() {
-        List<Question> questions = csvQuestionDao.findAll();
         // tested method
-        assertThat(questions.stream()
-                .noneMatch(question ->
-                    question.text().isEmpty()
-                            && question.answers().isEmpty()
-                            && question.answers().stream()
-                                .noneMatch(answer ->
-                                           answer.text().isEmpty()
-                                )
+        List<Question> questions = csvQuestionDao.findAll();
+        // test
+        assertThat(questions)
+                .noneMatch(question -> question.text().isEmpty())
+                .noneMatch(question -> question.answers().isEmpty())
+                .allMatch(question ->
+                            question.answers().stream()
+                                    .allMatch(answer -> ! answer.text().isEmpty() )
                 )
-        ).isTrue();
+        ;
     }
 }
