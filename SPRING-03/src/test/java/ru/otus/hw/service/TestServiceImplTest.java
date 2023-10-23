@@ -1,8 +1,8 @@
 package ru.otus.hw.service;
 
 import org.junit.jupiter.api.Test;
-import ru.otus.hw.config.props.translate.QuestionsProps;
-import ru.otus.hw.config.props.translate.TranslateProps;
+import ru.otus.hw.config.translate.PropsTranslator;
+import ru.otus.hw.config.translate.PropsTranslatorImpl;
 import ru.otus.hw.dao.CsvQuestionDao;
 import ru.otus.hw.domain.Answer;
 import ru.otus.hw.domain.Question;
@@ -20,16 +20,16 @@ import static org.mockito.Mockito.*;
 
 class TestServiceImplTest {
 
-    private final TranslateProps questionsConst = mock(TranslateProps.class);
+    private final PropsTranslatorImpl questionsConst = mock(PropsTranslatorImpl.class);
     private final StreamsIOService mockStreamsIOService = mock(StreamsIOService.class);
     private final CsvQuestionDao mockCsvQuestionDao = mock(CsvQuestionDao.class);
     private final QuestionsServiceImpl mockQuestionService = mock(QuestionsServiceImpl.class);
-    private final QuestionsProps mockQuestionsProps = mock(TranslateProps.class);
+    private final PropsTranslator mockTranslate = mock(PropsTranslatorImpl.class);
     private final TestServiceImpl testServiceImpl = new TestServiceImpl(
             mockStreamsIOService,
             mockCsvQuestionDao,
             mockQuestionService,
-            mockQuestionsProps
+            mockTranslate
     );
 
     @Test
@@ -50,8 +50,8 @@ class TestServiceImplTest {
         expected.applyAnswer(question, true);
 
         // mock
-        when(questionsConst.getAnswerPrompt()).thenReturn("Start thr test:");
-        when(mockStreamsIOService.readStringWithPrompt(questionsConst.getAnswerPrompt())).thenReturn("3");
+        when(mockTranslate.getProps("prompt.answer")).thenReturn("Answer the question:");
+        when(mockStreamsIOService.readStringWithPrompt("prompt.answer")).thenReturn("3");
         when(mockCsvQuestionDao.findAll()).thenReturn(questions);
         when(mockQuestionService.isAnswerValid(question)).thenReturn(true);
 

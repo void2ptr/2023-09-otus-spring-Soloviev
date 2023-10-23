@@ -1,4 +1,4 @@
-package ru.otus.hw.config.props.application;
+package ru.otus.hw.config.props.application.data;
 
 import lombok.Getter;
 import org.springframework.boot.context.properties.ConfigurationProperties;
@@ -7,16 +7,14 @@ import org.springframework.boot.context.properties.bind.ConstructorBinding;
 import java.util.Locale;
 
 @Getter
-@ConfigurationProperties(prefix = "application")
-public class ApplicationProps implements TestAnswersToPass, TestFileName, TestLocale {
-    private final String message;
+@ConfigurationProperties(prefix = "application.data")
+public class PropsAppData implements ProviderFileName, ProviderLocale {
     private final Locale locale;
     private final int rightAnswersCountToPass;
     private final String testFileName;
 
     @ConstructorBinding
-    public ApplicationProps(String message, Locale locale, int rightAnswersCountToPass, String testFileName) {
-        this.message = message;
+    public PropsAppData(Locale locale, int rightAnswersCountToPass, String testFileName) {
         this.locale = locale;
         this.rightAnswersCountToPass = rightAnswersCountToPass;
         this.testFileName = testFileName

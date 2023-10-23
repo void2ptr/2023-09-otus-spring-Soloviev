@@ -1,14 +1,13 @@
 package ru.otus.hw.service;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.dao.QuestionDao;
 import ru.otus.hw.domain.Student;
 import ru.otus.hw.domain.TestResult;
 import ru.otus.hw.service.io.IOService;
-import ru.otus.hw.config.props.translate.QuestionsProps;
 import ru.otus.hw.service.questions.QuestionsService;
+import ru.otus.hw.config.translate.PropsTranslator;
 
 @Service
 @RequiredArgsConstructor
@@ -20,12 +19,12 @@ public class TestServiceImpl implements TestService {
 
     private final QuestionsService questionService;
 
-    private final QuestionsProps questionsConst;
+    private final PropsTranslator translate;
 
     @Override
-    public TestResult executeTestFor(@Value("${student}") Student student) {
+    public TestResult executeTestFor(Student student) {
         ioService.printLine("");
-        ioService.printFormattedLine(questionsConst.getQuestionPrompt());
+        ioService.printFormattedLine(translate.getProps("prompt.answer"));
         var questions = questionDao.findAll();
         var testResult = new TestResult(student);
 

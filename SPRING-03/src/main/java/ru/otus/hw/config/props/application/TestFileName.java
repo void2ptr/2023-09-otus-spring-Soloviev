@@ -1,5 +1,0 @@
-package ru.otus.hw.config.props.application;
-
-public interface TestFileName {
-    String getTestFileName();
-}
