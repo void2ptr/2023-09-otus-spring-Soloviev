@@ -1,6 +1,6 @@
 package ru.otus.hw.config.translate;
 
-public class AnsiColors {
+public final class AnsiColors {
     private static final String ANSI_RESET  = "\u001B[0m";
     private static final String ANSI_BLACK  = "\u001B[30m";
     private static final String ANSI_RED    = "\u001B[31m";
@@ -10,6 +10,8 @@ public class AnsiColors {
     private static final String ANSI_PURPLE = "\u001B[35m";
     private static final String ANSI_CYAN   = "\u001B[36m";
     private static final String ANSI_WHITE  = "\u001B[37m";
+
+    private AnsiColors() {}
 
     public static String[] getColors(){
         return new String[]{
