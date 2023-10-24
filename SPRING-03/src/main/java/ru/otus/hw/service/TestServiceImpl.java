@@ -19,12 +19,12 @@ public class TestServiceImpl implements TestService {
 
     private final QuestionsService questionService;
 
-    private final PropsTranslator translate;
+    private final PropsTranslator translator;
 
     @Override
     public TestResult executeTestFor(Student student) {
         ioService.printLine("");
-        ioService.printFormattedLine(translate.getProps("prompt.answer"));
+        ioService.printFormattedLine(translator.getProps("prompt.answer"));
         var questions = questionDao.findAll();
         var testResult = new TestResult(student);
 

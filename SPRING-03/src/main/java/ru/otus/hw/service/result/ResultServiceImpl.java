@@ -15,21 +15,21 @@ public class ResultServiceImpl implements ResultService {
 
     private final IOService ioService;
 
-    private final PropsTranslator translate;
+    private final PropsTranslator translator;
 
     @Override
     public void showResult(TestResult testResult) {
         ioService.printFormattedLine(
-                translate.getProps("result.banner"),
+                translator.getProps("result.banner"),
                 testResult.getStudent().getFullName(),
                 testResult.getAnsweredQuestions().size(),
                 testResult.getRightAnswersCount()
         );
 
         if (testResult.getRightAnswersCount() >= providerAnswersToPass.getRightAnswersCountToPass()) {
-            ioService.printLine(translate.getProps("result.pass"));
+            ioService.printLine(translator.getProps("result.pass"));
             return;
         }
-        ioService.printLine(translate.getProps("result.error"));
+        ioService.printLine(translator.getProps("result.error"));
     }
 }

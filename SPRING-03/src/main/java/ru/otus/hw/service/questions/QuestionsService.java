@@ -6,5 +6,5 @@ public interface QuestionsService {
 
     String showQuestion(Question question);
 
-    Boolean isAnswerValid(Question question);
+    boolean isAnswerValid(Question question);
 }

@@ -24,12 +24,12 @@ class TestServiceImplTest {
     private final StreamsIOService mockStreamsIOService = mock(StreamsIOService.class);
     private final CsvQuestionDao mockCsvQuestionDao = mock(CsvQuestionDao.class);
     private final QuestionsServiceImpl mockQuestionService = mock(QuestionsServiceImpl.class);
-    private final PropsTranslator mockTranslate = mock(PropsTranslatorImpl.class);
+    private final PropsTranslator mockTranslator = mock(PropsTranslatorImpl.class);
     private final TestServiceImpl testServiceImpl = new TestServiceImpl(
             mockStreamsIOService,
             mockCsvQuestionDao,
             mockQuestionService,
-            mockTranslate
+            mockTranslator
     );
 
     @Test
@@ -50,7 +50,7 @@ class TestServiceImplTest {
         expected.applyAnswer(question, true);
 
         // mock
-        when(mockTranslate.getProps("prompt.answer")).thenReturn("Answer the question:");
+        when(mockTranslator.getProps("prompt.answer")).thenReturn("Answer the question:");
         when(mockStreamsIOService.readStringWithPrompt("prompt.answer")).thenReturn("3");
         when(mockCsvQuestionDao.findAll()).thenReturn(questions);
         when(mockQuestionService.isAnswerValid(question)).thenReturn(true);

@@ -11,11 +11,11 @@ import ru.otus.hw.config.translate.PropsTranslator;
 public class StudentServiceImpl implements StudentService {
 
     private final IOService ioService;
-    private final PropsTranslator translate;
+    private final PropsTranslator translator;
     @Override
     public Student determineCurrentStudent() {
-        var firstName = ioService.readStringWithPrompt(translate.getProps("ask.firstName"));
-        var lastName = ioService.readStringWithPrompt(translate.getProps("ask.lastName"));
+        var firstName = ioService.readStringWithPrompt(translator.getProps("ask.firstName"));
+        var lastName = ioService.readStringWithPrompt(translator.getProps("ask.lastName"));
         return new Student(firstName, lastName);
     }
 }

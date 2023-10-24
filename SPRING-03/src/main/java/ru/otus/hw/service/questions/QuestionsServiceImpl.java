@@ -13,15 +13,15 @@ public class QuestionsServiceImpl implements QuestionsService {
 
     private final IOService ioService;
 
-    private final PropsTranslator translate;
+    private final PropsTranslator translator;
 
     @Override
     public String showQuestion(Question question) {
         int correctAnswer = -1;
         int actualAnswer = 0;
 
-        String colorStart  = translate.getProps("question.color.start");
-        String colorFinish = translate.getProps("question.color.finish");
+        String colorStart  = translator.getProps("question.color.start");
+        String colorFinish = translator.getProps("question.color.finish");
 
         ioService.printFormattedLine("%s%s%s",
                 colorStart,
@@ -44,9 +44,9 @@ public class QuestionsServiceImpl implements QuestionsService {
     }
 
     @Override
-    public Boolean isAnswerValid(Question question) {
+    public boolean isAnswerValid(Question question) {
         String correctAnswer = showQuestion(question);
-        String userAnswer = ioService.readStringWithPrompt(translate.getProps("prompt.question"));
+        String userAnswer = ioService.readStringWithPrompt(translator.getProps("prompt.question"));
         return correctAnswer.contentEquals(userAnswer);
     }
 }
