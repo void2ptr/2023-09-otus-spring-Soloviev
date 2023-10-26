@@ -6,7 +6,6 @@ import ru.otus.hw.config.props.application.data.ProviderLocale;
 
 @Service
 public class ResourcesTranslatorImpl implements ResourcesTranslator {
-    private final static String[] COLORS = AnsiColors.getColors();
     private final ProviderLocale locale;
     private final MessageSource messageSource;
 
@@ -16,7 +15,7 @@ public class ResourcesTranslatorImpl implements ResourcesTranslator {
     }
 
     @Override
-    public String getProps(String code) {
-        return this.messageSource.getMessage(code, COLORS, this.locale.getLocale());
+    public String getProps(String code, Object ...args) {
+        return this.messageSource.getMessage(code, args, this.locale.getLocale());
     }
 }

@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.otus.hw.domain.Answer;
 import ru.otus.hw.domain.Question;
 import ru.otus.hw.service.io.IOService;
+import ru.otus.hw.helper.AnsiColors;
 import ru.otus.hw.service.translate.ResourcesTranslator;
 
 @Service
@@ -20,20 +21,18 @@ public class QuestionsServiceImpl implements QuestionsService {
         int correctAnswer = -1;
         int actualAnswer = 0;
 
-        String colorStart  = translator.getProps("question.color.start");
-        String colorFinish = translator.getProps("question.color.finish");
 
         ioService.printFormattedLine("%s%s%s",
-                colorStart,
+                AnsiColors.YELLOW,
                 question.text(),
-                colorFinish
+                AnsiColors.RESET
         );
         for (Answer answer : question.answers()) {
             ioService.printFormattedLine("%s   %s. %s%s",
-                    colorStart,
+                    AnsiColors.GREEN,
                     ++actualAnswer,
                     answer.text(),
-                    colorFinish
+                    AnsiColors.RESET
             );
             if (answer.isCorrect())  {
                 correctAnswer = actualAnswer;
@@ -46,7 +45,9 @@ public class QuestionsServiceImpl implements QuestionsService {
     @Override
     public boolean isAnswerValid(Question question) {
         String correctAnswer = showQuestion(question);
-        String userAnswer = ioService.readStringWithPrompt(translator.getProps("prompt.question"));
+        String userAnswer = ioService.readStringWithPrompt(
+                translator.getProps("prompt.answer", AnsiColors.YELLOW, AnsiColors.RESET)
+        );
         return correctAnswer.contentEquals(userAnswer);
     }
 }

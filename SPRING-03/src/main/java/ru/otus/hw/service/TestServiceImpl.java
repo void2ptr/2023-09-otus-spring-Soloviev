@@ -7,6 +7,7 @@ import ru.otus.hw.domain.Student;
 import ru.otus.hw.domain.TestResult;
 import ru.otus.hw.service.io.IOService;
 import ru.otus.hw.service.questions.QuestionsService;
+import ru.otus.hw.helper.AnsiColors;
 import ru.otus.hw.service.translate.ResourcesTranslator;
 
 @Service
@@ -24,7 +25,8 @@ public class TestServiceImpl implements TestService {
     @Override
     public TestResult executeTestFor(Student student) {
         ioService.printLine("");
-        ioService.printFormattedLine(translator.getProps("prompt.answer"));
+        ioService.printFormattedLine(
+                translator.getProps("prompt.question",AnsiColors.CYAN, AnsiColors.RESET ));
         var questions = questionDao.findAll();
         var testResult = new TestResult(student);
 
