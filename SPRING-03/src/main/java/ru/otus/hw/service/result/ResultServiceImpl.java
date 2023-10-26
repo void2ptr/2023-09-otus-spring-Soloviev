@@ -5,7 +5,7 @@ import org.springframework.stereotype.Service;
 import ru.otus.hw.config.props.application.conf.ProviderAnswersToPass;
 import ru.otus.hw.domain.TestResult;
 import ru.otus.hw.service.io.IOService;
-import ru.otus.hw.config.translate.PropsTranslator;
+import ru.otus.hw.service.translate.ResourcesTranslator;
 
 @Service
 @RequiredArgsConstructor
@@ -15,7 +15,7 @@ public class ResultServiceImpl implements ResultService {
 
     private final IOService ioService;
 
-    private final PropsTranslator translator;
+    private final ResourcesTranslator translator;
 
     @Override
     public void showResult(TestResult testResult) {

@@ -1,4 +1,4 @@
-package ru.otus.hw.config.translate;
+package ru.otus.hw.service.translate;
 
 public final class AnsiColors {
     private static final String ANSI_RESET  = "\u001B[0m";

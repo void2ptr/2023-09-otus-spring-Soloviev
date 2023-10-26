@@ -1,8 +1,8 @@
 package ru.otus.hw.service;
 
 import org.junit.jupiter.api.Test;
-import ru.otus.hw.config.translate.PropsTranslator;
-import ru.otus.hw.config.translate.PropsTranslatorImpl;
+import ru.otus.hw.service.translate.ResourcesTranslator;
+import ru.otus.hw.service.translate.ResourcesTranslatorImpl;
 import ru.otus.hw.dao.CsvQuestionDao;
 import ru.otus.hw.domain.Answer;
 import ru.otus.hw.domain.Question;
@@ -20,11 +20,10 @@ import static org.mockito.Mockito.*;
 
 class TestServiceImplTest {
 
-    private final PropsTranslatorImpl questionsConst = mock(PropsTranslatorImpl.class);
     private final StreamsIOService mockStreamsIOService = mock(StreamsIOService.class);
     private final CsvQuestionDao mockCsvQuestionDao = mock(CsvQuestionDao.class);
     private final QuestionsServiceImpl mockQuestionService = mock(QuestionsServiceImpl.class);
-    private final PropsTranslator mockTranslator = mock(PropsTranslatorImpl.class);
+    private final ResourcesTranslator mockTranslator = mock(ResourcesTranslatorImpl.class);
     private final TestServiceImpl testServiceImpl = new TestServiceImpl(
             mockStreamsIOService,
             mockCsvQuestionDao,

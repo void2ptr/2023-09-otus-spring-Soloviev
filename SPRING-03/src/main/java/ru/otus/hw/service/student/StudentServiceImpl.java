@@ -4,14 +4,14 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import ru.otus.hw.domain.Student;
 import ru.otus.hw.service.io.IOService;
-import ru.otus.hw.config.translate.PropsTranslator;
+import ru.otus.hw.service.translate.ResourcesTranslator;
 
 @Service
 @RequiredArgsConstructor
 public class StudentServiceImpl implements StudentService {
 
     private final IOService ioService;
-    private final PropsTranslator translator;
+    private final ResourcesTranslator translator;
     @Override
     public Student determineCurrentStudent() {
         var firstName = ioService.readStringWithPrompt(translator.getProps("ask.firstName"));
