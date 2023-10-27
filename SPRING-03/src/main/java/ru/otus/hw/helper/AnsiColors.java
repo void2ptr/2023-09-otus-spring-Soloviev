@@ -1,7 +1,5 @@
 package ru.otus.hw.helper;
 
-import lombok.Getter;
-
 public enum AnsiColors {
 
     RESET("\u001B[0m"),
@@ -16,7 +14,7 @@ public enum AnsiColors {
 
     private final String code;
 
-    private AnsiColors(String code) {
+    AnsiColors(String code) {
         this.code = code;
     }
 

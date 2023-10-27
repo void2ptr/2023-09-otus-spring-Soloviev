@@ -25,17 +25,16 @@ public class TestServiceImpl implements TestService {
     @Override
     public TestResult executeTestFor(Student student) {
         ioService.printLine("");
-        ioService.printFormattedLine(
-                translator.getProps("prompt.question",AnsiColors.CYAN, AnsiColors.RESET ));
+        ioService.printFormattedLine(translator.getProps("prompt.question", AnsiColors.CYAN, AnsiColors.RESET));
         var questions = questionDao.findAll();
+        questionService.randomizeQuestions(questions);
         var testResult = new TestResult(student);
 
-        for (var question: questions) {
+        for (var question : questions) {
             var isAnswerValid = questionService.isAnswerValid(question);
 
             testResult.applyAnswer(question, isAnswerValid);
         }
         return testResult;
     }
-
 }

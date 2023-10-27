@@ -8,6 +8,10 @@ import ru.otus.hw.service.io.IOService;
 import ru.otus.hw.helper.AnsiColors;
 import ru.otus.hw.service.translate.ResourcesTranslator;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Random;
+
 @Service
 @RequiredArgsConstructor
 public class QuestionsServiceImpl implements QuestionsService {
@@ -34,7 +38,7 @@ public class QuestionsServiceImpl implements QuestionsService {
                     answer.text(),
                     AnsiColors.RESET
             );
-            if (answer.isCorrect())  {
+            if (answer.isCorrect()) {
                 correctAnswer = actualAnswer;
             }
         }
@@ -50,4 +54,28 @@ public class QuestionsServiceImpl implements QuestionsService {
         );
         return correctAnswer.contentEquals(userAnswer);
     }
+
+    private <T> void randomizeList(List<T> listOrig, List<T> listRand) {
+
+        if (listOrig.isEmpty()) {
+            return;
+        }
+        Random rand = new Random();
+        T element = listOrig.get(rand.nextInt(listOrig.size()));
+        listRand.add(element);
+        listOrig.remove(element);
+        randomizeList(listOrig, listRand);
+    }
+
+    @Override
+    public void randomizeQuestions(List<Question> questions) {
+        List<Question> randQuestions = new ArrayList<>();
+        randomizeList(questions, randQuestions);
+        for (var question : randQuestions) {
+            List<Answer> randAnswers = new ArrayList<>();
+            randomizeList(question.answers(), randAnswers);
+            questions.add(new Question(question.text(), randAnswers));
+        }
+    }
+
 }
