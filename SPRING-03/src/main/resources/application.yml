@@ -1,0 +1,13 @@
+spring:
+  application:
+    name: "spring-boot-starter_study"
+  messages:
+    basename: "i18n/messages"
+    encoding: UTF-8
+
+application:
+  data:
+    locale: ru_RU
+    testFileName: data/questions
+  config:
+    rightAnswersCountToPass: 4
