@@ -5,11 +5,11 @@ import org.springframework.stereotype.Service;
 import ru.otus.hw.config.props.application.data.ProviderLocale;
 
 @Service
-public class ResourcesTranslatorImpl implements ResourcesTranslator {
+public class MessagesTranslatorImpl implements MessagesTranslator {
     private final ProviderLocale locale;
     private final MessageSource messageSource;
 
-    public ResourcesTranslatorImpl(ProviderLocale locale, MessageSource messageSource) {
+    public MessagesTranslatorImpl(ProviderLocale locale, MessageSource messageSource) {
         this.locale = locale;
         this.messageSource = messageSource;
     }

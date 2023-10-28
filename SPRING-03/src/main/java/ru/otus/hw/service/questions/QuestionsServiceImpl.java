@@ -6,7 +6,7 @@ import ru.otus.hw.domain.Answer;
 import ru.otus.hw.domain.Question;
 import ru.otus.hw.service.io.IOService;
 import ru.otus.hw.helper.AnsiColors;
-import ru.otus.hw.service.translate.ResourcesTranslator;
+import ru.otus.hw.service.translate.MessagesTranslator;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,7 +18,7 @@ public class QuestionsServiceImpl implements QuestionsService {
 
     private final IOService ioService;
 
-    private final ResourcesTranslator translator;
+    private final MessagesTranslator translator;
 
     @Override
     public String showQuestion(Question question) {

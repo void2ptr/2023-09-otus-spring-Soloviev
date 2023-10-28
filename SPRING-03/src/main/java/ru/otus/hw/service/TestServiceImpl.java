@@ -8,7 +8,7 @@ import ru.otus.hw.domain.TestResult;
 import ru.otus.hw.service.io.IOService;
 import ru.otus.hw.service.questions.QuestionsService;
 import ru.otus.hw.helper.AnsiColors;
-import ru.otus.hw.service.translate.ResourcesTranslator;
+import ru.otus.hw.service.translate.MessagesTranslator;
 
 @Service
 @RequiredArgsConstructor
@@ -20,7 +20,7 @@ public class TestServiceImpl implements TestService {
 
     private final QuestionsService questionService;
 
-    private final ResourcesTranslator translator;
+    private final MessagesTranslator translator;
 
     @Override
     public TestResult executeTestFor(Student student) {
