@@ -1,0 +1,19 @@
+spring:
+  application:
+    name: "spring-boot-shell_study"
+  messages:
+    basename: "i18n/messages"
+    encoding: UTF-8
+  main:
+    allow-circular-references: true
+
+logging:
+  level:
+    root: ERROR
+
+application:
+  data:
+    locale: ru_RU
+    testFileName: data/questions
+  config:
+    rightAnswersCountToPass: 4
