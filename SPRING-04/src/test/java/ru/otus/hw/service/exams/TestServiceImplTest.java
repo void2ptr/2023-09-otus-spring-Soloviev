@@ -1,11 +1,9 @@
 package ru.otus.hw.service.exams;
 
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 import ru.otus.hw.dao.CsvQuestionDao;
 import ru.otus.hw.domain.Answer;
 import ru.otus.hw.domain.Question;
@@ -22,7 +20,6 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.BDDMockito.given;
 
 
-@ExtendWith(SpringExtension.class)
 @SpringBootTest(classes = TestServiceImpl.class)
 class TestServiceImplTest {
 
@@ -60,13 +57,6 @@ class TestServiceImplTest {
         given(mockStreamsIOService.readStringWithPrompt("prompt.answer")).willReturn("3");
         given(mockCsvQuestionDao.findAll()).willReturn(questions);
         given(mockQuestionService.isAnswerValid(question)).willReturn(true);
-
-        testServiceImpl = new TestServiceImpl(
-                mockStreamsIOService,
-                mockCsvQuestionDao,
-                mockQuestionService,
-                mockTranslator
-        );
 
         // tested method
         TestResult actual = testServiceImpl.executeTestFor(student);

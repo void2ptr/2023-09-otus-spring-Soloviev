@@ -11,6 +11,7 @@ import ru.otus.hw.domain.TestResult;
 import ru.otus.hw.events.EventsPublisher;
 import ru.otus.hw.helper.AnsiColors;
 import ru.otus.hw.service.exams.TestService;
+import ru.otus.hw.service.result.ResultService;
 import ru.otus.hw.service.translate.MessagesTranslator;
 
 @ShellComponent
@@ -19,6 +20,7 @@ public class ExaminationCommands {
     private final EventsPublisher eventsPublisher;
     private final MessagesTranslator translator;
     private final TestService testService;
+    private final ResultService resultService;
     private Student student;
     private TestResult testResult;
 
@@ -41,7 +43,13 @@ public class ExaminationCommands {
     public String executeTest() {
 
         testResult = testService.executeTestFor(student);
-        eventsPublisher.publish(testResult);
+        resultService.showResult(testResult);
+
+        eventsPublisher.publish(String.format(
+                "%s----------------------------------------------%s",
+                AnsiColors.PURPLE,
+                AnsiColors.RESET
+        ));
 
         return String.format(
                 translator.getProps("shell.exams.end", AnsiColors.PURPLE, AnsiColors.RESET),
@@ -58,7 +66,15 @@ public class ExaminationCommands {
     @ShellMethod(value = "show examination result", key = {"s", "show"})
     @ShellMethodAvailability(value = "isResultReady")
     public String showResult() {
-        eventsPublisher.publish(testResult);
+
+        resultService.showResult(testResult);
+
+        eventsPublisher.publish(String.format(
+                "%s----------------------------------------------%s",
+                AnsiColors.PURPLE,
+                AnsiColors.RESET
+        ));
+
         return String.format(
                 translator.getProps("shell.exams.ready", AnsiColors.PURPLE, AnsiColors.RESET)
         );

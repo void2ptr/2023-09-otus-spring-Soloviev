@@ -4,18 +4,17 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.stereotype.Component;
-import ru.otus.hw.domain.TestResult;
 
 @Component
 @RequiredArgsConstructor
-public class ExamEventPublisher implements EventsPublisher {
+    public class MessageEventPublisher implements EventsPublisher {
 
     @Autowired // Use setter based injection
     private ApplicationEventPublisher applicationEventPublisher;
 
-    public void publish(TestResult testResult) {
+    public void publish(String string) {
         applicationEventPublisher.publishEvent(
-                new ExamEvent(this, testResult)
+                new MessageEvent(this, string)
         );
     }
 }
