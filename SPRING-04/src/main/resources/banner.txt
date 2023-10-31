@@ -1,0 +1,5 @@
+${AnsiBackground.BLUE}    ___  __ ____ ___ _  _     __     ____ __ ___ ____ ____    ____ _  _    ____ _  _ ____    ____ __  __ __    ${AnsiBackground.DEFAULT}
+${AnsiBackground.BLUE}  / __)/ _(_  _) __) )( \   / _\   (_  _|  ) __|  __|  _ \  (  _ ( \/ )  (_  _) )( (  __)  (_  _) _\(  |  )    ${AnsiBackground.DEFAULT}
+${AnsiBackground.BLUE}  ( (__/    \)(( (__) __ (  /    \    )(  )( (_ \) _) )   /   ) _ ()  /     )( ) __ () _)     )(/    \)(/ (_/\ ${AnsiBackground.DEFAULT}
+${AnsiBackground.BLUE}  \___)_/\_(__)\___)_)(_/  \_/\_/   (__)(__)___(____|__\_)  (____(__/     (__)\_)(_(____)   (__)_/\_(__)____/  ${AnsiBackground.DEFAULT}
+${AnsiBackground.DEFAULT}
