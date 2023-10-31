@@ -10,3 +10,4 @@
 - [SPRING-02](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/tree/main/SPRING-02) - Конфигурирование Spring-приложений (annotation-config).
 - [SPRING-03](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/tree/main/SPRING-03) - "Чёрная магия" Spring Boot.
 - [SPRING-04](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/tree/main/SPRING-04) - Продвинутая конфигурация (часть 2) - Conditionals, Events, тестирование.
+- [SPRING-05](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/tree/main/SPRING-05) - DAO на Spring JDBC
