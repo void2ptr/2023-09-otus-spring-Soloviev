@@ -20,7 +20,7 @@ import static org.mockito.BDDMockito.given;
 class CsvQuestionDaoTest {
 
     @MockBean
-    PropsAppData mockPropsAppData;
+    private PropsAppData mockPropsAppData;
 
     @Autowired
     private CsvQuestionDao csvQuestionDao;
