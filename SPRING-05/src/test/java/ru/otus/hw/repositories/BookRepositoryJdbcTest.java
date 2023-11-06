@@ -28,9 +28,6 @@ class BookRepositoryJdbcTest {
     private AuthorRepository authorRepository;
 
     @Autowired
-    private GenreRepositoryJdbc genreRepositoryJdbc;
-
-    @Autowired
     private BookRepositoryJdbc repositoryJdbc;
 
     private List<Author> dbAuthors;
