@@ -14,7 +14,7 @@ import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Репозиторий на основе Jdbc для работы с авторами книг ")
+@DisplayName("Репозиторий на основе Jdbc для работы с авторами книг")
 @JdbcTest
 @Import({AuthorRepositoryJdbc.class})
 class AuthorRepositoryJdbcTest {

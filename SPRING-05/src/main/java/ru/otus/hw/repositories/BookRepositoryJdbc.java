@@ -1,8 +1,6 @@
 package ru.otus.hw.repositories;
 
 import lombok.RequiredArgsConstructor;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
@@ -116,13 +114,13 @@ public class BookRepositoryJdbc implements BookRepository {
                                 List<BookGenreRelation> relations) {
         // Добавить книгам (booksWithoutGenres) жанры (genres) в соответствии со связями (relations)
         booksWithoutGenres.forEach(book -> {
-            List<Genre> genresA = new ArrayList<>();
+            List<Genre> bookGenres = new ArrayList<>();
             relations.stream()
                     .filter(relation -> relation.bookId == book.getId())
                     .forEach(relation -> genres.stream()
                             .filter(genre -> genre.getId() == relation.genreId())
-                            .forEach(genresA::add));
-            book.setGenres(genresA);
+                            .forEach(bookGenres::add));
+            book.setGenres(bookGenres);
         });
     }
 
@@ -199,16 +197,6 @@ public class BookRepositoryJdbc implements BookRepository {
             long authorId = rs.getLong("author_id");
 
             return new BookRow(id, title, authorId);
-        }
-    }
-
-    @SuppressWarnings("ClassCanBeRecord")
-    @RequiredArgsConstructor
-    private static class BookResultSetExtractor implements ResultSetExtractor<List<Book>> {
-
-        @Override
-        public List<Book> extractData(ResultSet rs) throws SQLException, DataAccessException {
-            return new ArrayList<>();
         }
     }
 

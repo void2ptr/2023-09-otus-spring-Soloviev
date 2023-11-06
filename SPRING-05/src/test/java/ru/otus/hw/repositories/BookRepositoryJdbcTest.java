@@ -19,7 +19,7 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-@DisplayName("Репозиторий на основе Jdbc для работы с книгами ")
+@DisplayName("Репозиторий на основе Jdbc для работы с книгами")
 @JdbcTest
 @Import({BookRepositoryJdbc.class, GenreRepositoryJdbc.class})
 class BookRepositoryJdbcTest {
@@ -46,9 +46,7 @@ class BookRepositoryJdbcTest {
         dbBooks = getDbBooks(dbAuthors, dbGenres);
 
         // mock
-        dbAuthors.forEach(author -> {
-            given(authorRepository.findById(author.getId())).willReturn(Optional.of(author));
-        });
+        dbAuthors.forEach(author -> given(authorRepository.findById(author.getId())).willReturn(Optional.of(author)));
 
     }
 
