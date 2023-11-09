@@ -17,6 +17,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 @RequiredArgsConstructor
@@ -113,16 +114,24 @@ public class BookRepositoryJdbc implements BookRepository {
                                 List<Genre> genres,
                                 List<BookGenreRelation> relations) {
         // Добавить книгам (booksWithoutGenres) жанры (genres) в соответствии со связями (relations)
-        booksWithoutGenres.forEach(book -> {
-            List<Genre> bookGenres = new ArrayList<>();
-            relations.stream()
-                    .filter(relation -> relation.bookId == book.getId())
-                    .forEach(relation -> genres.stream()
-                            .filter(genre -> genre.getId() == relation.genreId())
-                            .forEach(bookGenres::add));
-            book.setGenres(bookGenres);
-        });
-
+       booksWithoutGenres.stream()
+                .map(booksWithoutGenre -> {
+                    List<Genre> bookGenres = new ArrayList<>();
+                    relations.stream()
+                            .filter(relation -> relation.bookId() == booksWithoutGenre.getId())
+                            .map(relation -> {
+                                List<Genre> relationGenres = genres.stream()
+                                        .filter(genre -> genre.getId() == relation.genreId())
+                                        .map(genre -> {
+                                            bookGenres.add(genre);
+                                            return genre;
+                                        }).toList();
+                                return relationGenres;
+                            }).toList();
+                    booksWithoutGenre.setGenres(bookGenres);
+                    return booksWithoutGenre;
+                })
+               .collect(Collectors.toList());
     }
 
     private Book insert(Book book) {
