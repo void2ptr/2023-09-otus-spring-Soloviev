@@ -50,6 +50,6 @@ class AuthorRepositoryJdbcTest {
     }
 
     private static List<Author> getDbAuthors() {
-        return InitDB.getDbAuthors();
+        return InitTestData.getDbAuthors();
     }
 }

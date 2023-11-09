@@ -41,8 +41,8 @@ public class GenreRepositoryJdbc implements GenreRepository {
         return jdbc.query("""
                         SELECT g.id
                              , g.name
-                          FROM genres        g
-                          JOIN books_genres bg ON bg.genre_id = g.id
+                          FROM genres              g
+                          INNER JOIN books_genres bg ON bg.genre_id = g.id
                          WHERE bg.book_id = :book_id
                         """,
                 params,

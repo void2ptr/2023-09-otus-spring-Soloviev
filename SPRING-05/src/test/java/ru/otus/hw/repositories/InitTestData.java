@@ -7,7 +7,7 @@ import ru.otus.hw.models.Genre;
 import java.util.List;
 import java.util.stream.IntStream;
 
-public class InitDB {
+public class InitTestData {
 
     public static List<Author> getDbAuthors() {
         return IntStream.range(1, 4).boxed()

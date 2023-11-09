@@ -115,18 +115,18 @@ class BookRepositoryJdbcTest {
     }
 
     private static List<Author> getDbAuthors() {
-        return InitDB.getDbAuthors();
+        return InitTestData.getDbAuthors();
     }
 
     private static List<Genre> getDbGenres() {
-        return InitDB.getDbGenres();
+        return InitTestData.getDbGenres();
     }
 
     private static List<Book> getDbBooks(List<Author> dbAuthors, List<Genre> dbGenres) {
-        return InitDB.getDbBooks(dbAuthors, dbGenres);
+        return InitTestData.getDbBooks(dbAuthors, dbGenres);
     }
 
     private static List<Book> getDbBooks() {
-        return InitDB.getDbBooks();
+        return InitTestData.getDbBooks();
     }
 }

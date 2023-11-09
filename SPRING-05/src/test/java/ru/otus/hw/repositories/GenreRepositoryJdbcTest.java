@@ -62,11 +62,11 @@ class GenreRepositoryJdbcTest {
     }
 
     private static List<Book> getDbBooks() {
-        return InitDB.getDbBooks();
+        return InitTestData.getDbBooks();
     }
 
     private static List<Genre> getDbGenres() {
-        return InitDB.getDbGenres();
+        return InitTestData.getDbGenres();
     }
 
 }
