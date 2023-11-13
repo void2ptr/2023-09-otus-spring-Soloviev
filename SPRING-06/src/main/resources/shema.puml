@@ -1,0 +1,29 @@
+@startuml
+'https://plantuml.com/ie-diagram
+
+entity authors {
+    *id       : number <<generated>>
+    full_name : text
+}
+
+entity books {
+   *id       : number <<generated>>
+   title     : text
+   author_id : number <<FK>>
+}
+
+entity books_genres {
+    book_id  : number <<FK>>
+    genre_id : number <<FK>>
+}
+
+entity genres {
+    *id  : number <<generated>>
+    name : text
+}
+
+authors      ||--o{ books        : > авторы пишут книги
+books        ||--o{ books_genres : > книги написаны в разных жанрах \n (жанры смешиваются)
+books_genres ||--o{ genres       : < жанры извлекаются из справочника
+
+@enduml
