@@ -52,11 +52,7 @@ public class BookRepositoryJdbc implements BookRepository {
                 params,
                 new BookResultSetExtractor()
         );
-        Optional<Book> first = Optional.empty();
-        if (books != null) {
-            first = books.stream().findFirst();
-        }
-        return first;
+        return books != null ? books.stream().findFirst() : Optional.empty();
     }
 
     @Override
