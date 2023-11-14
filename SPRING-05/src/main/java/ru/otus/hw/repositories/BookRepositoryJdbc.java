@@ -92,7 +92,7 @@ public class BookRepositoryJdbc implements BookRepository {
                           FROM      books         b
                          INNER JOIN authors       a ON a.id       = b.author_id
                         """,
-                new BookWithOutGenresResultSetExtractor()
+                new BooksWithoutGenresResultSetExtractor()
         );
     }
 
@@ -198,11 +198,11 @@ public class BookRepositoryJdbc implements BookRepository {
                             bookId,
                             rs.getString("book_title"),
                             new Author(rs.getLong("author_id"),rs.getString("author_name")),
-                            new ArrayList<>(List.of(new Genre(rs.getInt("genre_id"),rs.getString("genre_name"))))
+                            new ArrayList<>(List.of(new Genre(rs.getLong("genre_id"),rs.getString("genre_name"))))
                     );
                     map.put(book.getId(), book);
                 } else {
-                    book.getGenres().add(new Genre(rs.getInt("genre_id"), rs.getString("genre_name")));
+                    book.getGenres().add(new Genre(rs.getLong("genre_id"), rs.getString("genre_name")));
                 }
             }
             return new ArrayList<>(map.values());
@@ -211,7 +211,7 @@ public class BookRepositoryJdbc implements BookRepository {
 
     @SuppressWarnings("ClassCanBeRecord")
     @RequiredArgsConstructor
-    private static class BookWithOutGenresResultSetExtractor implements ResultSetExtractor<List<Book>> {
+    private static class BooksWithoutGenresResultSetExtractor implements ResultSetExtractor<List<Book>> {
         @Override
         public List<Book> extractData(ResultSet rs) throws SQLException, DataAccessException {
             Map<Long, Book> map = new HashMap<>();
