@@ -148,16 +148,4 @@ public class BookRepositoryJpa implements BookRepository {
         jdbc.update("DELETE FROM books_genres WHERE book_id = :book_id", params);
     }
 
-    private record BookGenreRelation(long bookId, long genreId) {
-    }
-
-    private static class BookGenreRowMapper implements RowMapper<BookGenreRelation> {
-
-        @Override
-        public BookGenreRelation mapRow(ResultSet rs, int i) throws SQLException {
-            long bookId = rs.getLong("book_id");
-            long genreId = rs.getLong("genre_id");
-            return new BookGenreRelation(bookId, genreId);
-        }
-    }
 }
