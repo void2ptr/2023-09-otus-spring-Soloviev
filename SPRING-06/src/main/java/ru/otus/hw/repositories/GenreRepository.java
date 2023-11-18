@@ -8,7 +8,4 @@ public interface GenreRepository {
     List<Genre> findAll();
 
     List<Genre> findAllByIds(List<Long> ids);
-
-    List<Genre> findBookGenres(long bookId);
-
 }

@@ -6,7 +6,7 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
 import ru.otus.hw.models.Author;
@@ -19,16 +19,16 @@ import java.util.Optional;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 
-@DisplayName("Репозиторий на основе Jdbc для работы с книгами")
-@JdbcTest
-@Import({BookRepositoryJdbc.class, GenreRepositoryJdbc.class})
-class BookRepositoryJdbcTest {
+@DisplayName("Репозиторий на основе Jpa для работы с книгами")
+@DataJpaTest
+@Import({BookRepositoryJpa.class, GenreRepositoryJpa.class})
+class BookRepositoryJpaTest {
 
     @MockBean
     private AuthorRepository authorRepository;
 
     @Autowired
-    private BookRepositoryJdbc repositoryJdbc;
+    private BookRepositoryJpa repositoryJdbc;
 
     private List<Author> dbAuthors;
 

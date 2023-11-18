@@ -13,8 +13,8 @@ entity books {
 }
 
 entity books_genres {
-    book_id  : number <<FK>>
-    genre_id : number <<FK>>
+    *book_id  : number <<FK>>
+    *genre_id : number <<FK>>
 }
 
 entity genres {
@@ -22,8 +22,21 @@ entity genres {
     name : text
 }
 
+entity comments {
+    *id  : number <<generated>>
+    book_id  : number <<FK>>
+    description : text
+}
+
 authors      ||--o{ books        : > авторы пишут книги
-books        ||--o{ books_genres : > книги написаны в разных жанрах \n (жанры смешиваются)
+books        ||--o{ books_genres : > книга может быть написана \n в нескольких жанрах
 books_genres ||--o{ genres       : < жанры извлекаются из справочника
+books        ||--o{ comments       : > Книга имеет \n много комментариев
+
+note right of books
+Книга написана
+одним автором
+end note
+
 
 @enduml

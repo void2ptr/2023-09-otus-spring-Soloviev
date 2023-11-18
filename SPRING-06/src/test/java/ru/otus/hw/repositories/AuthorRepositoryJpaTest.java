@@ -6,21 +6,23 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.JdbcTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.context.annotation.Import;
+
 import ru.otus.hw.models.Author;
 
 import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@DisplayName("Репозиторий на основе Jdbc для работы с авторами книг")
-@JdbcTest
-@Import({AuthorRepositoryJdbc.class})
-class AuthorRepositoryJdbcTest {
+@DisplayName("Репозиторий на основе JPA для работы с авторами книг")
+@DataJpaTest
+@Import({AuthorRepositoryJpa.class})
+//@Transactional(propagation = Propagation.NEVER)
+class AuthorRepositoryJpaTest {
 
     @Autowired
-    private AuthorRepositoryJdbc authorRepositoryJdbc;
+    private AuthorRepositoryJpa authorRepositoryJpa;
 
     private List<Author> dbAuthors;
 
@@ -32,7 +34,7 @@ class AuthorRepositoryJdbcTest {
     @DisplayName("должен загружать список всех авторов")
     @Test
     void findAll() {
-        var actualAuthor = authorRepositoryJdbc.findAll();
+        var actualAuthor = authorRepositoryJpa.findAll();
         var expectedAuthor = dbAuthors;
 
         assertThat(actualAuthor).containsExactlyElementsOf(expectedAuthor);
@@ -43,7 +45,7 @@ class AuthorRepositoryJdbcTest {
     @ParameterizedTest
     @MethodSource("getDbAuthors")
     void findById(Author expectedAuthor) {
-        var actualAuthor = authorRepositoryJdbc.findById(expectedAuthor.getId());
+        var actualAuthor = authorRepositoryJpa.findById(expectedAuthor.getId());
         assertThat(actualAuthor).isPresent()
                 .get()
                 .isEqualTo(expectedAuthor);
