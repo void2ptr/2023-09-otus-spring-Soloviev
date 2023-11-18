@@ -4,7 +4,6 @@ import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
 import org.springframework.stereotype.Repository;
 import ru.otus.hw.models.Comment;
 
@@ -20,9 +19,9 @@ public class CommentRepositoryJpa implements CommentRepository {
     @Override
     public List<Comment> findCommentByBookId(long id) {
         TypedQuery<Comment> query = em.createQuery("""
-                select c 
+                select c
                 from Comment c
-                join fetch Book b   
+                join fetch Book b
                 where c.book.id = :book_id
                 """,
                 Comment.class);
