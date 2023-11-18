@@ -1,20 +1,18 @@
 package ru.otus.hw.repositories;
 
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
 import org.springframework.jdbc.core.ResultSetExtractor;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Genre;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
@@ -85,10 +83,10 @@ public class BookRepositoryJdbc implements BookRepository {
                              , b.title     AS book_title
                              , a.id        AS author_id
                              , a.full_name AS author_name
-                          FROM      books         b
-                         INNER JOIN authors       a ON a.id       = b.author_id
+                          FROM      books   b
+                         INNER JOIN authors a ON a.id       = b.author_id
                         """,
-                new BooksWithoutGenresResultSetExtractor()
+                new BookMapper()
         );
     }
 
@@ -156,21 +154,14 @@ public class BookRepositoryJdbc implements BookRepository {
         // batchUpdate
         List<Genre> genres = book.getGenres();
 
-        jdbc.getJdbcTemplate().batchUpdate(
-                "insert into books_genres(book_id, genre_id) values (?, ?)",
-                new BatchPreparedStatementSetter() {
-
-                    @Override
-                    public void setValues(@NonNull PreparedStatement ps, int i) throws SQLException {
-                        ps.setLong(1, book.getId());
-                        ps.setLong(2, genres.get(i).getId());
-                    }
-
-                    @Override
-                    public int getBatchSize() {
-                        return genres.size();
-                    }
-                });
+        SqlParameterSource[] params = genres.stream()
+                .map(genre -> new MapSqlParameterSource()
+                        .addValue("book_id", book.getId())
+                        .addValue("genre_id", genre.getId())
+                )
+                .toList()
+                .toArray(SqlParameterSource[]::new);
+        jdbc.batchUpdate("insert into books_genres(book_id, genre_id) values (:book_id, :genre_id)", params);
     }
 
     private void removeGenresRelationsFor(Book book) {
@@ -188,43 +179,28 @@ public class BookRepositoryJdbc implements BookRepository {
             Map<Long, Book> map = new HashMap<>();
             while (rs.next()) {
                 long bookId = rs.getLong("book_id");
+                Genre genre = new Genre(rs.getLong("genre_id"),rs.getString("genre_name"));
                 Book book = map.get(bookId);
                 if (book == null) {
-                    book = new Book(
-                            bookId,
-                            rs.getString("book_title"),
-                            new Author(rs.getLong("author_id"),rs.getString("author_name")),
-                            new ArrayList<>(List.of(new Genre(rs.getLong("genre_id"),rs.getString("genre_name"))))
-                    );
+                    Author author = new Author(rs.getLong("author_id"),rs.getString("author_name"));
+                    book = new Book(bookId, rs.getString("book_title"), author, new ArrayList<>(List.of(genre)));
                     map.put(book.getId(), book);
                 } else {
-                    book.getGenres().add(new Genre(rs.getLong("genre_id"), rs.getString("genre_name")));
+                    book.getGenres().add(genre);
                 }
             }
             return new ArrayList<>(map.values());
         }
     }
 
-    @SuppressWarnings("ClassCanBeRecord")
-    @RequiredArgsConstructor
-    private static class BooksWithoutGenresResultSetExtractor implements ResultSetExtractor<List<Book>> {
+    private static class BookMapper implements RowMapper<Book> {
+
         @Override
-        public List<Book> extractData(ResultSet rs) throws SQLException, DataAccessException {
-            Map<Long, Book> map = new HashMap<>();
-            while (rs.next()) {
-                long bookId = rs.getLong("book_id");
-                Book book = map.get(bookId);
-                if (book == null) {
-                    book = new Book(
-                            bookId,
-                            rs.getString("book_title"),
-                            new Author(rs.getLong("author_id"),rs.getString("author_name")),
-                            new ArrayList<>()
-                    );
-                    map.put(book.getId(), book);
-                }
-            }
-            return new ArrayList<>(map.values());
+        public Book mapRow(ResultSet rs, int i) throws SQLException {
+            long bookId = rs.getLong("book_id");
+            String bookTitle = rs.getString("book_title");
+            Author author = new Author(rs.getLong("author_id"),rs.getString("author_name"));
+            return new Book(bookId, bookTitle, author, new ArrayList<>());
         }
     }
 
