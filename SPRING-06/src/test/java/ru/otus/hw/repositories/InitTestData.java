@@ -2,9 +2,11 @@ package ru.otus.hw.repositories;
 
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
+import ru.otus.hw.models.Comment;
 import ru.otus.hw.models.Genre;
 
 import java.util.List;
+import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.IntStream;
 
 public class InitTestData {
@@ -37,6 +39,17 @@ public class InitTestData {
                 .toList();
     }
 
-
+    public static List<Comment> getDbComments() {
+        AtomicLong commentId  = new AtomicLong(0);
+        return getDbBooks().stream()
+                .map(book ->
+                    IntStream.range(1, 4).boxed()
+                            .map(id -> {
+                                commentId.getAndIncrement();
+                                return new Comment(commentId.get(), "Comment_" + id, book);
+                            })
+                            .toList()
+                ).flatMap(List::stream).toList();
+    }
 
 }

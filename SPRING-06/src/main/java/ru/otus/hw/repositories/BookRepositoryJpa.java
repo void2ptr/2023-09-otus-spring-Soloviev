@@ -2,32 +2,22 @@ package ru.otus.hw.repositories;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.Query;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
-import org.springframework.jdbc.core.BatchPreparedStatementSetter;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.NamedParameterJdbcTemplate;
-import org.springframework.jdbc.support.GeneratedKeyHolder;
 import org.springframework.stereotype.Repository;
 import ru.otus.hw.models.Book;
-import ru.otus.hw.models.Genre;
 
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 @Repository
 @RequiredArgsConstructor
 public class BookRepositoryJpa implements BookRepository {
 
-    private final NamedParameterJdbcTemplate jdbc;
-
     @PersistenceContext
     private EntityManager em;
 
-    private final GenreRepository genreRepository;
 
     @Override
     public Optional<Book> findById(long id) {
@@ -58,9 +48,10 @@ public class BookRepositoryJpa implements BookRepository {
     @Override
     public Book save(Book book) {
         if (book.getId() == 0) {
-            return insert(book);
+            em.persist(book);
+            return book;
         }
-        return update(book);
+        return em.merge(book);
     }
 
     @Override
@@ -70,82 +61,25 @@ public class BookRepositoryJpa implements BookRepository {
 
         if (bookOptional.isPresent()) {
             removeGenresRelationsFor(bookOptional.get());
-
-            MapSqlParameterSource params = new MapSqlParameterSource();
-            params.addValue("id", id);
-            jdbc.update("DELETE FROM books WHERE id = :id", params);
+            Query query = em.createQuery("""
+                        delete
+                          from Book b
+                         where b.id = :book_id
+                        """);
+            query.setParameter("book_id", id);
+            query.executeUpdate();
         }
-    }
-
-    private Book insert(Book book) {
-        var keyHolder = new GeneratedKeyHolder();
-
-        //...
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("title", book.getTitle());
-        params.addValue("author_id", book.getAuthor().getId());
-        jdbc.update("insert into books(title, author_id) values (:title, :author_id)",
-                params,
-                keyHolder,
-                new String[]{"id"}
-        );
-
-        // noinspection DataFlowIssue
-        book.setId(keyHolder.getKeyAs(Long.class));
-        batchInsertGenresRelationsFor(book);
-        return book;
-    }
-
-    private Book update(Book book) {
-        //...
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("title", book.getTitle());
-        params.addValue("author_id", book.getAuthor().getId());
-        params.addValue("id", book.getId());
-        jdbc.update("""
-                        update books
-                           set title     = :title
-                             , author_id = :author_id
-                         where id        = :id
-                        """,
-                params
-        );
-
-        removeGenresRelationsFor(book);
-        batchInsertGenresRelationsFor(book);
-
-        Optional<Book> freshBook = findById(book.getId());
-
-        return freshBook.orElseGet(Book::new);
-    }
-
-
-    private void batchInsertGenresRelationsFor(Book book) {
-        // batchUpdate
-        List<Genre> genres = book.getGenres();
-
-        jdbc.getJdbcTemplate().batchUpdate(
-                "insert into books_genres(book_id, genre_id) values (?, ?)",
-                new BatchPreparedStatementSetter() {
-
-                    @Override
-                    public void setValues(PreparedStatement ps, int i) throws SQLException {
-                        ps.setLong(1, book.getId());
-                        ps.setLong(2, genres.get(i).getId());
-                    }
-
-                    @Override
-                    public int getBatchSize() {
-                        return genres.size();
-                    }
-                });
     }
 
     private void removeGenresRelationsFor(Book book) {
         //...
-        MapSqlParameterSource params = new MapSqlParameterSource();
-        params.addValue("book_id", book.getId());
-        jdbc.update("DELETE FROM books_genres WHERE book_id = :book_id", params);
+        Query query = em.createQuery("""
+                        delete
+                          from BookGenre bg
+                         where bg.bookId = :book_id
+                        """);
+        query.setParameter("book_id", book.getId());
+        query.executeUpdate();
     }
 
 }

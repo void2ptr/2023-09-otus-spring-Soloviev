@@ -13,18 +13,37 @@ import java.util.stream.Collectors;
 public class CommentCommand {
 
     private final CommentService commentService;
+
     private final CommentConverter commentConverter;
 
+    // cbid 1
     @ShellMethod(value = "Find Comments by Book id", key = "cbid")
-    public String findCommentByBookId(long id) {
-        return commentService.findCommentByBookId(id).stream()
+    public String findCommentByBookId(long bookId) {
+        return commentService.findCommentByBookId(bookId).stream()
                 .map(commentConverter::commentToString)
                 .collect(Collectors.joining("," + System.lineSeparator()));
     }
 
-//    @ShellMethod(value = "Insert comment", key = "cins")
-//    public String insertBook(String title, long authorId, List<Long> genresIds) {
-//        var savedBook = bookService.insert(title, authorId, genresIds);
-//        return commentConverter.commentToString(savedBook);
-//    }
+    // cins 1 comment_4
+    // cins 1 comment_5
+    @ShellMethod(value = "Insert Comments by Book id", key = "cins")
+    public String insertComment(long bookId, String comment) {
+        var savedBook = commentService.insert(bookId, comment);
+        return commentConverter.commentToString(savedBook);
+    }
+
+    // cupd 1 1 comment_5
+    @ShellMethod(value = "Update Comments by Book and Comment id", key = "cupd")
+    public String updateComment(long bookId, long commentId, String comment) {
+        var savedBook = commentService.update(bookId, commentId, comment);
+        return commentConverter.commentToString(savedBook);
+    }
+
+    // cdel 3
+    @ShellMethod(value = "Delete Comments by id", key = "cdel")
+    public void deleteComment(long commentId) {
+        commentService.delete(commentId);
+    }
+
+
 }

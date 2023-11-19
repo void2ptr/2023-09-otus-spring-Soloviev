@@ -1,6 +1,11 @@
 package ru.otus.hw.models;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.GeneratedValue;
+import jakarta.persistence.GenerationType;
+import jakarta.persistence.Id;
+import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -17,11 +22,4 @@ public class Genre {
 
     @Column(name = "name", nullable = false, unique = true)
     private String name;
-
-//    @ManyToMany(cascade = CascadeType.PERSIST, fetch = FetchType.LAZY)
-//    @JoinTable(name = "books_genres",
-//            joinColumns = @JoinColumn(name = "genre_id"),
-//            inverseJoinColumns = @JoinColumn(name = "bpok_id")
-//    )
-//    private List<BookGenre> bookGenre;
 }

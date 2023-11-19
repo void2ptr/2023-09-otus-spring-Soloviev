@@ -27,6 +27,8 @@
         <checkstyle.config.url>
             https://raw.githubusercontent.com/OtusTeam/Spring/master/checkstyle.xml
         </checkstyle.config.url>
+        <spring-boot-starter-data-jpa.version>3.1.2</spring-boot-starter-data-jpa.version>
+
     </properties>
 
     <dependencies>
@@ -74,16 +76,6 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
             <scope>test</scope>
-        </dependency>
-        <dependency>
-            <groupId>ru.otus.hw</groupId>
-            <artifactId>hw05-jdbc</artifactId>
-            <version>0.0.1-SNAPSHOT</version>
-        </dependency>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-starter-data-jpa</artifactId>
-            <version>3.1.2</version>
         </dependency>
     </dependencies>
 
