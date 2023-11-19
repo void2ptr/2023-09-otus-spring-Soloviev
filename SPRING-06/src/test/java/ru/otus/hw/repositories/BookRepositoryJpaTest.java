@@ -61,7 +61,8 @@ class BookRepositoryJpaTest {
         List<Book> expectedBooks = dbBooks;
 
         assertThat(actualBooks)
-                .containsExactlyElementsOf(expectedBooks);
+                .usingRecursiveComparison()
+                .isEqualTo(expectedBooks);
         actualBooks.forEach(System.out::println);
     }
 
