@@ -14,6 +14,6 @@ values (1, 1),   (1, 2),
        (3, 5),   (3, 6);
 
 insert into comments(book_id, description)
-values (1, 'Comment_1'), ( 1, 'Comment_2'), (1, 'Comment_3'),
-       (2, 'Comment_1'), ( 2, 'Comment_2'), (2, 'Comment_3'),
-       (3, 'Comment_1'), ( 3, 'Comment_2'), (3, 'Comment_3');
+values (1, 'Comment_1'), (1, 'Comment_2'), (1, 'Comment_3'),
+       (2, 'Comment_1'), (2, 'Comment_2'), (2, 'Comment_3'),
+       (3, 'Comment_1'), (3, 'Comment_2'), (3, 'Comment_3');

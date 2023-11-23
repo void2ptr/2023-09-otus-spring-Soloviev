@@ -15,7 +15,7 @@ import java.util.Optional;
 public class AuthorRepositoryJpa implements AuthorRepository {
 
     @PersistenceContext
-    private EntityManager em;
+    final private EntityManager em;
 
     @Override
     public List<Author> findAll() {
@@ -25,8 +25,7 @@ public class AuthorRepositoryJpa implements AuthorRepository {
 
     @Override
     public Optional<Author> findById(long id) {
-        TypedQuery<Author> query = em.createQuery("select a from Author a where  id = :id", Author.class);
-        query.setParameter("id", id);
-        return query.getResultList().stream().findFirst();
+        Author author = em.find(Author.class, id);
+        return author == null ? Optional.empty() : Optional.of(author);
     }
 }

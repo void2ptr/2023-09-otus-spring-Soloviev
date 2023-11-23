@@ -13,6 +13,7 @@ import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Comment;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -52,18 +53,24 @@ class CommentRepositoryJpaTest {
     @ParameterizedTest
     @MethodSource("getDbComments")
     void shouldFindCommentByCommentId(Comment expectedComment) {
-        var actualComment = commentRepository.findById((expectedComment.getId()));
-        assertThat(actualComment).isPresent()
-                .get()
+//        Optional<Comment> actualComment = commentRepository.findById(expectedComment.getId());
+//        assertThat(actualComment)
+//                .isPresent().get()
+//                .usingRecursiveComparison()
+//                .ignoringExpectedNullFields()
+//                .isEqualTo(expectedComment);
+        Comment actualComment = em.find(Comment.class, expectedComment.getId());
+        assertThat(actualComment)
                 .usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(expectedComment);
+
     }
 
     @DisplayName("должен добавлять комментарий к книге")
     @Test
     void shouldUpdateComment() {
-        var expectedComment = new Comment(1L, "The best book", getDbBooks().get(0));
+        var expectedComment = new Comment(0L, "The best book", getDbBooks().get(0));
         var actualComment = commentRepository.save(expectedComment);
         assertThat(actualComment).isNotNull()
                 .matches(comment -> comment.getId() > 0)
@@ -71,9 +78,7 @@ class CommentRepositoryJpaTest {
                 .ignoringExpectedNullFields()
                 .isEqualTo(expectedComment);
 
-        assertThat(commentRepository.findById(actualComment.getId()))
-                .isPresent()
-                .get()
+        assertThat(em.find(Comment.class, actualComment.getId()))
                 .usingRecursiveComparison()
                 .isEqualTo(actualComment);
     }
@@ -81,17 +86,16 @@ class CommentRepositoryJpaTest {
     @DisplayName("должен редактировать комментарий к книге")
     @Test
     void shouldInsertComment() {
-        var expectedComment = new Comment(0L, "The best book", getDbBooks().get(0));
+        var expectedComment = new Comment(1L, "The best book", getDbBooks().get(0));
         var actualComment = commentRepository.save(expectedComment);
+
         assertThat(actualComment).isNotNull()
                 .matches(book -> book.getId() > 0)
                 .usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(expectedComment);
 
-        assertThat(commentRepository.findById(actualComment.getId()))
-                .isPresent()
-                .get()
+        assertThat(em.find(Comment.class, actualComment.getId()))
                 .usingRecursiveComparison()
                 .isEqualTo(actualComment);
     }

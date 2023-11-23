@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Genre;
@@ -69,18 +70,17 @@ class BookRepositoryJpaTest {
     @DisplayName("должен сохранять новую книгу")
     @Test
     void shouldSaveNewBook() {
-        var expectedBook = new Book(0, "BookTitle_10500", dbAuthors.get(0),
+        var expectedBook = new Book(0L, "BookTitle_10500", dbAuthors.get(0),
                 List.of(dbGenres.get(0), dbGenres.get(2)));
         var returnedBook = bookRepository.save(expectedBook);
+
         assertThat(returnedBook).isNotNull()
                 .matches(book -> book.getId() > 0)
                 .usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(expectedBook);
 
-        assertThat(bookRepository.findById(returnedBook.getId()))
-                .isPresent()
-                .get()
+        assertThat(em.find(Book.class, returnedBook.getId()))
                 .usingRecursiveComparison()
                 .isEqualTo(returnedBook);
     }
@@ -92,8 +92,6 @@ class BookRepositoryJpaTest {
                 List.of(dbGenres.get(4), dbGenres.get(5)));
 
         assertThat(bookRepository.findById(expectedBook.getId()))
-                .isPresent()
-                .get()
                 .isNotEqualTo(expectedBook);
 
         var returnedBook = bookRepository.save(expectedBook);
@@ -102,11 +100,10 @@ class BookRepositoryJpaTest {
                 .matches(book -> book.getId() > 0)
                 .usingRecursiveComparison().ignoringExpectedNullFields().isEqualTo(expectedBook);
 
-        assertThat(bookRepository.findById(returnedBook.getId()))
-                .isPresent()
-                .get()
+        assertThat(em.find(Book.class, returnedBook.getId()))
                 .isEqualTo(returnedBook);
     }
+
 
     @DisplayName("должен удалять книгу по id ")
     @Test
