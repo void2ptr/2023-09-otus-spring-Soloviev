@@ -9,7 +9,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
-import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Genre;
@@ -47,7 +46,9 @@ class BookRepositoryJpaTest {
     @ParameterizedTest
     @MethodSource("getDbBooks")
     void shouldReturnCorrectBookById(Book expectedBook) {
+        // tested method
         var actualBook = bookRepository.findById(expectedBook.getId());
+
         assertThat(actualBook).isPresent()
                 .get()
                 .usingRecursiveComparison()
@@ -58,8 +59,9 @@ class BookRepositoryJpaTest {
     @DisplayName("должен загружать список всех книг")
     @Test
     void shouldReturnCorrectBooksList() {
-        List<Book> actualBooks = bookRepository.findAll();
         List<Book> expectedBooks = dbBooks;
+        // tested method
+        List<Book> actualBooks = bookRepository.findAll();
 
         assertThat(actualBooks)
                 .usingRecursiveComparison()
@@ -72,6 +74,7 @@ class BookRepositoryJpaTest {
     void shouldSaveNewBook() {
         var expectedBook = new Book(0L, "BookTitle_10500", dbAuthors.get(0),
                 List.of(dbGenres.get(0), dbGenres.get(2)));
+        // tested method
         var returnedBook = bookRepository.save(expectedBook);
 
         assertThat(returnedBook).isNotNull()
@@ -91,9 +94,10 @@ class BookRepositoryJpaTest {
         var expectedBook = new Book(1L, "BookTitle_10500", dbAuthors.get(2),
                 List.of(dbGenres.get(4), dbGenres.get(5)));
 
-        assertThat(bookRepository.findById(expectedBook.getId()))
+        assertThat(em.find(Book.class,expectedBook.getId()))
                 .isNotEqualTo(expectedBook);
 
+        // tested method
         var returnedBook = bookRepository.save(expectedBook);
 
         assertThat(returnedBook).isNotNull()

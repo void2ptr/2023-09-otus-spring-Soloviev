@@ -15,7 +15,7 @@ import java.util.Optional;
 public class AuthorRepositoryJpa implements AuthorRepository {
 
     @PersistenceContext
-    final private EntityManager em;
+    private final EntityManager em;
 
     @Override
     public List<Author> findAll() {
