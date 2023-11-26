@@ -33,6 +33,8 @@ import java.util.List;
 // Позволяет указать какие связи родительской сущности загружать в одном с ней запросе
 @NamedEntityGraph(name = "book-author-entity-graph",
         attributeNodes = {@NamedAttributeNode("author")})
+@NamedEntityGraph(name = "book-genre-entity-graph",
+        attributeNodes = {@NamedAttributeNode("genres")})
 public class Book {
 
     @Id
@@ -44,10 +46,11 @@ public class Book {
 
     // Все данные талицы будут загружены в память отдельным запросом и соединены с родительской сущностью
     @Fetch(FetchMode.JOIN)
-    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private Author author;
 
+    @Fetch(FetchMode.SUBSELECT)
 //    @BatchSize(size = 5)
     @ManyToMany(targetEntity = Genre.class, cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(name = "books_genres",

@@ -31,7 +31,7 @@ public class Comment {
     @Column(name = "description", nullable = false)
     private String description;
 
-    @ManyToOne(cascade = CascadeType.DETACH, fetch = FetchType.LAZY)
+    @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "book_id", referencedColumnName = "id", nullable = false)
     private Book book;
 
