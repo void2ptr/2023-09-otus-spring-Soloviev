@@ -1,0 +1,50 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+  shell:
+    interactive:
+      enabled: true
+  data:
+    mongodb:
+#      authentication-database: admin
+#      username: root
+#      password: root
+      database: otus
+#      port: 27017
+      port: 0 # when flapdoodle using
+#      host: localhost
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+# ---------------------------------
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 4.0.2
+    embed:
+      mongo:
+        distribution:
+          IFeatureAwareVersion: ru.otus.hw.*
+
+systemProp:
+  de:
+    flapdoodle:
+      os:
+        explain: true
+# ---------------------------------
+mongock:
+  runner-type: "ApplicationRunner" # default
+#  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.otus.hw.mongock.changelog
+  mongo-db:
+    write-concern:
+      journal: false
+    read-concern: local
+
+# ---------------------------------
+logging:
+  level:
+    root: info
+    de.flapdoodle.os.common.attributes: warn
+
