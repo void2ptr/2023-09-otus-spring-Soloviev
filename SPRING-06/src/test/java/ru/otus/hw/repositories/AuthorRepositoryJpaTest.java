@@ -33,6 +33,7 @@ class AuthorRepositoryJpaTest {
     @DisplayName("должен загружать список всех авторов")
     @Test
     void findAll() {
+        // method for test
         var actualAuthor = authorRepositoryJpa.findAll();
         var expectedAuthor = dbAuthors;
 
@@ -44,6 +45,7 @@ class AuthorRepositoryJpaTest {
     @ParameterizedTest
     @MethodSource("getDbAuthors")
     void findById(Author expectedAuthor) {
+        // method for test
         var actualAuthor = authorRepositoryJpa.findById(expectedAuthor.getId());
         assertThat(actualAuthor).isPresent()
                 .get()

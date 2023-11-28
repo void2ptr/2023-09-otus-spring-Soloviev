@@ -55,7 +55,7 @@ class CommentRepositoryJpaTest {
     @ParameterizedTest
     @MethodSource("getDbComments")
     void shouldFindCommentByCommentId(Comment expectedComment) {
-        // tested method
+        // method for test
         Optional<Comment> actualComment = commentRepository.findById(expectedComment.getId());
 
         assertThat(actualComment)
@@ -68,8 +68,9 @@ class CommentRepositoryJpaTest {
     @DisplayName("должен добавлять комментарий к книге")
     @Test
     void shouldUpdateComment() {
-        var expectedComment = new Comment(0L, "The best book", getDbBooks().get(0));
-        // tested method
+        long addCommentID = 0l;
+        var expectedComment = new Comment(addCommentID, "The best book", getDbBooks().get(0));
+        // method for test
         var actualComment = commentRepository.save(expectedComment);
 
         assertThat(actualComment).isNotNull()
@@ -86,8 +87,9 @@ class CommentRepositoryJpaTest {
     @DisplayName("должен редактировать комментарий к книге")
     @Test
     void shouldInsertComment() {
-        var expectedComment = new Comment(1L, "The best book", getDbBooks().get(0));
-        // tested method
+        long editCommentID = 1l;
+        var expectedComment = new Comment(editCommentID, "The best book", getDbBooks().get(0));
+        // method for test
         var actualComment = commentRepository.save(expectedComment);
 
         assertThat(actualComment).isNotNull()
@@ -104,11 +106,12 @@ class CommentRepositoryJpaTest {
     @DisplayName("должен удалить комментарий")
     @Test
     void shouldDeleteComment() {
-        var comment = commentRepository.findById(1L);
-        assertThat(comment).isPresent();
-        // tested method
-        commentRepository.delete(comment.get());
-        assertThat(commentRepository.findById(1L)).isEmpty();
+        long deleteCommentID = 1l;
+        Comment comment = em.find(Comment.class, deleteCommentID);
+        assertThat(comment).isNotNull();
+        // method for test
+        commentRepository.delete(comment);
+        assertThat(em.find(Comment.class, deleteCommentID)).isNull();
     }
 
     private static List<Comment> getDbComments() {

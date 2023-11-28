@@ -46,7 +46,7 @@ class BookRepositoryJpaTest {
     @ParameterizedTest
     @MethodSource("getDbBooks")
     void shouldReturnCorrectBookById(Book expectedBook) {
-        // tested method
+        // method for test
         var actualBook = bookRepository.findById(expectedBook.getId());
 
         assertThat(actualBook).isPresent()
@@ -60,7 +60,7 @@ class BookRepositoryJpaTest {
     @Test
     void shouldReturnCorrectBooksList() {
         List<Book> expectedBooks = dbBooks;
-        // tested method
+        // method for test
         List<Book> actualBooks = bookRepository.findAll();
 
         assertThat(actualBooks)
@@ -72,9 +72,10 @@ class BookRepositoryJpaTest {
     @DisplayName("должен сохранять новую книгу")
     @Test
     void shouldSaveNewBook() {
-        var expectedBook = new Book(0L, "BookTitle_10500", dbAuthors.get(0),
+        long addBookId = 0l;
+        var expectedBook = new Book(addBookId, "BookTitle_10500", dbAuthors.get(0),
                 List.of(dbGenres.get(0), dbGenres.get(2)));
-        // tested method
+        // method for test
         var returnedBook = bookRepository.save(expectedBook);
 
         assertThat(returnedBook).isNotNull()
@@ -91,13 +92,14 @@ class BookRepositoryJpaTest {
     @DisplayName("должен сохранять измененную книгу")
     @Test
     void shouldSaveUpdatedBook() {
-        var expectedBook = new Book(1L, "BookTitle_10500", dbAuthors.get(2),
+        long saveBookId = 1l;
+        var expectedBook = new Book(saveBookId, "BookTitle_10500", dbAuthors.get(2),
                 List.of(dbGenres.get(4), dbGenres.get(5)));
 
-        assertThat(em.find(Book.class,expectedBook.getId()))
+        assertThat(em.find(Book.class, expectedBook.getId()))
                 .isNotEqualTo(expectedBook);
 
-        // tested method
+        // method for test
         var returnedBook = bookRepository.save(expectedBook);
 
         assertThat(returnedBook).isNotNull()
@@ -112,9 +114,10 @@ class BookRepositoryJpaTest {
     @DisplayName("должен удалять книгу по id ")
     @Test
     void shouldDeleteBook() {
-        assertThat(bookRepository.findById(1L)).isPresent();
+        long deleteBookId = 1l;
+        assertThat(bookRepository.findById(deleteBookId)).isPresent();
         bookRepository.deleteById(1L);
-        assertThat(bookRepository.findById(1L)).isEmpty();
+        assertThat(bookRepository.findById(deleteBookId)).isEmpty();
     }
 
     private static List<Author> getDbAuthors() {
