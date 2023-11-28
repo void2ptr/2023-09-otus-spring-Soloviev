@@ -6,35 +6,38 @@ spring:
       enabled: true
   data:
     mongodb:
-#      authentication-database: admin
-#      username: root
-#      password: root
+#      authentication-database: none
+#      username: none
+#      password: none
+      port: 27017
+      host: localhost
       database: otus
-#      port: 27017
-      port: 0 # when flapdoodle using
-#      host: localhost
-  autoconfigure:
-    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+#      port: 0 # when flapdoodle using
+
+#  autoconfigure:
+#    exclude: org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
+
 # ---------------------------------
 de:
   flapdoodle:
     mongodb:
       embedded:
-        version: 4.0.2
+        version: 6.0.5
     embed:
       mongo:
         distribution:
-          IFeatureAwareVersion: ru.otus.hw.*
+          IFeatureAwareVersion: 6.0.5
 
-systemProp:
-  de:
-    flapdoodle:
-      os:
-        explain: true
+# Properties only for the `ide` profile.
+  config:
+    activate:
+      on-profile: ide
+de.flapdoodle.mongodb.embedded.version: 6.0.5
+
 # ---------------------------------
 mongock:
-  runner-type: "ApplicationRunner" # default
-#  runner-type: "InitializingBean"
+#  runner-type: "ApplicationRunner" # default
+  runner-type: "InitializingBean"
   change-logs-scan-package:
     - ru.otus.hw.mongock.changelog
   mongo-db:
@@ -43,8 +46,16 @@ mongock:
     read-concern: local
 
 # ---------------------------------
+systemProp:
+  de:
+    flapdoodle:
+      os:
+        explain: true
+# ---------------------------------
 logging:
   level:
     root: info
     de.flapdoodle.os.common.attributes: warn
+    de.flapdoodle.embed.mongo.spring.autoconfigure.EmbeddedMongoAutoConfiguration: warn
+    de.flapdoodle.embed.mongo.distribution.IFeatureAwareVersion: warn
 

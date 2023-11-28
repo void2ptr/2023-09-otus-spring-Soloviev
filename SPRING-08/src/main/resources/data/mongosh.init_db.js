@@ -40,9 +40,9 @@ async function main() {
             collection: "books",
             queryDelete: { title: { $regex: /BookTitle_*/i }},
             queryInsert: [
-                {_id: 1, title: "BookTitle_1", author: 1, genres: [1, 2]},
-                {_id: 2, title: "BookTitle_2", author: 2, genres: [2, 3]},
-                {_id: 3, title: "BookTitle_3", author: 3, genres: [3, 4]}
+                {id: 1, title: "BookTitle_1", author: 1, genres: [1, 2]},
+                {id: 2, title: "BookTitle_2", author: 2, genres: [2, 3]},
+                {id: 3, title: "BookTitle_3", author: 3, genres: [3, 4]}
             ]
         });
 
@@ -51,9 +51,9 @@ async function main() {
             collection: "authors",
             queryDelete: { name_full: { $regex: /Author_*/i }},
             queryInsert: [
-               {_id: 1, name_full: "Author_1"},
-               {_id: 2, name_full: "Author_2"},
-               {_id: 3, name_full: "Author_3"}
+               {id: 1, name_full: "Author_1"},
+               {id: 2, name_full: "Author_2"},
+               {id: 3, name_full: "Author_3"}
             ]
         });
 
@@ -62,12 +62,12 @@ async function main() {
             collection: "genres",
             queryDelete: { name: { $regex: /Genre_*/i }},
             queryInsert: [
-               {_id: 1, name: "Genre_1"},
-               {_id: 2, name: "Genre_2"},
-               {_id: 3, name: "Genre_3"},
-               {_id: 4, name: "Genre_4"},
-               {_id: 5, name: "Genre_5"},
-               {_id: 6, name: "Genre_6"}
+               {id: 1, name: "Genre_1"},
+               {id: 2, name: "Genre_2"},
+               {id: 3, name: "Genre_3"},
+               {id: 4, name: "Genre_4"},
+               {id: 5, name: "Genre_5"},
+               {id: 6, name: "Genre_6"}
             ]
         });
 
@@ -76,12 +76,12 @@ async function main() {
             collection: "comments",
             queryDelete: { description: { $regex: /Comment_*/i }},
             queryInsert: [
-               {_id: 1, book_id: 1, description: "Comment_1"},
-               {_id: 2, book_id: 1, description: "Comment_2"},
-               {_id: 3, book_id: 2, description: "Comment_3"},
-               {_id: 4, book_id: 2, description: "Comment_4"},
-               {_id: 5, book_id: 3, description: "Comment_5"},
-               {_id: 6, book_id: 3, description: "Comment_6"}
+               {id: 1, book: 1, description: "Comment_1"},
+               {id: 2, book: 1, description: "Comment_2"},
+               {id: 3, book: 2, description: "Comment_3"},
+               {id: 4, book: 2, description: "Comment_4"},
+               {id: 5, book: 3, description: "Comment_5"},
+               {id: 6, book: 3, description: "Comment_6"}
             ]
         });
 

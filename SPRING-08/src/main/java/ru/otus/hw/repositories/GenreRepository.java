@@ -8,10 +8,12 @@ import java.util.List;
 
 public interface GenreRepository extends CrudRepository<Genre, Long> {
 
+//    @Override
 //    @Query("select g from Genre g")
     List<Genre> findAll();
 
 //    @Query("SELECT g FROM Genre g WHERE id IN (:ids)")
-    List<Genre> findAllByIds(@Param("ids") List<Long> ids);
+    List<Genre> findAllById(List<Long> ids);
 
+    void delete(Genre comment);
 }

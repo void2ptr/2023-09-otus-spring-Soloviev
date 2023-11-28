@@ -44,7 +44,7 @@ class GenreRepositoryJpaTest {
     @ParameterizedTest
     @MethodSource("getDbGenres")
     void findAllByIds(Genre expectedGenre) {
-        var actualGenres = genreRepository.findAllByIds(List.of(expectedGenre.getId()));
+        var actualGenres = genreRepository.findAllById(List.of(expectedGenre.getId()));
         for (Genre actualGenre : actualGenres) {
             assertThat(actualGenre)
                     .isEqualTo(expectedGenre);

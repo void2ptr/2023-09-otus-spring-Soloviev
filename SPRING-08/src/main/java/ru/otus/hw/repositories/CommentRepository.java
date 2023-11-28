@@ -1,7 +1,6 @@
 package ru.otus.hw.repositories;
 
 import org.springframework.data.repository.CrudRepository;
-import org.springframework.data.repository.query.Param;
 import ru.otus.hw.models.Comment;
 
 import java.util.List;
@@ -20,6 +19,6 @@ public interface CommentRepository extends CrudRepository<Comment, Long> {
 
 //    @Query("delete from Comment c where c.id = :id")
 //@Param("id")
-    void delete(Long commentId);
+    void deleteById(Long Id);
 
 }
