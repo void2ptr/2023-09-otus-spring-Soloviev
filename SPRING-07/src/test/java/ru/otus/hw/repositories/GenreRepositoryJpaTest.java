@@ -33,6 +33,7 @@ class GenreRepositoryJpaTest {
     @DisplayName("должен загружать список всех жанров")
     @Test
     void findAll() {
+        // method for test
         var actualGenre = genreRepository.findAll();
         var expectedGenre = dbGenres;
 
@@ -44,6 +45,7 @@ class GenreRepositoryJpaTest {
     @ParameterizedTest
     @MethodSource("getDbGenres")
     void findAllByIds(Genre expectedGenre) {
+        // method for test
         var actualGenres = genreRepository.findAllByIds(List.of(expectedGenre.getId()));
         for (Genre actualGenre : actualGenres) {
             assertThat(actualGenre)
