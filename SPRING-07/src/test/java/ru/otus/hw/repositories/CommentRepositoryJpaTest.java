@@ -20,8 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 //@Import({CommentRepository.class})
 //@Transactional(propagation = Propagation.NEVER)
 class CommentRepositoryJpaTest {
-    private final long SAVE_COMMENT_ID = 0L;
-    private final long DELETE_COMMENT_ID = 1l;
 
     @Autowired
     private TestEntityManager em;
@@ -67,7 +65,8 @@ class CommentRepositoryJpaTest {
     @DisplayName("должен добавлять комментарий к книге")
     @Test
     void shouldUpdateComment() {
-        var expectedComment = new Comment(SAVE_COMMENT_ID, "The best book", getDbBooks().get(0));
+        long addCommentId = 0L;
+        var expectedComment = new Comment(addCommentId, "The best book", getDbBooks().get(0));
         // method for test
         var actualComment = commentRepository.save(expectedComment);
         assertThat(actualComment).isNotNull()
@@ -84,7 +83,8 @@ class CommentRepositoryJpaTest {
     @DisplayName("должен редактировать комментарий к книге")
     @Test
     void shouldInsertComment() {
-        var expectedComment = new Comment(SAVE_COMMENT_ID, "The best book", getDbBooks().get(0));
+        long editCommentId = 1L;
+        var expectedComment = new Comment(editCommentId, "The best book", getDbBooks().get(0));
         // method for test
         var actualComment = commentRepository.save(expectedComment);
         assertThat(actualComment).isNotNull()
@@ -101,11 +101,12 @@ class CommentRepositoryJpaTest {
     @DisplayName("должен удалить комментарий")
     @Test
     void shouldDeleteComment() {
-        var comment = em.find(Comment.class, DELETE_COMMENT_ID);
+        long deleteCommentId = 1L;
+        var comment = em.find(Comment.class, deleteCommentId);
         assertThat(comment).isNotNull();
         // method for test
         commentRepository.delete(comment);
-        assertThat(em.find(Comment.class, DELETE_COMMENT_ID)).isNull();
+        assertThat(em.find(Comment.class, deleteCommentId)).isNull();
     }
 
     private static List<Comment> getDbComments() {

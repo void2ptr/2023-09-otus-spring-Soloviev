@@ -22,8 +22,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 //@Transactional(propagation = Propagation.NEVER)
 class BookRepositoryJpaTest {
 
-    private final long SAVE_BOOK_ID = 0L;
-    private final long DELETE_BOOK_ID = 1l;
     @Autowired
     private TestEntityManager em;
 
@@ -72,7 +70,8 @@ class BookRepositoryJpaTest {
     @DisplayName("должен сохранять новую книгу")
     @Test
     void shouldSaveNewBook() {
-        var expectedBook = new Book(SAVE_BOOK_ID, "BookTitle_10500", dbAuthors.get(0),
+        long addBookId = 0L;
+        var expectedBook = new Book(addBookId, "BookTitle_10500", dbAuthors.get(0),
                 List.of(dbGenres.get(0), dbGenres.get(2)));
         // method for test
         var returnedBook = bookRepository.save(expectedBook);
@@ -90,7 +89,8 @@ class BookRepositoryJpaTest {
     @DisplayName("должен сохранять измененную книгу")
     @Test
     void shouldSaveUpdatedBook() {
-        var expectedBook = new Book(SAVE_BOOK_ID, "BookTitle_10500", dbAuthors.get(2),
+        long editBookId = 1L;
+        var expectedBook = new Book(editBookId, "BookTitle_10500", dbAuthors.get(2),
                 List.of(dbGenres.get(4), dbGenres.get(5)));
 
         assertThat(em.find(Book.class,expectedBook.getId()))
@@ -110,10 +110,11 @@ class BookRepositoryJpaTest {
     @DisplayName("должен удалять книгу по id ")
     @Test
     void shouldDeleteBook() {
-        assertThat(em.find(Book.class, DELETE_BOOK_ID)).isNotNull();
+        long deleteBookId = 1L;
+        assertThat(em.find(Book.class, deleteBookId)).isNotNull();
         // method for test
-        bookRepository.deleteById(DELETE_BOOK_ID);
-        assertThat(em.find(Book.class, DELETE_BOOK_ID)).isNull();
+        bookRepository.deleteById(deleteBookId);
+        assertThat(em.find(Book.class, deleteBookId)).isNull();
     }
 
     private static List<Author> getDbAuthors() {
