@@ -18,7 +18,7 @@ public class CommentCommand {
 
     // cbid 1
     @ShellMethod(value = "Find Comments by Book id", key = "cbid")
-    public String findCommentByBookId(long bookId) {
+    public String findCommentByBookId(String bookId) {
         return commentService.findCommentByBookId(bookId).stream()
                 .map(commentConverter::commentToString)
                 .collect(Collectors.joining("," + System.lineSeparator()));
@@ -27,21 +27,21 @@ public class CommentCommand {
     // cins 1 comment_4
     // cins 1 comment_5
     @ShellMethod(value = "Insert Comments by Book id", key = "cins")
-    public String insertComment(long bookId, String comment) {
+    public String insertComment(String bookId, String comment) {
         var savedBook = commentService.insert(bookId, comment);
         return commentConverter.commentToString(savedBook);
     }
 
     // cupd 1 1 comment_5
     @ShellMethod(value = "Update Comments by Book and Comment id", key = "cupd")
-    public String updateComment(long bookId, long commentId, String comment) {
+    public String updateComment(String bookId, String commentId, String comment) {
         var savedBook = commentService.update(bookId, commentId, comment);
         return commentConverter.commentToString(savedBook);
     }
 
     // cdel 3
     @ShellMethod(value = "Delete Comments by id", key = "cdel")
-    public void deleteComment(long commentId) {
+    public void deleteComment(String commentId) {
         commentService.delete(commentId);
     }
 

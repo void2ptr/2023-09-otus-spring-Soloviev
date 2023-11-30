@@ -7,17 +7,15 @@ import ru.otus.hw.models.Book;
 import java.util.List;
 import java.util.Optional;
 
-public interface BookRepository extends CrudRepository<Book, Long> {
+public interface BookRepository extends CrudRepository<Book, String> {
 
-//    @Query("select b from Book b left join fetch b.author a left join fetch b.genres g where b.id = :id")
-    Optional<Book> findById(long id);
+    Optional<Book> findById(String id);
+
+    Optional<Book> findByTitleIs(String title);
 
     @NonNull
-//    @Query("select b from Book b left join fetch b.author a left join fetch b.genres g")
     List<Book> findAll();
 
-//    @Query
-//    @Param("id")
-    void deleteById(long id);
+    void deleteById(String id);
 
 }

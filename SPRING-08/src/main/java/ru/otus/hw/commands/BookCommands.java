@@ -25,29 +25,30 @@ public class BookCommands {
     }
 
     @ShellMethod(value = "Find book by id", key = "bbid")
-    public String findBookById(long id) {
+    public String findBookById(String id) {
         return bookService.findById(id)
                 .map(bookConverter::bookToString)
-                .orElse("Book with id %d not found".formatted(id));
+                .orElse("Book with id %s not found".formatted(id));
     }
 
-    // bins aaaaaaaaaaaaa 1 1,6
-    // bins aaaaaaaaaaaaa 2 3,5
+    // bins "Подарки Второму храму" "Цезарь Гай Юлий,Иосиф Флавий" "хроника,видения,эпос"
+    // bins "Падение яблока" "Никколо Макиавелли,Эзоп" "мемуар,комедия"
     @ShellMethod(value = "Insert book", key = "bins")
-    public String insertBook(String title, long authorId, List<Long> genresIds) {
-        var savedBook = bookService.insert(title, authorId, genresIds);
+    public String insertBook(String title, List<String> authorNames, List<String> genresIds) {
+        var savedBook = bookService.insert(title, authorNames, genresIds);
         return bookConverter.bookToString(savedBook);
     }
 
-    // bupd 4 new_tittle 3 2,5
+    // bupd "Война и Мир" "Макиавелли,Эсхил" "эпос,военная проза"
+    // bupd "Золотой осёл" "Ливий,Аппулей" "скетч,хроника"
     @ShellMethod(value = "Update book", key = "bupd")
-    public String updateBook(long id, String title, long authorId, List<Long> genresIds) {
-        var savedBook = bookService.update(id, title, authorId, genresIds);
+    public String updateBook(String title, List<String> authorNames, List<String> genresIds) {
+        var savedBook = bookService.update(title, authorNames, genresIds);
         return bookConverter.bookToString(savedBook);
     }
 
     @ShellMethod(value = "Delete book by id", key = "bdel")
-    public void updateBook(long id) {
+    public void updateBook(String id) {
         bookService.deleteById(id);
     }
 }

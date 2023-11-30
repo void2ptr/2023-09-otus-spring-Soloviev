@@ -1,10 +1,7 @@
 package ru.otus.hw.models;
 
 
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
@@ -19,17 +16,11 @@ import java.math.BigInteger;
 @Document(collection = "genres")
 public class Genre {
     @Id
-    private BigInteger _id;
-
+    private String id;
     @Indexed
-    @Field(name = "id")
-    private long id;
-
-    @Field(name = "name")
     private String name;
 
-    public Genre(long id, String name) {
-        this.id = id;
+    public Genre(String name) {
         this.name = name;
     }
 }

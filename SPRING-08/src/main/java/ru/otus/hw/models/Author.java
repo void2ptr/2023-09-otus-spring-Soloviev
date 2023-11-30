@@ -7,9 +7,6 @@ import lombok.Setter;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.Document;
-import org.springframework.data.mongodb.core.mapping.Field;
-
-import java.math.BigInteger;
 
 
 @AllArgsConstructor
@@ -19,17 +16,11 @@ import java.math.BigInteger;
 @Document(collection = "authors")
 public class Author {
     @Id
-    private BigInteger _id;
-
+    private String id;
     @Indexed
-    @Field(name = "id")
-    private long id;
-
-    @Field(name = "fullName")
     private String fullName;
 
-    public Author(Integer id, String fullName) {
-        this.id = id;
+    public Author(String fullName) {
         this.fullName = fullName;
     }
 }

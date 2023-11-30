@@ -19,38 +19,38 @@ public class CommentServiceImpl implements CommentService {
 
     @Transactional(readOnly = true)
     @Override
-    public List<Comment> findCommentByBookId(long bookId) {
+    public List<Comment> findCommentByBookId(String bookId) {
         return commentRepository.findByBookId(bookId);
     }
 
     @Transactional
     @Override
-    public Comment insert(long bookId, String text) {
+    public Comment insert(String bookId, String text) {
         var book = bookRepository.findById(bookId);
         if (book.isEmpty()) {
-            return new Comment(0, "ERROR: book not found", new Book());
+            return new Comment("0", new Book(), "ERROR: book not found");
         }
-        var comment = new Comment(0, text, book.get());
+        var comment = new Comment("0", book.get(), text);
         return commentRepository.save(comment);
     }
 
     @Transactional
     @Override
-    public Comment update(long bookId, long commentId, String text) {
+    public Comment update(String bookId, String commentId, String text) {
         var book = bookRepository.findById(bookId);
         if (book.isEmpty()) {
-            return new Comment(commentId, "ERROR: book not found", new Book());
+            return new Comment(commentId, new Book(), "ERROR: book not found");
         }
         var comment = commentRepository.findById(commentId);
         if (comment.isEmpty()) {
-            return new Comment(commentId, "ERROR: comment not found", new Book());
+            return new Comment(commentId, new Book(), "ERROR: comment not found");
         }
-        return commentRepository.save(new Comment(commentId, text, book.get()));
+        return commentRepository.save(new Comment(commentId, book.get(), text));
     }
 
     @Transactional
     @Override
-    public void delete(long commentId) {
+    public void delete(String commentId) {
         commentRepository.deleteById(commentId);
     }
 
