@@ -72,7 +72,7 @@ class BookRepositoryJpaTest {
     @DisplayName("должен сохранять новую книгу")
     @Test
     void shouldSaveNewBook() {
-        long addBookId = 0l;
+        long addBookId = 0L;
         var expectedBook = new Book(addBookId, "BookTitle_10500", dbAuthors.get(0),
                 List.of(dbGenres.get(0), dbGenres.get(2)));
         // method for test
@@ -92,7 +92,7 @@ class BookRepositoryJpaTest {
     @DisplayName("должен сохранять измененную книгу")
     @Test
     void shouldSaveUpdatedBook() {
-        long saveBookId = 1l;
+        long saveBookId = 1L;
         var expectedBook = new Book(saveBookId, "BookTitle_10500", dbAuthors.get(2),
                 List.of(dbGenres.get(4), dbGenres.get(5)));
 
@@ -114,7 +114,7 @@ class BookRepositoryJpaTest {
     @DisplayName("должен удалять книгу по id ")
     @Test
     void shouldDeleteBook() {
-        long deleteBookId = 1l;
+        long deleteBookId = 1L;
         assertThat(bookRepository.findById(deleteBookId)).isPresent();
         bookRepository.deleteById(1L);
         assertThat(bookRepository.findById(deleteBookId)).isEmpty();

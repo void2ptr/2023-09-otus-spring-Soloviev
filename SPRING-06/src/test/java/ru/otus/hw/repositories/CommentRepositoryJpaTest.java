@@ -68,7 +68,7 @@ class CommentRepositoryJpaTest {
     @DisplayName("должен добавлять комментарий к книге")
     @Test
     void shouldUpdateComment() {
-        long addCommentID = 0l;
+        long addCommentID = 0L;
         var expectedComment = new Comment(addCommentID, "The best book", getDbBooks().get(0));
         // method for test
         var actualComment = commentRepository.save(expectedComment);
@@ -87,7 +87,7 @@ class CommentRepositoryJpaTest {
     @DisplayName("должен редактировать комментарий к книге")
     @Test
     void shouldInsertComment() {
-        long editCommentID = 1l;
+        long editCommentID = 1L;
         var expectedComment = new Comment(editCommentID, "The best book", getDbBooks().get(0));
         // method for test
         var actualComment = commentRepository.save(expectedComment);
@@ -106,7 +106,7 @@ class CommentRepositoryJpaTest {
     @DisplayName("должен удалить комментарий")
     @Test
     void shouldDeleteComment() {
-        long deleteCommentID = 1l;
+        long deleteCommentID = 1L;
         Comment comment = em.find(Comment.class, deleteCommentID);
         assertThat(comment).isNotNull();
         // method for test

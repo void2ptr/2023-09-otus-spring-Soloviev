@@ -31,8 +31,6 @@ import java.util.List;
 @Entity
 @Table(name = "books")
 // Позволяет указать какие связи родительской сущности загружать в одном с ней запросе
-@NamedEntityGraph(name = "book-author-entity-graph",
-        attributeNodes = {@NamedAttributeNode("author")})
 @NamedEntityGraph(name = "book-genre-entity-graph",
         attributeNodes = {@NamedAttributeNode("genres")})
 public class Book {

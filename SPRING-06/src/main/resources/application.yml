@@ -28,9 +28,8 @@ spring:
 
     properties:
       hibernate:
-        format_sql: true
-
-    show-sql: false
+#        format_sql: true
+#    show-sql: false
 
 logging:
   level:
