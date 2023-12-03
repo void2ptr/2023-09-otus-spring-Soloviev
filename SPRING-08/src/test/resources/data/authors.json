@@ -1,0 +1,84 @@
+[{
+  "_id": {
+    "$oid": "656b250aa580e1253408175d"
+  },
+  "fullName": "Толстой Лев Николаевич",
+  "_class": "ru.otus.hw.models.Author"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e1253408175e"
+  },
+  "fullName": "Публий Корнелий Тацит",
+  "_class": "ru.otus.hw.models.Author"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e1253408175f"
+  },
+  "fullName": "Цезарь Гай Юлий",
+  "_class": "ru.otus.hw.models.Author"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e12534081760"
+  },
+  "fullName": "Тит Ливий",
+  "_class": "ru.otus.hw.models.Author"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e12534081761"
+  },
+  "fullName": "Аммиан Марцеллин",
+  "_class": "ru.otus.hw.models.Author"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e12534081762"
+  },
+  "fullName": "Иосиф Флавий",
+  "_class": "ru.otus.hw.models.Author"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e12534081763"
+  },
+  "fullName": "Никколо Макиавелли",
+  "_class": "ru.otus.hw.models.Author"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e12534081764"
+  },
+  "fullName": "Аппулей",
+  "_class": "ru.otus.hw.models.Author"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e12534081765"
+  },
+  "fullName": "Эзоп",
+  "_class": "ru.otus.hw.models.Author"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e12534081766"
+  },
+  "fullName": "Аристофан",
+  "_class": "ru.otus.hw.models.Author"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e12534081767"
+  },
+  "fullName": "Эсхил",
+  "_class": "ru.otus.hw.models.Author"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e12534081768"
+  },
+  "fullName": "Марциал",
+  "_class": "ru.otus.hw.models.Author"
+}]

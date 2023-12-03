@@ -16,7 +16,7 @@ import java.util.stream.IntStream;
 @ChangeLog(order = "001")
 public class DatabaseChangelogComments {
 
-    List<String> opinions = Arrays.asList(
+    private final List<String> opinions = Arrays.asList(
             "Хорошая книга",
             "Очень хорошая книга",
             "Классика мировой литературы",

@@ -17,6 +17,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Author {
     @Id
     private String id;
+
     @Indexed
     private String fullName;
 

@@ -1,15 +1,28 @@
 package ru.otus.hw.services;
 
+import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.models.Comment;
 
 import java.util.List;
 
 public interface CommentService {
-    List<Comment> findCommentByBookId(String bookId);
 
-    Comment insert(String bookId, String comment);
+    @Transactional(readOnly = true)
+    List<Comment> findCommentsByBookTitle(String title);
 
-    Comment update(String bookId, String commentId, String comment);
+    @Transactional
+    Comment insert(String bookId);
 
+    @Transactional
     void delete(String commentId);
+
+    @Transactional
+    Comment insertNote(String title, String note);
+
+    @Transactional
+    Comment updateNote(String title, int commentId, String note);
+
+    @Transactional
+    Comment deleteNote(String title, int noteId);
+
 }

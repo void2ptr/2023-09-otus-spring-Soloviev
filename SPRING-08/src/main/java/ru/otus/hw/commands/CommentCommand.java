@@ -16,34 +16,63 @@ public class CommentCommand {
 
     private final CommentConverter commentConverter;
 
-    // cbid 1
-    @ShellMethod(value = "Find Comments by Book id", key = "cbid")
-    public String findCommentByBookId(String bookId) {
-        return commentService.findCommentByBookId(bookId).stream()
+    // bins "Золотой осёл" "Никколо Макиавелли,Эзоп" "мемуар,комедия"
+    // cbid "Золотой осёл"
+    @ShellMethod(group = "Comment Command",
+            value = "Find Comments by Book title", key = "cbid")
+    public String findCommentByBookId(String title) {
+        return commentService.findCommentsByBookTitle(title).stream()
                 .map(commentConverter::commentToString)
                 .collect(Collectors.joining("," + System.lineSeparator()));
     }
 
-    // cins 1 comment_4
-    // cins 1 comment_5
-    @ShellMethod(value = "Insert Comments by Book id", key = "cins")
-    public String insertComment(String bookId, String comment) {
-        var savedBook = commentService.insert(bookId, comment);
-        return commentConverter.commentToString(savedBook);
+    // db.books.find( {}, { 'title' : 1, '_id' : 1 } )
+    // db.books.find( { 'title' : 'Падение Большого Яблока'}, { 'title' : 1, '_id' : 1 } )
+    // bins "Падение Большого Яблока" "Цезарь Гай Юлий,Макиавелли" "мемуар,хроника,военная проза"
+    // cins book._id
+    @ShellMethod(group = "Comment Command",
+            value = "Insert Comments by book _id", key = "cins")
+    public String insertComment(String bookId) {
+        var insertedComment = commentService.insert(bookId);
+        return commentConverter.commentToString(insertedComment);
     }
 
-    // cupd 1 1 comment_5
-    @ShellMethod(value = "Update Comments by Book and Comment id", key = "cupd")
-    public String updateComment(String bookId, String commentId, String comment) {
-        var savedBook = commentService.update(bookId, commentId, comment);
-        return commentConverter.commentToString(savedBook);
-    }
-
-    // cdel 3
-    @ShellMethod(value = "Delete Comments by id", key = "cdel")
+    // ab
+    // db.comments.find( {}, { 'title' : 1, '_id' : 1 } )
+    // cdel comments._id
+    @ShellMethod(group = "Comment Command",
+            value = "Delete Comments by _id", key = "cdel")
     public void deleteComment(String commentId) {
         commentService.delete(commentId);
     }
 
 
+    // nins "Золотой осёл" "Шедевр античности"
+    // nins "Золотой осёл" "Это просто чернуха!"
+    @ShellMethod(group = "Comment-Note Command",
+            value = "Insert 'Comment Note' by 'Book title'", key = "nins")
+    public String insertNote(String title, String comment) {
+        var savedComment = commentService.insertNote(title, comment);
+        return commentConverter.commentToString(savedComment);
+    }
+
+    // db.comments.find( { 'title' : 'Золотой осёл' }, { 'notes' : 1, '_id' : 0 } )
+    // nupd "Золотой осёл" 0 "Даже ослы читают это!"
+    // nupd "Золотой осёл" 1 "Свежий взгляд на мир )"
+    // nupd "Золотой осёл" 100 "Свежий взгляд на мир !!!"
+    @ShellMethod(group = "Comment-Note Command",
+            value = "Update 'Comment Note' by 'Book title' and 'note id'", key = "nupd")
+    public String updateNote(String title, int commentId, String note) {
+        var savedComment = commentService.updateNote(title, commentId, note);
+        return commentConverter.commentToString(savedComment);
+    }
+
+    // ndel "Золотой осёл" 0
+    // ndel "Золотой осёл" 1
+    @ShellMethod(group = "Comment-Note Command",
+            value = "Delete 'Comment Note' by 'Book title' and 'note id'", key = "ndel")
+    public String deleteNote(String title, int noteId) {
+        var savedComment = commentService.deleteNote(title, noteId);
+        return commentConverter.commentToString(savedComment);
+    }
 }

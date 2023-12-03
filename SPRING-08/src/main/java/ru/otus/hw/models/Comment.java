@@ -9,6 +9,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @AllArgsConstructor
@@ -20,21 +21,39 @@ public class Comment {
     @Id
     private String id;
 
-    @Indexed
+    @Indexed(unique = true)
+    private String title;
+
     @DBRef
     private Book book;
 
-    private List<String> comment;
+    private List<String> notes;
 
-    public Comment(Book book, List<String> comment) {
+    public Comment(Book book, List<String> notes) {
+        this.title = book.getTitle();
         this.book = book;
-        this.comment = comment;
+        this.notes = notes;
     }
 
-    public Comment(String id, Book book, String... comment) {
-        this.id = id;
+    public Comment(Book book, String... notes) {
+        this.title = book.getTitle();
         this.book = book;
-        this.comment = List.of(comment);
+        this.notes = new ArrayList<>(List.of(notes));
     }
 
+    public void addNote(String note) {
+        this.notes.add(note);
+    }
+
+    public void updateNote(int id, String note) {
+        if (this.notes.size() > id) {
+            this.notes.set(id, note);
+        }
+    }
+
+    public void deleteNote(int id) {
+        if (this.notes.size() > id) {
+            this.notes.remove(id);
+        }
+    }
 }

@@ -40,15 +40,16 @@ public class BookCommands {
     }
 
     // bupd "Война и Мир" "Макиавелли,Эсхил" "эпос,военная проза"
-    // bupd "Золотой осёл" "Ливий,Аппулей" "скетч,хроника"
+    // bupd "Золотой осёл" "Тит Ливий,Аппулей" "скетч,хроника"
     @ShellMethod(value = "Update book", key = "bupd")
     public String updateBook(String title, List<String> authorNames, List<String> genresIds) {
         var savedBook = bookService.update(title, authorNames, genresIds);
         return bookConverter.bookToString(savedBook);
     }
 
-    @ShellMethod(value = "Delete book by id", key = "bdel")
-    public void updateBook(String id) {
-        bookService.deleteById(id);
+    // bdel "Золотой осёл"
+    @ShellMethod(value = "Delete book by title", key = "bdel")
+    public void deleteBook(String title) {
+        bookService.deleteByTitle(title);
     }
 }

@@ -18,7 +18,8 @@ import java.util.List;
 public class Book {
     @Id
     private String id;
-    @Indexed
+
+    @Indexed(unique = true)
     private String title;
 
     private List<Author> authors;

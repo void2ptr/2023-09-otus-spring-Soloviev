@@ -17,8 +17,9 @@ import java.util.Map;
 @ChangeLog(order = "000")
 public class DatabaseChangelogBooks {
 
-    private Map<String, Genre> genres = new HashMap<>();
-    private Map<String, Author> authors = new HashMap<>();
+    private final Map<String, Genre> genres = new HashMap<>();
+
+    private final Map<String, Author> authors = new HashMap<>();
 
     @ChangeSet(order = "000", id = "dropDb", author = "solo", runAlways = true)
     public void dropDb(MongoDatabase db) {
@@ -45,7 +46,7 @@ public class DatabaseChangelogBooks {
         genres.put("эпиграммы", repository.save(new Genre("эпиграммы")));
         genres.put("хроника", repository.save(new Genre("хроника")));
         genres.put("мемуар", repository.save(new Genre("мемуар")));
-        genres.put("военная проза", repository.save(new Genre("военной проза")));
+        genres.put("военная проза", repository.save(new Genre("военная проза")));
         genres.put("учебник", repository.save(new Genre("учебник")));
     }
 
@@ -65,7 +66,7 @@ public class DatabaseChangelogBooks {
         authors.put("Марциал", repository.save(new Author("Марциал")));
     }
 
-    @ChangeSet(order = "003", id = "insertBooks", author = "solo")
+    @ChangeSet(order = "003", id = "insertBooks 003", author = "solo")
     public void insertBooks(BookRepository repository) {
         repository.save(new Book("Война и Мир",
                 List.of(authors.get("Толстой")),
@@ -88,6 +89,10 @@ public class DatabaseChangelogBooks {
         repository.save(new Book("Иудейская война",
                 List.of(authors.get("Флавий")),
                 List.of(genres.get("хроника"), genres.get("военная проза"))));
+    }
+
+    @ChangeSet(order = "004", id = "insertBooks 004", author = "solo")
+    public void insertBooksMore(BookRepository repository) {
         repository.save(new Book("Иудейские древности",
                 List.of(authors.get("Флавий")),
                 List.of(genres.get("хроника"), genres.get("роман"))));

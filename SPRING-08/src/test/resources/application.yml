@@ -1,26 +1,45 @@
 spring:
-#  datasource:
-#    url: jdbc:h2:mem:testdb
-
-#  sql:
-#    init:
-#      mode: always
-#      data-locations: data.sql
-#      schema-locations: schema.sql
-#
-#  jpa:
-#    generate-ddl: true
-#    hibernate:
-#      ddl-auto: none
-#    properties:
-#      hibernate:
-##        format_sql: true
-#    show-sql: false
+  data:
+    mongodb:
+      port: 0
+      database: test
+      host: localhost
+      #port: 27017
+      #database: awesomeMongo
 
   shell:
     interactive:
+      enabled: true
+    noninteractive:
       enabled: false
+
+    command:
+      version:
+        enabled: false
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 4.0.2
+
+mongock:
+  runner-type: "ApplicationRunner" # default
+#  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.otus.hw.mongock.changelog
+  mongo-db:
+    write-concern:
+      journal: false
+    read-concern: local
 
 logging:
   level:
-    ROOT: ERROR
+    root: ERROR
+
+#application:
+#  data:
+#    locale: ru_RU
+#    authorsFileName: data/authors.json
+#    booksFileName: data/books.json
+#    commentsFileName: data/comments.json
+#    genresFileName: data/genres.json

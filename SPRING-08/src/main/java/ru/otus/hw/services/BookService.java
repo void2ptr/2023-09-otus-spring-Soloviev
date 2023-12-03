@@ -21,5 +21,5 @@ public interface BookService {
     Book update(String title, List<String> authorNames, List<String> genresIds);
 
     @Transactional
-    void deleteById(String id);
+    void deleteByTitle(String title);
 }

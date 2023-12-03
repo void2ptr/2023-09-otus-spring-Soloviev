@@ -9,7 +9,7 @@ public class CommentConverter {
         return "Id: %s, book: %s, description: %s".formatted(
                 comment.getId(),
                 comment.getBook().getTitle(),
-                comment.getComment()
+                comment.getNotes()
         );
     }
 }

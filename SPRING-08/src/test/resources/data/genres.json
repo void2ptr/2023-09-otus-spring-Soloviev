@@ -1,0 +1,140 @@
+[{
+  "_id": {
+    "$oid": "656b250aa580e12534081748"
+  },
+  "name": "видения",
+  "_class": "ru.otus.hw.models.Genre"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e12534081749"
+  },
+  "name": "новелла",
+  "_class": "ru.otus.hw.models.Genre"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e1253408174a"
+  },
+  "name": "ода",
+  "_class": "ru.otus.hw.models.Genre"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e1253408174b"
+  },
+  "name": "опус",
+  "_class": "ru.otus.hw.models.Genre"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e1253408174c"
+  },
+  "name": "очерк",
+  "_class": "ru.otus.hw.models.Genre"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e1253408174d"
+  },
+  "name": "поэма",
+  "_class": "ru.otus.hw.models.Genre"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e1253408174e"
+  },
+  "name": "повесть",
+  "_class": "ru.otus.hw.models.Genre"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e1253408174f"
+  },
+  "name": "пьеса",
+  "_class": "ru.otus.hw.models.Genre"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e12534081750"
+  },
+  "name": "рассказ",
+  "_class": "ru.otus.hw.models.Genre"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e12534081751"
+  },
+  "name": "роман",
+  "_class": "ru.otus.hw.models.Genre"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e12534081752"
+  },
+  "name": "скетч",
+  "_class": "ru.otus.hw.models.Genre"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e12534081753"
+  },
+  "name": "эпопея",
+  "_class": "ru.otus.hw.models.Genre"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e12534081754"
+  },
+  "name": "эпос",
+  "_class": "ru.otus.hw.models.Genre"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e12534081755"
+  },
+  "name": "эссе",
+  "_class": "ru.otus.hw.models.Genre"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e12534081756"
+  },
+  "name": "комедия",
+  "_class": "ru.otus.hw.models.Genre"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e12534081757"
+  },
+  "name": "эпиграммы",
+  "_class": "ru.otus.hw.models.Genre"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e12534081758"
+  },
+  "name": "хроника",
+  "_class": "ru.otus.hw.models.Genre"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e12534081759"
+  },
+  "name": "мемуар",
+  "_class": "ru.otus.hw.models.Genre"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e1253408175a"
+  },
+  "name": "военная проза",
+  "_class": "ru.otus.hw.models.Genre"
+},
+{
+  "_id": {
+    "$oid": "656b250aa580e1253408175b"
+  },
+  "name": "учебник",
+  "_class": "ru.otus.hw.models.Genre"
+}]

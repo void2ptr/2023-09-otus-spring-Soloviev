@@ -1,25 +1,17 @@
 package ru.otus.hw.repositories;
 
 import org.springframework.data.mongodb.repository.MongoRepository;
-import org.springframework.data.mongodb.repository.Query;
+import org.springframework.lang.NonNull;
 import ru.otus.hw.models.Author;
 
 import java.util.List;
-import java.util.Optional;
 
 public interface AuthorRepository extends MongoRepository<Author, String> {
 
-//    @Override
+    @NonNull
     List<Author> findAll();
 
-//    List<Author> findAllById(List<String> ids);
-
-    @Query("{ 'fullName' : { $regex: ?0 } }")
-    List<Author> findAuthorsByRegexp(String regexp);
-
+    @NonNull
     List<Author> findByFullNameIn(List<String> fullNames);
-
-//    @Param("id")
-    Optional<Author> findById(String id);
 
 }
