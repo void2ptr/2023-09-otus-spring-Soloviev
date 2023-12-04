@@ -8,9 +8,9 @@ db.books.insertMany([
 ])
 
 db.authors.insertMany([
-       {"id": 1, "fullName":"Author_1"},
-       {"id": 2, "fullName":"Author_2"},
-       {"id": 3, "fullName":"Author_3"}
+       {"id" : 1, "fullName" : "Author_1"},
+       {"id" : 2, "fullName" : "Author_2"},
+       {"id" : 3, "fullName" : "Author_3"}
 ])
 
 db.genres.insertMany([

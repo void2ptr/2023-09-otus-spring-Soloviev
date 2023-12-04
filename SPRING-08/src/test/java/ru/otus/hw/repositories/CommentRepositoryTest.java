@@ -161,4 +161,39 @@ class CommentRepositoryTest extends AbstractInitTestData {
         commentRepository.deleteById(commentAfterSave.get().getId());
     }
 
+    @DisplayName("должен поменять 'название' книги в комментариях")
+    @Test
+    void shouldUpdateCommentsByBook() {
+        // init - create Book and Comment
+        String title = "New Book Title";
+        var beforeBook= bookRepository.save(this.bookRandomGenerator());
+        commentRepository.save(this.commentRandomGenerator(beforeBook));
+
+        // fired event - updateCommentsByBook
+        beforeBook.setTitle(title);
+        var afterBook = bookRepository.save(beforeBook);
+
+        // check
+        Optional<Comment> comment = commentRepository.findByBookId(afterBook.getId());
+        assertThat(comment).isPresent();
+        assertThat(comment.get().getTitle())
+                .isEqualTo(title);
+    }
+
+    @DisplayName("должен удалить комментарий в случае удаления книги")
+    @Test
+    void shouldRemoveCommentsByBookId() {
+        // init
+        String title = "New Book Title";
+        var book= bookRepository.save(this.bookRandomGenerator());
+        commentRepository.save(this.commentRandomGenerator(book));
+
+        // fired event - removeCommentsByBookId
+        bookRepository.delete(book);
+
+        // check
+        Optional<Comment> comment = commentRepository.findByBookId(book.getId());
+        assertThat(comment).isEmpty();
+
+    }
 }

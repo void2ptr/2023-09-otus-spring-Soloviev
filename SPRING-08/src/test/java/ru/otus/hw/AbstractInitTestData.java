@@ -15,7 +15,7 @@ import java.util.List;
 
 @DataMongoTest
 @EnableConfigurationProperties
-@ComponentScan({"ru.otus.hw.config", "ru.otus.hw.repositories"})
+@ComponentScan({"ru.otus.hw.config", "ru.otus.hw.repositories", "ru.otus.hw.events"})
 @Import(InitTestData.class)
 public abstract class AbstractInitTestData {
     protected List<Author> dbAuthors;

@@ -149,6 +149,7 @@ class BookRepositoryTest extends AbstractInitTestData {
         assertThat(bookRepository.findById(expectedBook.getId())).isEmpty();
     }
 
+
     private Book cleanId(Book book) {
         book.setId(null);
         book.getAuthors().forEach(author -> author.setId(null));
