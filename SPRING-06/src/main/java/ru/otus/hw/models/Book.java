@@ -30,7 +30,7 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "books")
-// Позволяет указать какие связи родительской сущности загружать в одном с ней запросе
+//// Позволяет указать какие связи родительской сущности загружать в одном с ней запросе
 @NamedEntityGraph(name = "book-genre-entity-graph",
         attributeNodes = {@NamedAttributeNode("genres")})
 public class Book {
@@ -49,8 +49,8 @@ public class Book {
     private Author author;
 
     @Fetch(FetchMode.SUBSELECT)
-//    @BatchSize(size = 5)
-    @ManyToMany(targetEntity = Genre.class, cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+////    @BatchSize(size = 5)
+    @ManyToMany(targetEntity = Genre.class, cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JoinTable(name = "books_genres",
             joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))

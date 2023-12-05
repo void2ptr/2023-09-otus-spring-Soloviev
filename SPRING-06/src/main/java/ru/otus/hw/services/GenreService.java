@@ -7,6 +7,5 @@ import java.util.List;
 
 public interface GenreService {
 
-    @Transactional(readOnly = true)
     List<Genre> findAll();
 }

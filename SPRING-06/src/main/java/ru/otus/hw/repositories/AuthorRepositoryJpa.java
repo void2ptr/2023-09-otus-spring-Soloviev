@@ -18,13 +18,13 @@ public class AuthorRepositoryJpa implements AuthorRepository {
     private final EntityManager em;
 
     @Override
-    public List<Author> findAll() {
+    public List<Author> findAllAuthors() {
         TypedQuery<Author> query = em.createQuery("select a from Author a", Author.class);
         return query.getResultList();
     }
 
     @Override
-    public Optional<Author> findById(long id) {
+    public Optional<Author> findAuthorById(long id) {
         Author author = em.find(Author.class, id);
         return author == null ? Optional.empty() : Optional.of(author);
     }

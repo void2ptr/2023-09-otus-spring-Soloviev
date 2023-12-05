@@ -23,7 +23,7 @@ public class BookRepositoryJpa implements BookRepository {
     private final EntityManager em;
 
     @Override
-    public Optional<Book> findById(long id) {
+    public Optional<Book> findBookById(long id) {
         EntityGraph<?> entityGraph = em.getEntityGraph("book-genre-entity-graph");
         Map<String, Object> properties = new HashMap<>();
         properties.put("javax.persistence.loadgraph", entityGraph);
@@ -32,7 +32,7 @@ public class BookRepositoryJpa implements BookRepository {
     }
 
     @Override
-    public List<Book> findAll() {
+    public List<Book> findAllBooks() {
         EntityGraph<?> entityGraph = em.getEntityGraph("book-genre-entity-graph");
         TypedQuery<Book> query = em.createQuery("select b from Book b left join fetch b.author a", Book.class);
         query.setHint(FETCH.getKey(), entityGraph);
@@ -40,7 +40,7 @@ public class BookRepositoryJpa implements BookRepository {
     }
 
     @Override
-    public Book save(Book book) {
+    public Book saveBook(Book book) {
         if (book.getId() == 0) {
             em.persist(book);
             return book;
@@ -49,8 +49,8 @@ public class BookRepositoryJpa implements BookRepository {
     }
 
     @Override
-    public void deleteById(long id) {
-        Optional<Book> bookOptional = findById(id);
+    public void deleteBookById(long id) {
+        Optional<Book> bookOptional = findBookById(id);
 
         bookOptional.ifPresent(em::remove);
     }

@@ -5,6 +5,7 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
+import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Comment;
 
 import java.util.List;
@@ -18,7 +19,7 @@ public class CommentRepositoryJpa implements CommentRepository {
     private final EntityManager em;
 
     @Override
-    public List<Comment> findByBookId(long bookId) {
+    public List<Comment> findCommentByBookId(long bookId) {
         TypedQuery<Comment> query = em.createQuery("""
                 select c
                 from Comment c
@@ -30,12 +31,12 @@ public class CommentRepositoryJpa implements CommentRepository {
     }
 
     @Override
-    public Optional<Comment> findById(long commentId) {
+    public Optional<Comment> findCommentById(long commentId) {
         return Optional.ofNullable(em.find(Comment.class, commentId));
     }
 
     @Override
-    public Comment save(Comment comment) {
+    public Comment saveComment(Comment comment) {
         if (comment.getId() == 0) {
             em.persist(comment);
             return comment;
@@ -44,11 +45,9 @@ public class CommentRepositoryJpa implements CommentRepository {
     }
 
     @Override
-    public void delete(Comment comment) {
-        if (findById(comment.getId()).isPresent()) {
-            em.remove(comment);
-            em.flush();
-            em.clear();
-        }
+    public void deleteComment(Comment comment) {
+        Optional<Comment> commentOptional = findCommentById(comment.getId());
+
+        commentOptional.ifPresent(em::remove);
     }
 }

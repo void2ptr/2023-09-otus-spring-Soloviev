@@ -5,7 +5,7 @@ import ru.otus.hw.models.Genre;
 import java.util.List;
 
 public interface GenreRepository {
-    List<Genre> findAll();
+    List<Genre> findAllGenres();
 
-    List<Genre> findAllByIds(List<Long> ids);
+    List<Genre> findAllGenresByIds(List<Long> ids);
 }

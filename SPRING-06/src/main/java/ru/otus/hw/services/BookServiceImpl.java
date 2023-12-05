@@ -26,13 +26,13 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     @Override
     public Optional<Book> findById(long id) {
-        return bookRepository.findById(id);
+        return bookRepository.findBookById(id);
     }
 
     @Transactional(readOnly = true)
     @Override
     public List<Book> findAll() {
-        return bookRepository.findAll();
+        return bookRepository.findAllBooks();
     }
 
     @Transactional
@@ -50,17 +50,17 @@ public class BookServiceImpl implements BookService {
     @Transactional
     @Override
     public void deleteById(long id) {
-        bookRepository.deleteById(id);
+        bookRepository.deleteBookById(id);
     }
 
     private Book save(long id, String title, long authorId, List<Long> genresIds) {
-        var author = authorRepository.findById(authorId)
+        var author = authorRepository.findAuthorById(authorId)
                 .orElseThrow(() -> new EntityNotFoundException("Author with id %d not found".formatted(authorId)));
-        var genres = genreRepository.findAllByIds(genresIds);
+        var genres = genreRepository.findAllGenresByIds(genresIds);
         if (isEmpty(genres)) {
             throw new EntityNotFoundException("Genres with ids %s not found".formatted(genresIds));
         }
         var book = new Book(id, title, author, genres);
-        return bookRepository.save(book);
+        return bookRepository.saveBook(book);
     }
 }

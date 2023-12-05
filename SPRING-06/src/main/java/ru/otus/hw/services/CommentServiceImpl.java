@@ -20,39 +20,39 @@ public class CommentServiceImpl implements CommentService {
     @Transactional(readOnly = true)
     @Override
     public List<Comment> findCommentByBookId(long bookId) {
-        return commentRepository.findByBookId(bookId);
+        return commentRepository.findCommentByBookId(bookId);
     }
 
     @Transactional
     @Override
     public Comment insert(long bookId, String text) {
-        var book = bookRepository.findById(bookId);
+        var book = bookRepository.findBookById(bookId);
         if (book.isEmpty()) {
             throw new EntityNotFoundException("ERROR: book %s not found".formatted(bookId));
         }
         var comment = new Comment(0, text, book.get());
-        return commentRepository.save(comment);
+        return commentRepository.saveComment(comment);
     }
 
     @Transactional
     @Override
     public Comment update(long bookId, long commentId, String text) {
-        var book = bookRepository.findById(bookId);
+        var book = bookRepository.findBookById(bookId);
         if (book.isEmpty()) {
             throw new EntityNotFoundException("ERROR: book %s not found".formatted(bookId));
         }
-        var comment = commentRepository.findById(commentId);
+        var comment = commentRepository.findCommentById(commentId);
         if (comment.isEmpty()) {
             throw new EntityNotFoundException("ERROR: comment %s not found".formatted(commentId));
         }
-        return commentRepository.save(new Comment(commentId, text, book.get()));
+        return commentRepository.saveComment(new Comment(commentId, text, book.get()));
     }
 
     @Transactional
     @Override
     public void delete(long commentId) {
-        var comment = commentRepository.findById(commentId);
-        comment.ifPresent(commentRepository::delete);
+        var comment = commentRepository.findCommentById(commentId);
+        comment.ifPresent(commentRepository::deleteComment);
     }
 
 }

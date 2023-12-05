@@ -17,13 +17,13 @@ public class GenreRepositoryJpa implements GenreRepository {
     private final EntityManager em;
 
     @Override
-    public List<Genre> findAll() {
+    public List<Genre> findAllGenres() {
         TypedQuery<Genre> query = em.createQuery("select g from Genre g", Genre.class);
         return query.getResultList();
     }
 
     @Override
-    public List<Genre> findAllByIds(List<Long> ids) {
+    public List<Genre> findAllGenresByIds(List<Long> ids) {
         TypedQuery<Genre> query = em.createQuery("SELECT g FROM Genre g WHERE id IN (:ids)", Genre.class);
         query.setParameter("ids", ids);
         return query.getResultList();

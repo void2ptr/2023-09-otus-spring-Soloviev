@@ -33,10 +33,11 @@ class AuthorRepositoryJpaTest {
     @DisplayName("должен загружать список всех авторов")
     @Test
     void findAll() {
-        // method for test
-        var actualAuthor = authorRepositoryJpa.findAll();
+        // init
         var expectedAuthor = dbAuthors;
-
+        // method for test
+        var actualAuthor = authorRepositoryJpa.findAllAuthors();
+        // check
         assertThat(actualAuthor).containsExactlyElementsOf(expectedAuthor);
         actualAuthor.forEach(System.out::println);
     }
@@ -46,7 +47,8 @@ class AuthorRepositoryJpaTest {
     @MethodSource("getDbAuthors")
     void findById(Author expectedAuthor) {
         // method for test
-        var actualAuthor = authorRepositoryJpa.findById(expectedAuthor.getId());
+        var actualAuthor = authorRepositoryJpa.findAuthorById(expectedAuthor.getId());
+        // check
         assertThat(actualAuthor).isPresent()
                 .get()
                 .isEqualTo(expectedAuthor);

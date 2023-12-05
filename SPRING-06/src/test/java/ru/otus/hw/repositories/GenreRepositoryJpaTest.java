@@ -34,10 +34,11 @@ class GenreRepositoryJpaTest {
     @DisplayName("должен загружать список всех жанров")
     @Test
     void findAll() {
-        // method for test
-        var actualGenre = genreRepositoryJpa.findAll();
+        // init
         var expectedGenre = dbGenres;
-
+        // method for test
+        var actualGenre = genreRepositoryJpa.findAllGenres();
+        // check
         assertThat(actualGenre).containsExactlyElementsOf(expectedGenre);
         actualGenre.forEach(System.out::println);
     }
@@ -47,7 +48,8 @@ class GenreRepositoryJpaTest {
     @MethodSource("getDbGenres")
     void findAllByIds(Genre expectedGenre) {
         // method for test
-        var actualGenres = genreRepositoryJpa.findAllByIds(List.of(expectedGenre.getId()));
+        var actualGenres = genreRepositoryJpa.findAllGenresByIds(List.of(expectedGenre.getId()));
+        // check
         for (Genre actualGenre : actualGenres) {
             assertThat(actualGenre)
                     .isEqualTo(expectedGenre);

@@ -47,8 +47,8 @@ class BookRepositoryJpaTest {
     @MethodSource("getDbBooks")
     void shouldReturnCorrectBookById(Book expectedBook) {
         // method for test
-        var actualBook = bookRepository.findById(expectedBook.getId());
-
+        var actualBook = bookRepository.findBookById(expectedBook.getId());
+        // check
         assertThat(actualBook).isPresent()
                 .get()
                 .usingRecursiveComparison()
@@ -59,10 +59,11 @@ class BookRepositoryJpaTest {
     @DisplayName("должен загружать список всех книг")
     @Test
     void shouldReturnCorrectBooksList() {
+        // init
         List<Book> expectedBooks = dbBooks;
         // method for test
-        List<Book> actualBooks = bookRepository.findAll();
-
+        List<Book> actualBooks = bookRepository.findAllBooks();
+        // check
         assertThat(actualBooks)
                 .usingRecursiveComparison()
                 .isEqualTo(expectedBooks);
@@ -72,12 +73,13 @@ class BookRepositoryJpaTest {
     @DisplayName("должен сохранять новую книгу")
     @Test
     void shouldSaveNewBook() {
+        // init
         long addBookId = 0L;
         var expectedBook = new Book(addBookId, "BookTitle_10500", dbAuthors.get(0),
                 List.of(dbGenres.get(0), dbGenres.get(2)));
         // method for test
-        var returnedBook = bookRepository.save(expectedBook);
-
+        var returnedBook = bookRepository.saveBook(expectedBook);
+        // check
         assertThat(returnedBook).isNotNull()
                 .matches(book -> book.getId() > 0)
                 .usingRecursiveComparison()
@@ -92,16 +94,16 @@ class BookRepositoryJpaTest {
     @DisplayName("должен сохранять измененную книгу")
     @Test
     void shouldSaveUpdatedBook() {
+        // init
         long saveBookId = 1L;
         var expectedBook = new Book(saveBookId, "BookTitle_10500", dbAuthors.get(2),
                 List.of(dbGenres.get(4), dbGenres.get(5)));
-
         assertThat(em.find(Book.class, expectedBook.getId()))
-                .isNotEqualTo(expectedBook);
+                .isNotEqualTo(expectedBook); // проверяем отсутствие книги в ДБ
 
         // method for test
-        var returnedBook = bookRepository.save(expectedBook);
-
+        var returnedBook = bookRepository.saveBook(expectedBook);
+        // check
         assertThat(returnedBook).isNotNull()
                 .matches(book -> book.getId() > 0)
                 .usingRecursiveComparison().ignoringExpectedNullFields().isEqualTo(expectedBook);
@@ -110,14 +112,16 @@ class BookRepositoryJpaTest {
                 .isEqualTo(returnedBook);
     }
 
-
-    @DisplayName("должен удалять книгу по id ")
+    @DisplayName("должен удалять книгу по id")
     @Test
     void shouldDeleteBook() {
+        // init
         long deleteBookId = 1L;
-        assertThat(bookRepository.findById(deleteBookId)).isPresent();
-        bookRepository.deleteById(1L);
-        assertThat(bookRepository.findById(deleteBookId)).isEmpty();
+        assertThat(bookRepository.findBookById(deleteBookId)).isPresent();
+        // method for test
+        bookRepository.deleteBookById(deleteBookId);
+        // check
+        assertThat(bookRepository.findBookById(deleteBookId)).isEmpty();
     }
 
     private static List<Author> getDbAuthors() {

@@ -8,11 +8,11 @@ import java.util.Optional;
 
 public interface CommentRepository {
 
-    List<Comment> findByBookId(long bookId);
+    List<Comment> findCommentByBookId(long bookId);
 
-    Optional<Comment> findById(long commentId);
+    Optional<Comment> findCommentById(long commentId);
 
-    Comment save(Comment comment);
+    Comment saveComment(Comment comment);
 
-    void delete(Comment comment);
+    void deleteComment(Comment comment);
 }
