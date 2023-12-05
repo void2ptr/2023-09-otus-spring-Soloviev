@@ -20,13 +20,13 @@ public class CommentServiceImpl implements CommentService {
     @Transactional(readOnly = true)
     @Override
     public List<Comment> findCommentByBookId(long bookId) {
-        return commentRepository.findByBookId(bookId);
+        return commentRepository.findCommentsByBookId(bookId);
     }
 
     @Transactional
     @Override
     public Comment insert(long bookId, String text) {
-        var book = bookRepository.findById(bookId);
+        var book = bookRepository.findBookById(bookId);
         if (book.isEmpty()) {
             return new Comment(0, "ERROR: book not found", new Book());
         }
@@ -37,11 +37,11 @@ public class CommentServiceImpl implements CommentService {
     @Transactional
     @Override
     public Comment update(long bookId, long commentId, String text) {
-        var book = bookRepository.findById(bookId);
+        var book = bookRepository.findBookById(bookId);
         if (book.isEmpty()) {
             return new Comment(commentId, "ERROR: book not found", new Book());
         }
-        var comment = commentRepository.findById(commentId);
+        var comment = commentRepository.findCommentById(commentId);
         if (comment.isEmpty()) {
             return new Comment(commentId, "ERROR: comment not found", new Book());
         }

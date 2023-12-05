@@ -10,9 +10,9 @@ import java.util.Optional;
 
 public interface CommentRepository extends JpaRepository<Comment, Long> {
 
-    List<Comment> findByBookId(long bookId);
+    List<Comment> findCommentsByBookId(long bookId);
 
     @EntityGraph(attributePaths = "book")
-    Optional<Comment> findById(long commentId);
+    Optional<Comment> findCommentById(long commentId);
 
 }

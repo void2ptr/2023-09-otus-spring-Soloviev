@@ -10,6 +10,6 @@ import java.util.List;
 public interface GenreRepository extends JpaRepository<Genre, Long> {
 
     @Query("SELECT g FROM Genre g WHERE id IN (:ids)")
-    List<Genre> findAllByIds(@Param("ids") List<Long> ids);
+    List<Genre> findAllGenresByIds(@Param("ids") List<Long> ids);
 
 }

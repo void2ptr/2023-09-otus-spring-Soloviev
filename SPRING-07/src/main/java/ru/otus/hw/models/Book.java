@@ -11,8 +11,6 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.ManyToOne;
-import jakarta.persistence.NamedAttributeNode;
-import jakarta.persistence.NamedEntityGraph;
 import jakarta.persistence.Table;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -31,10 +29,8 @@ import java.util.List;
 @Entity
 @Table(name = "books")
 // Позволяет указать какие связи родительской сущности загружать в одном с ней запросе
-@NamedEntityGraph(name = "book-author-entity-graph",
-        attributeNodes = {@NamedAttributeNode("author")})
-@NamedEntityGraph(name = "book-genre-entity-graph",
-        attributeNodes = {@NamedAttributeNode("genres")})
+//@NamedEntityGraph(name = "book-genre-entity-graph",
+//        attributeNodes = {@NamedAttributeNode("genres")})
 public class Book {
 
     @Id
@@ -45,12 +41,12 @@ public class Book {
     private String title;
 
     // Все данные талицы будут загружены в память отдельным запросом и соединены с родительской сущностью
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SELECT)
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private Author author;
 
-    @Fetch(FetchMode.SUBSELECT)
+    @Fetch(FetchMode.JOIN)
 //    @BatchSize(size = 5)
     @ManyToMany(targetEntity = Genre.class, cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinTable(name = "books_genres",

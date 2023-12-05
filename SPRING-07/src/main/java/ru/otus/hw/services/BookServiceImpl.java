@@ -12,8 +12,6 @@ import ru.otus.hw.repositories.GenreRepository;
 import java.util.List;
 import java.util.Optional;
 
-import static org.springframework.util.CollectionUtils.isEmpty;
-
 @RequiredArgsConstructor
 @Service
 public class BookServiceImpl implements BookService {
@@ -26,13 +24,13 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     @Override
     public Optional<Book> findById(long id) {
-        return bookRepository.findById(id);
+        return bookRepository.findBookById(id);
     }
 
     @Transactional(readOnly = true)
     @Override
     public List<Book> findAll() {
-        return bookRepository.findAll();
+        return bookRepository.findAllBooks();
     }
 
     @Transactional
@@ -54,13 +52,15 @@ public class BookServiceImpl implements BookService {
     }
 
     private Book save(long id, String title, long authorId, List<Long> genresIds) {
-        var author = authorRepository.findById(authorId)
-                .orElseThrow(() -> new EntityNotFoundException("Author with id %d not found".formatted(authorId)));
-        var genres = genreRepository.findAllByIds(genresIds);
-        if (isEmpty(genres)) {
+        var author = authorRepository.findAuthorById(authorId);
+        if (author.isEmpty()) {
+            throw new EntityNotFoundException("Author with id %d not found".formatted(authorId));
+        }
+        var genres = genreRepository.findAllGenresByIds(genresIds);
+        if (genres.isEmpty()) {
             throw new EntityNotFoundException("Genres with ids %s not found".formatted(genresIds));
         }
-        var book = new Book(id, title, author, genres);
+        var book = new Book(id, title, author.get(), genres);
         return bookRepository.save(book);
     }
 }

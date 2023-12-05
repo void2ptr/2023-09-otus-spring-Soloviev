@@ -24,6 +24,7 @@ public class BookCommands {
                 .collect(Collectors.joining("," + System.lineSeparator()));
     }
 
+    // bbid 2
     @ShellMethod(value = "Find book by id", key = "bbid")
     public String findBookById(long id) {
         return bookService.findById(id)
@@ -46,6 +47,7 @@ public class BookCommands {
         return bookConverter.bookToString(savedBook);
     }
 
+    // bdel 2
     @ShellMethod(value = "Delete book by id", key = "bdel")
     public void updateBook(long id) {
         bookService.deleteById(id);

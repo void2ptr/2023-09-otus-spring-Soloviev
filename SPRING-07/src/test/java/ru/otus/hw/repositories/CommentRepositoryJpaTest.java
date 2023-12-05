@@ -38,11 +38,13 @@ class CommentRepositoryJpaTest {
     @ParameterizedTest
     @MethodSource("getDbBooks")
     void shouldFindCommentByBookId(Book book) {
-        // method for test
-        var actualComments = commentRepository.findByBookId((book.getId()));
+        // init
         var expectedComment = dbComment.stream()
                 .filter(comment -> comment.getBook().getId() == book.getId())
                 .toList();
+        // method for test
+        var actualComments = commentRepository.findCommentsByBookId((book.getId()));
+        // check
         assertThat(actualComments)
                 .usingRecursiveComparison()
                 .ignoringExpectedNullFields()
@@ -54,7 +56,8 @@ class CommentRepositoryJpaTest {
     @MethodSource("getDbComments")
     void shouldFindCommentByCommentId(Comment expectedComment) {
         // method for test
-        var actualComment = commentRepository.findById((expectedComment.getId()));
+        var actualComment = commentRepository.findCommentById((expectedComment.getId()));
+        // check
         assertThat(actualComment).isPresent()
                 .get()
                 .usingRecursiveComparison()
@@ -65,10 +68,12 @@ class CommentRepositoryJpaTest {
     @DisplayName("должен добавлять комментарий к книге")
     @Test
     void shouldUpdateComment() {
+        // init
         long addCommentId = 0L;
         var expectedComment = new Comment(addCommentId, "The best book", getDbBooks().get(0));
         // method for test
         var actualComment = commentRepository.save(expectedComment);
+        // check
         assertThat(actualComment).isNotNull()
                 .matches(comment -> comment.getId() > 0)
                 .usingRecursiveComparison()
@@ -83,10 +88,12 @@ class CommentRepositoryJpaTest {
     @DisplayName("должен редактировать комментарий к книге")
     @Test
     void shouldInsertComment() {
+        // init
         long editCommentId = 1L;
         var expectedComment = new Comment(editCommentId, "The best book", getDbBooks().get(0));
         // method for test
         var actualComment = commentRepository.save(expectedComment);
+        // check
         assertThat(actualComment).isNotNull()
                 .matches(book -> book.getId() > 0)
                 .usingRecursiveComparison()
@@ -101,12 +108,14 @@ class CommentRepositoryJpaTest {
     @DisplayName("должен удалить комментарий")
     @Test
     void shouldDeleteComment() {
+        // init
         long deleteCommentId = 1L;
-        var comment = em.find(Comment.class, deleteCommentId);
-        assertThat(comment).isNotNull();
+        var comment = commentRepository.findById(deleteCommentId);
+        assertThat(comment).isPresent();
         // method for test
-        commentRepository.delete(comment);
-        assertThat(em.find(Comment.class, deleteCommentId)).isNull();
+        commentRepository.delete(comment.get());
+        // check
+        assertThat(commentRepository.findById(deleteCommentId)).isEmpty();
     }
 
     private static List<Comment> getDbComments() {
