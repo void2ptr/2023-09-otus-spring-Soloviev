@@ -1,4 +1,4 @@
-package ru.otus.hw.dao;
+package ru.otus.hw.tests_data_source;
 
 import com.google.gson.reflect.TypeToken;
 import ru.otus.hw.models.Author;
@@ -21,7 +21,7 @@ public class InitTestData {
     public static List<Author> getAuthors() {
         if (authors == null) {
             Type listType = new TypeToken<List<Author>>() {}.getType();
-            authors = JsonFileReaderDao.readCollectionFromFile("data/authors.json", listType);
+            authors = JsonFileReader.readCollectionFromFile("data/authors.json", listType);
         }
         return authors;
     }
@@ -29,7 +29,7 @@ public class InitTestData {
     public static List<Book> getDbBooks() {
         if (books == null) {
             Type listType = new TypeToken<List<Book>>() {}.getType();
-            books = JsonFileReaderDao.readCollectionFromFile("data/books.json", listType);
+            books = JsonFileReader.readCollectionFromFile("data/books.json", listType);
         }
         return books;
     }
@@ -37,7 +37,7 @@ public class InitTestData {
     public static List<Genre> getDbGenres() {
         if (genres == null) {
             Type listType = new TypeToken<List<Genre>>() {}.getType();
-            genres =  JsonFileReaderDao.readCollectionFromFile("data/genres.json", listType);
+            genres =  JsonFileReader.readCollectionFromFile("data/genres.json", listType);
         }
         return genres;
     }
@@ -45,7 +45,7 @@ public class InitTestData {
     public static List<Comment> getDbComments() {
         if (comments == null) {
             Type listType = new TypeToken<List<Comment>>() {}.getType();
-            comments = JsonFileReaderDao.readCollectionFromFile("data/comments.json", listType);
+            comments = JsonFileReader.readCollectionFromFile("data/comments.json", listType);
         }
         return comments;
     }

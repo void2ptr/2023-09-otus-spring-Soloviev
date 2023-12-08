@@ -1,3 +1,8 @@
+// не обращать внимания.
+// JavaScript - "родной" для MongoDB язык
+// файлы сохранились как пример работы с MongoDB.
+
+// Установка библиотеки
 // npm install mongodb
 const { MongoClient } = require('mongodb');
 

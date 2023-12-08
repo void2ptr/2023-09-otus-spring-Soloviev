@@ -7,8 +7,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.otus.hw.AbstractInitTestData;
-import ru.otus.hw.dao.InitTestData;
-import ru.otus.hw.mapper.CommentsArgumentsProvider;
+import ru.otus.hw.tests_data_source.InitTestData;
+import ru.otus.hw.tests_data_source.argument_provider.CommentsArgumentsProvider;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Comment;
 
@@ -40,7 +40,7 @@ class CommentRepositoryTest extends AbstractInitTestData {
     @ParameterizedTest
     @ArgumentsSource(CommentsArgumentsProvider.class)
     void shouldFindCommentByCommentId(Comment comment) {
-        // tested method
+        // tested method + init
         List<Comment> comments = commentRepository.findByBookTitle(comment.getTitle());
         assertThat(comments)
                 .isNotEmpty()
@@ -54,13 +54,14 @@ class CommentRepositoryTest extends AbstractInitTestData {
                 .usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(expectedComment);
+        comments.forEach(System.out::println);
     }
 
     @DisplayName("должен загружать комментарии по id книги")
     @ParameterizedTest
     @ArgumentsSource(CommentsArgumentsProvider.class)
     void shouldFindCommentByBookId(Comment comment) {
-        // tested method
+        // tested method + init
         List<Comment> comments = commentRepository.findByBookTitle(comment.getTitle());
         assertThat(comments).isNotEmpty().hasSize(1);
         Comment expectedComment = comments.get(0);

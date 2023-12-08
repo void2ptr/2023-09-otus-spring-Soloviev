@@ -7,8 +7,8 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.otus.hw.AbstractInitTestData;
-import ru.otus.hw.mapper.BooksArgumentsProvider;
-import ru.otus.hw.dao.InitTestData;
+import ru.otus.hw.tests_data_source.argument_provider.BooksArgumentsProvider;
+import ru.otus.hw.tests_data_source.InitTestData;
 import ru.otus.hw.models.Book;
 
 import java.util.ArrayList;
@@ -98,9 +98,11 @@ class BookRepositoryTest extends AbstractInitTestData {
     @DisplayName("должен сохранять новую книгу")
     @Test
     void shouldSaveNewBook() {
+        // init
         var expectedBook = this.bookRandomGenerator();
         // tested method
         var actualBook = bookRepository.save(expectedBook);
+        // check
         assertThat(actualBook)
                 .isNotNull()
                 .matches(book -> book.getTitle().equals(expectedBook.getTitle()))
@@ -120,10 +122,11 @@ class BookRepositoryTest extends AbstractInitTestData {
     @DisplayName("должен сохранять измененную книгу")
     @Test
     void shouldSaveUpdatedBook() {
+        // init
         var randomBook = this.bookRandomGenerator();
         // tested method
         var expectedBook = bookRepository.save(randomBook);
-
+        // check
         assertThat(expectedBook).isNotNull()
                 .matches(book -> ! book.getId().isEmpty())
                 .usingRecursiveComparison()
@@ -142,10 +145,12 @@ class BookRepositoryTest extends AbstractInitTestData {
     @DisplayName("должен удалять книгу по id ")
     @Test
     void shouldDeleteBook() {
+        // init
         var expectedBook = bookRepository.save(this.bookRandomGenerator());
         assertThat(bookRepository.findById(expectedBook.getId())).isPresent();
         // tested method
         bookRepository.delete(expectedBook);
+        // check
         assertThat(bookRepository.findById(expectedBook.getId())).isEmpty();
     }
 

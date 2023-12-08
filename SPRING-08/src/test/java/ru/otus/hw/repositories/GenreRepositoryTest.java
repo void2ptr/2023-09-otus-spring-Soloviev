@@ -6,7 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.otus.hw.AbstractInitTestData;
-import ru.otus.hw.dao.InitTestData;
+import ru.otus.hw.tests_data_source.InitTestData;
 import ru.otus.hw.models.Genre;
 
 import java.util.*;

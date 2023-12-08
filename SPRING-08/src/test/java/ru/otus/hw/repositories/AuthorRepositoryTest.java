@@ -6,7 +6,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.otus.hw.AbstractInitTestData;
-import ru.otus.hw.dao.InitTestData;
+import ru.otus.hw.tests_data_source.InitTestData;
 import ru.otus.hw.models.Author;
 
 import java.util.*;
@@ -24,10 +24,11 @@ class AuthorRepositoryTest extends AbstractInitTestData {
     @DisplayName("должен загружать список всех авторов")
     @Test
     void findAll() {
+        // init
+        var expectedAuthor = InitTestData.getAuthors();
         // tested method
         var actualAuthor = authorRepository.findAll();
-        var expectedAuthor = InitTestData.getAuthors();
-
+        // check
         assertThat(actualAuthor)
                 .usingRecursiveComparison()
                 .ignoringExpectedNullFields()
@@ -39,13 +40,14 @@ class AuthorRepositoryTest extends AbstractInitTestData {
     @ParameterizedTest
     @ValueSource(strings = {"Тит Ливий,Цезарь Гай Юлий", "Аппулей,Эзоп"})
     void findByFullNameIn(String fullNames) {
+        // init
         String[] fullNamesSorted = fullNames.split(",");
         Arrays.sort(fullNamesSorted);
         List<String> expectedNameList = new ArrayList<>();
         Collections.addAll(expectedNameList, fullNamesSorted);
-
         // tested method
         List<Author> actualAuthor = authorRepository.findByFullNameIn(expectedNameList);
+        // check
         Comparator<Author> compareByFullName = Comparator
                 .comparing(Author::getFullName)
                 .thenComparing(Author::getFullName);
