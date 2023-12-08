@@ -20,7 +20,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DisplayName("Репозиторий на основе JPA для работы с отзывами о книгах")
 @DataJpaTest
 @Import({CommentRepositoryJpa.class})
-//@Transactional(propagation = Propagation.NEVER)
 class CommentRepositoryJpaTest {
     @Autowired
     private TestEntityManager em;
