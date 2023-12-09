@@ -1,4 +1,4 @@
-package ru.otus.hw.repositories;
+package ru.otus.hw.data;
 
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
@@ -24,12 +24,9 @@ public class InitTestData {
     }
 
     public static List<Book> getDbBooks() {
-        var dbAuthors = getDbAuthors();
-        var dbGenres = getDbGenres();
-        return getDbBooks(dbAuthors, dbGenres);
-    }
+        List<Author> dbAuthors = getDbAuthors();
+        List<Genre> dbGenres   = getDbGenres();
 
-    public static List<Book> getDbBooks(List<Author> dbAuthors, List<Genre> dbGenres) {
         return IntStream.range(1, 4).boxed()
                 .map(id -> new Book(id,
                         "BookTitle_" + id,

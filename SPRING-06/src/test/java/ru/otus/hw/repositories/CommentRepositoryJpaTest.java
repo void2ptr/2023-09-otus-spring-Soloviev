@@ -1,18 +1,19 @@
 package ru.otus.hw.repositories;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
+import ru.otus.hw.data.BooksArgumentsProvider;
+import ru.otus.hw.data.CommentsArgumentsProvider;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Comment;
+import ru.otus.hw.data.InitTestData;
 
-import java.util.List;
 import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -27,19 +28,12 @@ class CommentRepositoryJpaTest {
     @Autowired
     private CommentRepositoryJpa commentRepository;
 
-    private List<Comment> dbComment;
-
-    @BeforeEach
-    void setUp() {
-        dbComment = getDbComments();
-    }
-
     @DisplayName("должен загружать комментарии по id книги")
     @ParameterizedTest
-    @MethodSource("getDbBooks")
+    @ArgumentsSource(BooksArgumentsProvider.class)
     void shouldFindCommentByBookId(Book book) {
         // init
-        var expectedComment = dbComment.stream()
+        var expectedComment = InitTestData.getDbComments().stream()
                 .filter(comment -> comment.getBook().getId() == book.getId())
                 .toList();
         // tested method
@@ -53,7 +47,7 @@ class CommentRepositoryJpaTest {
 
     @DisplayName("должен загружать комментарий по id")
     @ParameterizedTest
-    @MethodSource("getDbComments")
+    @ArgumentsSource(CommentsArgumentsProvider.class)
     void shouldFindCommentByCommentId(Comment expectedComment) {
         // method for test
         Optional<Comment> actualComment = commentRepository.findCommentById(expectedComment.getId());
@@ -70,7 +64,7 @@ class CommentRepositoryJpaTest {
     void shouldUpdateComment() {
         // init
         long addCommentID = 0L;
-        var expectedComment = new Comment(addCommentID, "The best book", getDbBooks().get(0));
+        var expectedComment = new Comment(addCommentID, "The best book", InitTestData.getDbBooks().get(0));
         // method for test
         var actualComment = commentRepository.saveComment(expectedComment);
         // check
@@ -90,7 +84,7 @@ class CommentRepositoryJpaTest {
     void shouldInsertComment() {
         // init
         long editCommentID = 1L;
-        var expectedComment = new Comment(editCommentID, "The best book", getDbBooks().get(0));
+        var expectedComment = new Comment(editCommentID, "The best book", InitTestData.getDbBooks().get(0));
         // method for test
         var actualComment = commentRepository.saveComment(expectedComment);
         // check
@@ -118,11 +112,4 @@ class CommentRepositoryJpaTest {
         assertThat(commentRepository.findCommentById(deleteCommentID)).isEmpty();
     }
 
-    private static List<Comment> getDbComments() {
-        return InitTestData.getDbComments();
-    }
-
-    private static List<Book> getDbBooks() {
-        return InitTestData.getDbBooks();
-    }
 }

@@ -5,7 +5,6 @@ import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Comment;
 
 import java.util.List;

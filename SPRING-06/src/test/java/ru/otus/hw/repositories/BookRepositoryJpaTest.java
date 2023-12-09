@@ -4,14 +4,16 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.MethodSource;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import org.springframework.context.annotation.Import;
+import ru.otus.hw.data.BooksArgumentsProvider;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Genre;
+import ru.otus.hw.data.InitTestData;
 
 import java.util.List;
 
@@ -36,14 +38,14 @@ class BookRepositoryJpaTest {
 
     @BeforeEach
     void setUp() {
-        dbAuthors = getDbAuthors();
-        dbGenres = getDbGenres();
-        dbBooks = getDbBooks(dbAuthors, dbGenres);
+        dbAuthors = InitTestData.getDbAuthors();
+        dbGenres = InitTestData.getDbGenres();
+        dbBooks = InitTestData.getDbBooks();
     }
 
     @DisplayName("должен загружать книгу по id")
     @ParameterizedTest
-    @MethodSource("getDbBooks")
+    @ArgumentsSource(BooksArgumentsProvider.class)
     void shouldReturnCorrectBookById(Book expectedBook) {
         // method for test
         var actualBook = bookRepository.findBookById(expectedBook.getId());
@@ -123,19 +125,4 @@ class BookRepositoryJpaTest {
         assertThat(bookRepository.findBookById(deleteBookId)).isEmpty();
     }
 
-    private static List<Author> getDbAuthors() {
-        return InitTestData.getDbAuthors();
-    }
-
-    private static List<Genre> getDbGenres() {
-        return InitTestData.getDbGenres();
-    }
-
-    private static List<Book> getDbBooks(List<Author> dbAuthors, List<Genre> dbGenres) {
-        return InitTestData.getDbBooks(dbAuthors, dbGenres);
-    }
-
-    private static List<Book> getDbBooks() {
-        return InitTestData.getDbBooks();
-    }
 }

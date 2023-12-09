@@ -30,9 +30,11 @@ import java.util.List;
 @Setter
 @Entity
 @Table(name = "books")
-//// Позволяет указать какие связи родительской сущности загружать в одном с ней запросе
-//@NamedEntityGraph(name = "book-genre-entity-graph",
-//        attributeNodes = {@NamedAttributeNode("genres")})
+// Позволяет указать какие связи родительской сущности загружать в одном с ней запросе
+@NamedEntityGraph(name = "book-author-genres-entity-graph",
+        attributeNodes = {@NamedAttributeNode("author"), @NamedAttributeNode("genres")})
+@NamedEntityGraph(name = "book-author-entity-graph",
+        attributeNodes = @NamedAttributeNode("author"))
 public class Book {
 
     @Id
@@ -51,7 +53,8 @@ public class Book {
     // SUBSELECT - Все данные таблицы будут загружены в память отдельным запросом и соединены с родительской сущностью
     @Fetch(FetchMode.SUBSELECT)
 //    @BatchSize(size = 5)
-    @ManyToMany(targetEntity = Genre.class, cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
+    // Тут нельзя ставить cascade = CascadeType.ALL!!! Это приведет к удалению жанра при удалении книги
+    @ManyToMany(targetEntity = Genre.class, fetch = FetchType.LAZY)
     @JoinTable(name = "books_genres",
             joinColumns = @JoinColumn(name = "book_id", referencedColumnName = "id"),
             inverseJoinColumns = @JoinColumn(name = "genre_id", referencedColumnName = "id"))

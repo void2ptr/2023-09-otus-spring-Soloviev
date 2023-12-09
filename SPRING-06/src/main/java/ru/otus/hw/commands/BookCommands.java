@@ -17,6 +17,7 @@ public class BookCommands {
 
     private final BookConverter bookConverter;
 
+    // ab
     @ShellMethod(value = "Find all books", key = "ab")
     public String findAllBooks() {
         return bookService.findAll().stream()
