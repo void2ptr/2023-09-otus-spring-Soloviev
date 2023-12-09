@@ -1,20 +1,18 @@
 package ru.otus.hw.repositories;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.otus.hw.AbstractInitTestData;
-import ru.otus.hw.tests_data_source.argument_provider.BooksArgumentsProvider;
-import ru.otus.hw.tests_data_source.InitTestData;
+import ru.otus.hw.data.BooksArgumentsProvider;
+import ru.otus.hw.data.InitTestData;
 import ru.otus.hw.models.Book;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -24,23 +22,12 @@ class BookRepositoryTest extends AbstractInitTestData {
     @Autowired
     private BookRepository bookRepository;
 
-    @BeforeEach
-    void setUp() {
-        dbAuthors = InitTestData.getAuthors();
-        dbGenres = InitTestData.getDbGenres();
-        dbBooks = InitTestData.getDbBooks();
-    }
-
     @DisplayName("должен загружать список всех книг")
     @Test
     void shouldReturnCorrectBooksList() {
         // tested method
         List<Book> actualBooks = bookRepository.findAll();
-        List<Book> expectedBooks = dbBooks;
-        // clean _id
-        actualBooks = actualBooks.stream()
-                .map(this::cleanId)
-                .collect(Collectors.toList());
+        List<Book> expectedBooks = this.dbBooks;
         // sync List
         List<Book> retrainBooks = new ArrayList<>(expectedBooks);
         retrainBooks.containsAll(actualBooks);
@@ -79,7 +66,6 @@ class BookRepositoryTest extends AbstractInitTestData {
         List<Book> bookByTitle = bookRepository.findAllByTitleIs(expectedBook.getTitle());
         assertThat(bookByTitle)
                 .isNotEmpty()
-                .map(this::cleanId)
                 .usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(List.of(expectedBook));
@@ -88,7 +74,6 @@ class BookRepositoryTest extends AbstractInitTestData {
         bookByTitle.forEach(book -> {
                     var actualBook = bookRepository.findAllByTitleIs(book.getTitle());
                     assertThat(actualBook)
-                            .map(this::cleanId)
                             .usingRecursiveComparison()
                             .ignoringExpectedNullFields()
                             .isEqualTo(List.of(book));
@@ -99,7 +84,7 @@ class BookRepositoryTest extends AbstractInitTestData {
     @Test
     void shouldSaveNewBook() {
         // init
-        var expectedBook = this.bookRandomGenerator();
+        var expectedBook = InitTestData.bookRandomGenerator(this.dbAuthors, this.dbGenres);
         // tested method
         var actualBook = bookRepository.save(expectedBook);
         // check
@@ -123,7 +108,8 @@ class BookRepositoryTest extends AbstractInitTestData {
     @Test
     void shouldSaveUpdatedBook() {
         // init
-        var randomBook = this.bookRandomGenerator();
+        var randomBook = InitTestData.bookRandomGenerator(this.dbAuthors, this.dbGenres);
+
         // tested method
         var expectedBook = bookRepository.save(randomBook);
         // check
@@ -139,26 +125,21 @@ class BookRepositoryTest extends AbstractInitTestData {
                 .usingRecursiveComparison()
                 .isEqualTo(expectedBook);
         // clean
-        bookRepository.delete(expectedBook);
+        bookRepository.delete(randomBook);
     }
 
     @DisplayName("должен удалять книгу по id ")
     @Test
     void shouldDeleteBook() {
         // init
-        var expectedBook = bookRepository.save(this.bookRandomGenerator());
+        var randomBook = InitTestData.bookRandomGenerator(this.dbAuthors, this.dbGenres);
+        var expectedBook = bookRepository.save(randomBook);
         assertThat(bookRepository.findById(expectedBook.getId())).isPresent();
         // tested method
         bookRepository.delete(expectedBook);
         // check
         assertThat(bookRepository.findById(expectedBook.getId())).isEmpty();
-    }
-
-
-    private Book cleanId(Book book) {
-        book.setId(null);
-        book.getAuthors().forEach(author -> author.setId(null));
-        book.getGenres().forEach(genre -> genre.setId(null));
-        return book;
+        // clean
+        bookRepository.delete(randomBook);
     }
 }

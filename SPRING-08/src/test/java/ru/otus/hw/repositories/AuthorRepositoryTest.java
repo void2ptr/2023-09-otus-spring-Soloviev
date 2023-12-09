@@ -3,17 +3,16 @@ package ru.otus.hw.repositories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.otus.hw.AbstractInitTestData;
-import ru.otus.hw.tests_data_source.InitTestData;
+import ru.otus.hw.data.AuthorsArgumentsProvider;
 import ru.otus.hw.models.Author;
 
 import java.util.*;
 import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
-
 
 @DisplayName("Репозиторий на основе MongoDB для работы с авторами книг")
 class AuthorRepositoryTest extends AbstractInitTestData {
@@ -24,27 +23,23 @@ class AuthorRepositoryTest extends AbstractInitTestData {
     @DisplayName("должен загружать список всех авторов")
     @Test
     void findAll() {
-        // init
-        var expectedAuthor = InitTestData.getAuthors();
         // tested method
         var actualAuthor = authorRepository.findAll();
         // check
         assertThat(actualAuthor)
                 .usingRecursiveComparison()
                 .ignoringExpectedNullFields()
-                .isEqualTo(expectedAuthor);
+                .isEqualTo(this.dbAuthors);
         actualAuthor.forEach(System.out::println);
     }
 
     @DisplayName("должен искать авторов по списку имен")
     @ParameterizedTest
-    @ValueSource(strings = {"Тит Ливий,Цезарь Гай Юлий", "Аппулей,Эзоп"})
-    void findByFullNameIn(String fullNames) {
+    @ArgumentsSource(AuthorsArgumentsProvider.class)
+    void findByFullNameIn(Author author) {
         // init
-        String[] fullNamesSorted = fullNames.split(",");
-        Arrays.sort(fullNamesSorted);
         List<String> expectedNameList = new ArrayList<>();
-        Collections.addAll(expectedNameList, fullNamesSorted);
+        Collections.addAll(expectedNameList, author.getFullName());
         // tested method
         List<Author> actualAuthor = authorRepository.findByFullNameIn(expectedNameList);
         // check

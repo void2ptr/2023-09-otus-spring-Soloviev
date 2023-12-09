@@ -1,0 +1,48 @@
+@startuml
+'https://plantuml.com/ie-diagram
+
+entity authors {
+    *id       : number <<generated>>
+    fullName : text
+}
+
+entity books {
+   *id       : number <<generated>>
+   title     : text
+   List<authors> : <<DBRef>>
+   List<Genres> : <<DBRef>>
+}
+
+entity genres {
+    *id  : number <<generated>>
+    name : text
+}
+
+entity comments {
+    *id  : number <<generated>>
+    Title : text
+    Book  : <<DBRef>>
+}
+
+entity notes {
+    *id  : number <<generated>>
+    note : text
+}
+
+authors    ||--o{ books    : > авторы пишут книги
+books      ||--o{ genres   : < жанры извлекаются из справочника
+books      ||--o{ comments : > Книга имеет комментариев
+comments   ||--o{ notes    : > Заметки о книге хранятся \nв комментарии
+
+note left of books
+Книги могут быть
+написаны
+в разных жанрах
+end note
+
+note right of books
+Книги создаются
+Авторам(и)
+end note
+
+@enduml

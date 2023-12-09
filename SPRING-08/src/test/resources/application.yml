@@ -26,7 +26,7 @@ mongock:
   runner-type: "ApplicationRunner" # default
 #  runner-type: "InitializingBean"
   change-logs-scan-package:
-    - ru.otus.hw.mongock.changelog
+    - ru.otus.hw.data.changelog
   mongo-db:
     write-concern:
       journal: false
@@ -36,10 +36,3 @@ logging:
   level:
     root: ERROR
 
-#application:
-#  data:
-#    locale: ru_RU
-#    authorsFileName: data/authors.json
-#    booksFileName: data/books.json
-#    commentsFileName: data/comments.json
-#    genresFileName: data/genres.json

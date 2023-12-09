@@ -1,14 +1,13 @@
 package ru.otus.hw.repositories;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.otus.hw.AbstractInitTestData;
-import ru.otus.hw.tests_data_source.InitTestData;
-import ru.otus.hw.tests_data_source.argument_provider.CommentsArgumentsProvider;
+import ru.otus.hw.data.InitTestData;
+import ru.otus.hw.data.CommentsArgumentsProvider;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Comment;
 
@@ -27,14 +26,6 @@ class CommentRepositoryTest extends AbstractInitTestData {
 
     @Autowired
     private CommentRepository commentRepository;
-
-    @BeforeEach
-    void setUp() {
-        dbAuthors = InitTestData.getAuthors();
-        dbGenres = InitTestData.getDbGenres();
-        dbBooks = InitTestData.getDbBooks();
-        List<Comment> dbComment = InitTestData.getDbComments();
-    }
 
     @DisplayName("должен загружать комментарий по id")
     @ParameterizedTest
@@ -80,9 +71,9 @@ class CommentRepositoryTest extends AbstractInitTestData {
     @Test
     void shouldDeleteComment() {
         // generate comment
-        Book randomBook = bookRepository.save(this.bookRandomGenerator());
+        Book randomBook = bookRepository.save(InitTestData.bookRandomGenerator(this.dbAuthors, this.dbGenres));
         assertThat(bookRepository.findById(randomBook.getId())).isPresent();
-        Comment randomComment = commentRepository.save(this.commentRandomGenerator(randomBook));
+        Comment randomComment = commentRepository.save(InitTestData.commentRandomGenerator(randomBook));
         assertThat(commentRepository.findById(randomComment.getId())).isPresent();
         // delete comment
         commentRepository.deleteById(randomComment.getId());
@@ -94,9 +85,9 @@ class CommentRepositoryTest extends AbstractInitTestData {
     void shouldInsertCommentNote() {
         String noteInsert = "Новый комментарий";
         // generate comment
-        Book randomBook = bookRepository.save(this.bookRandomGenerator());
+        Book randomBook = bookRepository.save(InitTestData.bookRandomGenerator(this.dbAuthors, this.dbGenres));
         assertThat(bookRepository.findById(randomBook.getId())).isPresent();
-        Comment randomComment = commentRepository.save(this.commentRandomGenerator(randomBook));
+        Comment randomComment = commentRepository.save(InitTestData.commentRandomGenerator(randomBook));
         assertThat(commentRepository.findById(randomComment.getId())).isPresent();
 
         // tested method
@@ -118,13 +109,14 @@ class CommentRepositoryTest extends AbstractInitTestData {
     void shouldUpdateCommentNote() {
         String noteUpdate = "Новый комментарий на замену старому";
         // generate comment
-        Book randomBook = bookRepository.save(this.bookRandomGenerator());
+        Book randomBook = bookRepository.save(InitTestData.bookRandomGenerator(this.dbAuthors, this.dbGenres));
         assertThat(bookRepository.findById(randomBook.getId())).isPresent();
-        Comment randomComment = commentRepository.save(this.commentRandomGenerator(randomBook));
+        Comment randomComment = commentRepository.save(InitTestData.commentRandomGenerator(randomBook));
         assertThat(commentRepository.findById(randomComment.getId())).isPresent();
 
         // tested method
-        SecureRandom random = new SecureRandom();
+        SecureRandom random = InitTestData.getSecureRandom();
+        System.out.println("note: " + randomComment.getNotes().size());
         int noteId = random.nextInt(randomComment.getNotes().size());
         randomComment.updateNote(noteId, noteUpdate);
         // save comment
@@ -138,17 +130,17 @@ class CommentRepositoryTest extends AbstractInitTestData {
         commentRepository.deleteById(commentAfterSave.get().getId());
     }
 
-    @DisplayName("должен удалить комментарий")
+    @DisplayName("должен удалить заметку в комментарии")
     @Test
     void shouldDeleteCommentNote() {
         // generate comment
-        Book randomBook = bookRepository.save(this.bookRandomGenerator());
+        Book randomBook = bookRepository.save(InitTestData.bookRandomGenerator(this.dbAuthors, this.dbGenres));
         assertThat(bookRepository.findById(randomBook.getId())).isPresent();
-        Comment randomComment = commentRepository.save(this.commentRandomGenerator(randomBook));
+        Comment randomComment = commentRepository.save(InitTestData.commentRandomGenerator(randomBook));
         assertThat(commentRepository.findById(randomComment.getId())).isPresent();
 
         // tested method
-        SecureRandom random = new SecureRandom();
+        SecureRandom random = InitTestData.getSecureRandom();
         int noteId = random.nextInt(randomComment.getNotes().size());
         randomComment.deleteNote(noteId);
         // save comment
@@ -167,8 +159,8 @@ class CommentRepositoryTest extends AbstractInitTestData {
     void shouldUpdateCommentsByBook() {
         // init - create Book and Comment
         String title = "New Book Title";
-        var beforeBook= bookRepository.save(this.bookRandomGenerator());
-        commentRepository.save(this.commentRandomGenerator(beforeBook));
+        var beforeBook= bookRepository.save(InitTestData.bookRandomGenerator(this.dbAuthors, this.dbGenres));
+        commentRepository.save(InitTestData.commentRandomGenerator(beforeBook));
 
         // fired event - updateCommentsByBook
         beforeBook.setTitle(title);
@@ -186,8 +178,8 @@ class CommentRepositoryTest extends AbstractInitTestData {
     void shouldRemoveCommentsByBookId() {
         // init
         String title = "New Book Title";
-        var book= bookRepository.save(this.bookRandomGenerator());
-        commentRepository.save(this.commentRandomGenerator(book));
+        var book= bookRepository.save(InitTestData.bookRandomGenerator(this.dbAuthors, this.dbGenres));
+        commentRepository.save(InitTestData.commentRandomGenerator(book));
 
         // fired event - removeCommentsByBookId
         bookRepository.delete(book);

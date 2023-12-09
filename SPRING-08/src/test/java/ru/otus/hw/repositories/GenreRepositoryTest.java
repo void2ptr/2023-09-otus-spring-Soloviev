@@ -3,14 +3,14 @@ package ru.otus.hw.repositories;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import ru.otus.hw.AbstractInitTestData;
-import ru.otus.hw.tests_data_source.InitTestData;
+import ru.otus.hw.data.GenresArgumentsProvider;
+import ru.otus.hw.data.InitTestData;
 import ru.otus.hw.models.Genre;
 
 import java.util.*;
-import java.util.function.Function;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
@@ -36,23 +36,22 @@ class GenreRepositoryTest extends AbstractInitTestData {
 
     @DisplayName("должен искать жанры по списку названия")
     @ParameterizedTest
-    @ValueSource(strings = {"опус,эпиграммы", "поэма,ода,новелла"})
-    void findByNameIn(String genres) {
-        String[] genresSorted = genres.split(",");
-        Arrays.sort(genresSorted);
+    @ArgumentsSource(GenresArgumentsProvider.class)
+    void findByNameIn(Genre genre) {
+        // init
         List<String> expectedGenres = new ArrayList<>();
-        Collections.addAll(expectedGenres, genresSorted);
+        expectedGenres.add(genre.getName());
+        assertThat(expectedGenres)
+                .isNotEmpty();
 
         // tested method
         List<Genre> actualGenres = genreRepository.findByNameIn(expectedGenres);
-        Comparator<Genre> compareByFullName = Comparator
-                .comparing(Genre::getName)
-                .thenComparing(Genre::getName);
-        actualGenres.sort(compareByFullName);
-
+        // check
         assertThat(actualGenres)
-                .flatMap((Function<? super Genre, ?>) Genre::getName)
-                .isEqualTo(expectedGenres);
+                .isNotEmpty()
+                .usingRecursiveComparison()
+                .ignoringExpectedNullFields()
+                .isEqualTo(List.of(genre));
     }
 
 }
