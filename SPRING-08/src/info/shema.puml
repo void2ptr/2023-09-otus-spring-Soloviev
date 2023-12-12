@@ -7,10 +7,10 @@ entity authors {
 }
 
 entity books {
-   *id       : number <<generated>>
-   title     : text
-   List<authors> : <<DBRef>>
-   List<Genres> : <<DBRef>>
+   *id  : number <<generated>>
+   title : text
+   List<Authors> : <<DBRef>>
+   List<Genres>  : <<DBRef>>
 }
 
 entity genres {
@@ -22,6 +22,7 @@ entity comments {
     *id  : number <<generated>>
     Title : text
     Book  : <<DBRef>>
+    List<notes>
 }
 
 entity notes {
