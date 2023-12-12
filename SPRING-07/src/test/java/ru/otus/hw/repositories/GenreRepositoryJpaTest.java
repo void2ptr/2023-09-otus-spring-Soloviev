@@ -4,9 +4,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import ru.otus.hw.data.AuthorsArgumentsProvider;
+import ru.otus.hw.data.GenresArgumentsProvider;
+import ru.otus.hw.data.InitTestData;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Genre;
 
@@ -26,8 +30,7 @@ class GenreRepositoryJpaTest {
 
     @BeforeEach
     void setUp() {
-        dbGenres = getDbGenres();
-        List<Book> dbBooks = getDbBooks();
+        dbGenres = InitTestData.getDbGenres();
     }
 
     @DisplayName("должен загружать список всех жанров")
@@ -44,21 +47,13 @@ class GenreRepositoryJpaTest {
 
     @DisplayName("должен загружать жанров по id")
     @ParameterizedTest
-    @MethodSource("getDbGenres")
+    @ArgumentsSource(GenresArgumentsProvider.class)
     void findAllByIds(Genre expectedGenre) {
         // method for test
         var actualGenres = genreRepository.findAllGenresByIds(List.of(expectedGenre.getId()));
         // check
         actualGenres.forEach(actualGenre -> assertThat(actualGenre)
                 .isEqualTo(expectedGenre));
-    }
-
-    private static List<Book> getDbBooks() {
-        return InitTestData.getDbBooks();
-    }
-
-    private static List<Genre> getDbGenres() {
-        return InitTestData.getDbGenres();
     }
 
 }

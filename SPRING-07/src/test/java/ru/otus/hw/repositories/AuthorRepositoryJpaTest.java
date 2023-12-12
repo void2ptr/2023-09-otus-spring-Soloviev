@@ -4,9 +4,12 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import ru.otus.hw.data.AuthorsArgumentsProvider;
+import ru.otus.hw.data.InitTestData;
 import ru.otus.hw.models.Author;
 
 import java.util.List;
@@ -25,7 +28,7 @@ class AuthorRepositoryJpaTest {
 
     @BeforeEach
     void setUp() {
-        dbAuthors = getDbAuthors();
+        dbAuthors = InitTestData.getDbAuthors();
     }
 
     @DisplayName("должен загружать список всех авторов")
@@ -42,7 +45,7 @@ class AuthorRepositoryJpaTest {
 
     @DisplayName("должен загружать авторов по id")
     @ParameterizedTest
-    @MethodSource("getDbAuthors")
+    @ArgumentsSource(AuthorsArgumentsProvider.class)
     void findById(Author expectedAuthor) {
         // method for test
         var actualAuthor = authorRepository.findAuthorById(expectedAuthor.getId());
@@ -50,9 +53,5 @@ class AuthorRepositoryJpaTest {
         assertThat(actualAuthor).isPresent()
                 .get()
                 .isEqualTo(expectedAuthor);
-    }
-
-    private static List<Author> getDbAuthors() {
-        return InitTestData.getDbAuthors();
     }
 }

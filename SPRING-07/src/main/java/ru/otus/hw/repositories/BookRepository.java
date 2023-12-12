@@ -1,5 +1,6 @@
 package ru.otus.hw.repositories;
 
+import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -11,11 +12,13 @@ import java.util.Optional;
 
 public interface BookRepository extends JpaRepository<Book, Long> {
 
-    @Query("select b from Book b left join fetch b.author a where b.id = :id")
+    @EntityGraph("book-author-genres-entity-graph")
+    @Query("select b from Book b where b.id = :id")
     Optional<Book> findBookById(@Param("id") long id);
 
     @NonNull
-    @Query("select b from Book b left join fetch b.author a")
+    @EntityGraph("book-author-entity-graph")
+    @Query("select b from Book b")
     List<Book> findAllBooks();
 
 }
