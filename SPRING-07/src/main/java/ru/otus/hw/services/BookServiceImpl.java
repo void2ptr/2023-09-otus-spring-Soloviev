@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.exceptions.EntityNotFoundException;
+import ru.otus.hw.mappers.BookMapper;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.repositories.AuthorRepository;
 import ru.otus.hw.repositories.BookRepository;
@@ -29,8 +30,7 @@ public class BookServiceImpl implements BookService {
         if (bookOpt.isEmpty()) {
             throw new EntityNotFoundException("Book with id '%s' not found".formatted(id));
         }
-        return Optional.of(BookDto.toDto(bookOpt.get()));
-
+        return Optional.of(BookMapper.toDto(bookOpt.get()));
     }
 
     @Transactional(readOnly = true)
@@ -38,7 +38,7 @@ public class BookServiceImpl implements BookService {
     public List<BookDto> findAll() {
         return bookRepository.findAllBooks()
                 .stream()
-                .map(BookDto::toDto)
+                .map(BookMapper::toDto)
                 .toList();
     }
 
@@ -70,6 +70,6 @@ public class BookServiceImpl implements BookService {
             throw new EntityNotFoundException("Genres with ids %s not found".formatted(genresIds));
         }
         var book = new Book(id, title, author.get(), genres);
-        return BookDto.toDto(bookRepository.save(book));
+        return BookMapper.toDto(bookRepository.save(book));
     }
 }

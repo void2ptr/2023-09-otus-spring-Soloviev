@@ -5,13 +5,11 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ArgumentsSource;
-import org.junit.jupiter.params.provider.MethodSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 import ru.otus.hw.data.BooksArgumentsProvider;
 import ru.otus.hw.data.CommentsArgumentsProvider;
-import ru.otus.hw.data.GenresArgumentsProvider;
 import ru.otus.hw.data.InitTestData;
 import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Comment;
@@ -32,13 +30,10 @@ class CommentRepositoryJpaTest {
     @Autowired
     private CommentRepository commentRepository;
 
-    private List<Comment> dbComment;
-
     private List<Book> dbBooks;
 
     @BeforeEach
     void setUp() {
-        dbComment = InitTestData.getDbComments();
         dbBooks = InitTestData.getDbBooks();
     }
 
