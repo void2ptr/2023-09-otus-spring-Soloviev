@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Authors list</title>
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <nav th:insert="/api/v1/menu/header :: top-menu"></nav>
+    <h1>Авторы</h1>
+
+    <table>
+        <caption>Авторы</caption>
+        <thead>
+            <tr>
+                <th>Творческий псевдоним</th>
+                <th>Действия</th>
+                <th>
+                    <a th:href="@{/api/v1/author/0/add}" href="/api/v1/authors/author.html"
+                       th:text="Добавить">Add</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="author : ${authors}">
+                <td th:text="${author.fullName}">John Doe</td>
+                <td><a th:href="@{/api/v1/author/__${author.id}__/edit}" href="/api/v1/authors/author.html"
+                       th:text="Редактировать">Edit</a>
+                </td>
+                <td><a th:href="@{/api/v1/author/__${author.id}__/delete}" href="/api/v1/authors/author.html"
+                       th:text="Удалить">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <nav th:insert="/api/v1/menu/footer :: bottom-menu"></nav>
+</body>
+</html>

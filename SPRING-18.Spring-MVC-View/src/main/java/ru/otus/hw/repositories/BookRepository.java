@@ -21,4 +21,7 @@ public interface BookRepository extends JpaRepository<Book, Long> {
     @Query("select b from Book b")
     List<Book> findAllBooks();
 
+    @EntityGraph("book-author-entity-graph")
+    @Query("select b from Book b where b.id = :id")
+    List<Book> findAllBooksByAuthorId(@Param("authorId") long id);
 }

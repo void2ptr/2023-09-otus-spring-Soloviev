@@ -5,23 +5,25 @@ spring:
 #    password: dbpass
 #    driver-class-name: com.mysql.jdbc.Driver
 #    initialization-mode: always
-#    schema: schema.sql
-#    data: data.sql
+#    schema: data/schema.sql
+#    data: data/data.sql
   sql:
     init:
       mode: always
-      data-locations: data.sql
-      schema-locations: schema.sql
-  h2:
-    console:
-      path: /h2-console
-      settings:
-        web-allow-others: true
+#      data-locations: data/data.sql
+#      schema-locations: data/schema.sql
+#  h2:
+#    console:
+#      path: /h2-console
+#      settings:
+#        web-allow-others: true
+
 #  shell:
 #    interactive:
 #      enabled: false
 
   jpa:
+    open-in-view: false
     generate-ddl: false
     hibernate:
       ddl-auto: none
@@ -29,9 +31,14 @@ spring:
     properties:
       hibernate:
         format_sql: true
-
     show-sql: false
 
 logging:
   level:
     ROOT: ERROR
+
+server:
+  port: 8080
+  error:
+     include-exception: true
+     include-stacktrace: always

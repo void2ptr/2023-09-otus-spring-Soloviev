@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title></title></head>
+    <meta charset="UTF-8"/>
+    <title>Books list</title>
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" type="text/css" />
+<body>
+    <nav th:insert="/api/v1/menu/header :: top-menu"></nav>
+    <h1>Книги</h1>
+
+    <table>
+        <caption>Книги</caption>
+        <thead>
+        <tr>
+            <th>Название</th>
+            <th>Автор</th>
+            <th>Жанры</th>
+            <th>Действия</th>
+            <th><a th:href="@{/api/v1/book/0/add}" href="/book/book.html" th:text="Добавить">Add</a></th>
+            <th>Комментарии</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="book : ${books}">
+                <td th:text="${book.title}">No title</td>
+                <td>
+                    <div th:each="author : ${book.author}">
+                        <span th:text="${author.fullName}"></span>
+                    </div>
+               </td>
+               <td>
+                   <div th:each="genre : ${book.genres}">
+                       <span th:text="${genre.name}"></span>
+                   </div>
+                </td>
+                <td>
+                    <a th:href="@{/api/v1/book/__${book.id}__/edit}" href="/book/books.html"
+                       th:text="Редактировать">Edit</a>
+                </td>
+                <td>
+                    <a th:href="@{/api/v1/book/__${book.id}__/delete}" href="/book/books.html"
+                       th:text="Удалить">Delete</a>
+                </td>
+                <td>
+                    <a th:href="@{/api/v1/book/__${book.id}__/comment}" href="/comment/comments.html"
+                       th:text="Комментарии">Мнения</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <nav th:insert="/api/v1/menu/footer :: bottom-menu"></nav>
+</body>
+</html>

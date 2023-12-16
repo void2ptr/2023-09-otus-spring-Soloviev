@@ -12,7 +12,7 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
 
     List<Comment> findCommentsByBookId(long bookId);
 
-    @EntityGraph(attributePaths = "book")
+    @EntityGraph("comment-book-entity-graph")
     Optional<Comment> findCommentById(long commentId);
 
 }
