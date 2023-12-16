@@ -6,7 +6,9 @@ import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.dto.GenreDto;
 import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.mappers.GenreMapper;
+import ru.otus.hw.models.Book;
 import ru.otus.hw.models.Genre;
+import ru.otus.hw.repositories.BookRepository;
 import ru.otus.hw.repositories.GenreRepository;
 
 import java.util.List;
@@ -17,6 +19,8 @@ import java.util.stream.Collectors;
 @Service
 public class GenreServiceImpl implements GenreService {
     private final GenreRepository genreRepository;
+
+    private final BookRepository bookRepository;
 
     @Transactional(readOnly = true)
     @Override
@@ -32,7 +36,7 @@ public class GenreServiceImpl implements GenreService {
     public Optional<GenreDto> findGenreById(long id) {
         Optional<Genre> genre = genreRepository.findById(id);
         if (genre.isEmpty()) {
-                throw new EntityNotFoundException("Genres with ids '%d' not found".formatted(id));
+            throw new EntityNotFoundException("Genres with ids '%d' not found".formatted(id));
         }
         return Optional.of(GenreMapper.toDto(genre.get()));
     }
@@ -48,7 +52,7 @@ public class GenreServiceImpl implements GenreService {
     public void update(GenreDto genreDto) {
         Optional<Genre> genreOptional = genreRepository.findById(genreDto.getId());
         if (genreOptional.isEmpty()) {
-            throw new EntityNotFoundException("ERROR: genre '%d' not found".formatted(genreDto));
+            throw new EntityNotFoundException("ERROR: genre '%d' not found".formatted(genreDto.getId()));
         }
         this.save(genreDto);
     }
@@ -56,9 +60,13 @@ public class GenreServiceImpl implements GenreService {
     @Transactional
     @Override
     public void delete(long genreId) {
-        // FIXME: нужна ли защита если жанр уже используется ?
-       var genre = genreRepository.findById(genreId)
-               .orElseThrow(() -> new EntityNotFoundException("ERROR: Genre '%d' not found".formatted(genreId)));
+        List<Book> books = bookRepository.findAllBooksByGenreId(genreId);
+        if (!books.isEmpty()) {
+            throw new EntityNotFoundException("The Book for the Genre '%d' exists, stop deleting".formatted(genreId));
+        }
+
+        var genre = genreRepository.findById(genreId)
+                .orElseThrow(() -> new EntityNotFoundException("ERROR: Genre '%d' not found".formatted(genreId)));
         genreRepository.delete(genre);
     }
 

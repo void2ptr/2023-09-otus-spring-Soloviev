@@ -9,9 +9,10 @@
     <h1>Жанры</h1>
 
     <table>
-        <caption>Жанры</caption>
+        <caption>Table: genres</caption>
         <thead>
         <tr>
+            <th>ID</th>
             <th>Название</th>
             <th>Действия</th>
             <th>
@@ -22,6 +23,7 @@
         </thead>
         <tbody>
         <tr th:each="genre : ${genres}">
+            <td th:text="${genre.id}">Id</td>
             <td th:text="${genre.name}">Opera</td>
             <td><a th:href="@{/api/v1/genre/__${genre.id}__/edit}" href="/genre/genre.html"
                    th:text="Редактировать">Edit</a>

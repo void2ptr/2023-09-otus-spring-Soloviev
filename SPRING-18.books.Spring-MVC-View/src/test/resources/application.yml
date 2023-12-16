@@ -2,10 +2,10 @@ spring:
   datasource:
     url: jdbc:h2:mem:testdb
 
-#  sql:
-#    init:
-#      mode: always
-#      data-locations: data/data.sql
+  sql:
+    init:
+      mode: always
+      data-locations: data/data.sql
 #      schema-locations: data/schema.sql
 
   jpa:

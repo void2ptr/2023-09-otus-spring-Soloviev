@@ -24,8 +24,9 @@ import java.util.Optional;
 @RequestMapping("/api/v1/book")
 public class CommentsController {
 
-    private final static String API_PATH = "/api/v1/comment";
-    private final static String ROOT_URL = "/api/v1/book";
+    private static final String API_PATH = "/api/v1/comment";
+
+    private static final String ROOT_URL = "/api/v1/book";
 
     private final CommentService commentService;
 

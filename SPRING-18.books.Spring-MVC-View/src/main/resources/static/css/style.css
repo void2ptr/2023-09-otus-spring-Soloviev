@@ -26,6 +26,18 @@ caption {
     background-color: #d3d3d345;
 }
 
+/* genres */
+.genres-div {
+   display: inline-block;
+   text-decoration: none;
+   white-space: nowrap;
+}
+.genres-div:not(:last-child):after {
+  content: ', ';
+  margin-right: 10px;
+}
+
+
 .edit-form {
     display: grid;
     grid-template-rows: auto auto;

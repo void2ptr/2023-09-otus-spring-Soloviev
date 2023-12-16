@@ -10,9 +10,10 @@
     <h1>Авторы</h1>
 
     <table>
-        <caption>Авторы</caption>
+        <caption>Table: authors</caption>
         <thead>
             <tr>
+                <th>ID</th>
                 <th>Творческий псевдоним</th>
                 <th>Действия</th>
                 <th>
@@ -23,6 +24,7 @@
         </thead>
         <tbody>
             <tr th:each="author : ${authors}">
+                <td th:text="${author.id}">John Doe</td>
                 <td th:text="${author.fullName}">John Doe</td>
                 <td><a th:href="@{/api/v1/author/__${author.id}__/edit}" href="/api/v1/authors/author.html"
                        th:text="Редактировать">Edit</a>

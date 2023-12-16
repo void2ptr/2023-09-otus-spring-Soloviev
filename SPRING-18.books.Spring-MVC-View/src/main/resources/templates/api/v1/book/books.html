@@ -10,9 +10,10 @@
     <h1>Книги</h1>
 
     <table>
-        <caption>Книги</caption>
+        <caption>Table: books</caption>
         <thead>
         <tr>
+            <th>ID</th>
             <th>Название</th>
             <th>Автор</th>
             <th>Жанры</th>
@@ -23,6 +24,7 @@
         </thead>
         <tbody>
             <tr th:each="book : ${books}">
+                <td th:text="${book.id}">Id</td>
                 <td th:text="${book.title}">No title</td>
                 <td>
                     <div th:each="author : ${book.author}">
@@ -30,9 +32,7 @@
                     </div>
                </td>
                <td>
-                   <div th:each="genre : ${book.genres}">
-                       <span th:text="${genre.name}"></span>
-                   </div>
+                    <span class="genres-div" th:each="genre : ${book.genres}" th:text="${genre.name}"></span>
                 </td>
                 <td>
                     <a th:href="@{/api/v1/book/__${book.id}__/edit}" href="/book/books.html"

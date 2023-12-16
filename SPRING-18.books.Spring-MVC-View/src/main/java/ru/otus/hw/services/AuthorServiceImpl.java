@@ -7,7 +7,9 @@ import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.mappers.AuthorMapper;
 import ru.otus.hw.models.Author;
+import ru.otus.hw.models.Book;
 import ru.otus.hw.repositories.AuthorRepository;
+import ru.otus.hw.repositories.BookRepository;
 
 import java.util.List;
 
@@ -15,6 +17,8 @@ import java.util.List;
 @Service
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
+
+    private final BookRepository bookRepository;
 
     @Transactional(readOnly = true)
     @Override
@@ -47,7 +51,11 @@ public class AuthorServiceImpl implements AuthorService {
     @Transactional
     @Override
     public void delete(long authorId) {
-        // FIXME: нужна ли защита если книги уже используется ?
+        List<Book> books = bookRepository.findAllBooksByAuthorId(authorId);
+        if (!books.isEmpty()) {
+            throw new EntityNotFoundException("The Book for the Author '%d' exists, stop deleting".formatted(authorId));
+        }
+
         var author = authorRepository.findAuthorById(authorId)
                 .orElseThrow(() -> new EntityNotFoundException("ERROR: Author '%d' not found".formatted(authorId)));
         authorRepository.delete(author);

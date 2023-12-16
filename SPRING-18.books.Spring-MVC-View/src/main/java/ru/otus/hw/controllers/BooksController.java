@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/book")
 public class BooksController {
-    private final static String API_PATH = "/api/v1/book";
+    private static final String API_PATH = "/api/v1/book";
 
     private final BookService bookService;
 

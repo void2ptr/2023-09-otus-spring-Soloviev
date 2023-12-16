@@ -19,7 +19,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/v1/author")
 public class AuthorsController {
-    private final static String API_PATH = "/api/v1/author";
+    private static final String API_PATH = "/api/v1/author";
 
     private final AuthorService authorService;
 

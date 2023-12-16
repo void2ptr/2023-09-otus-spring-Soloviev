@@ -17,11 +17,12 @@ public class IndexController {
         return "/api/v1/index";
     }
 
+    // For future use
     @GetMapping({"/error", "/api/v1/error"})
     public String errorPage(BindingResult result, Model model) {
-//        result.reject("errorCode1", "Global Error Happened");
-//        result.rejectValue("newField", "Error 2 happened");
-//        model.addAttribute("error", "");
+        result.reject("errorCode1", "Global Error Happened");
+        result.rejectValue("newField", "Error 2 happened");
+        model.addAttribute("error", "");
         return "/api/v1/error";
     }
 

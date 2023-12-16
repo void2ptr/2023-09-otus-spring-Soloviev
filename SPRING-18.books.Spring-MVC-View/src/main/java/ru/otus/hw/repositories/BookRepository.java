@@ -13,15 +13,20 @@ import java.util.Optional;
 public interface BookRepository extends JpaRepository<Book, Long> {
 
     @EntityGraph("book-author-genres-entity-graph")
-    @Query("select b from Book b where b.id = :id")
-    Optional<Book> findBookById(@Param("id") long id);
+    @Query("SELECT b FROM Book b WHERE b.id = :bookId")
+    Optional<Book> findBookById(@Param("bookId") long bookId);
 
     @NonNull
     @EntityGraph("book-author-entity-graph")
-    @Query("select b from Book b")
+    @Query("SELECT b FROM Book b")
     List<Book> findAllBooks();
 
     @EntityGraph("book-author-entity-graph")
-    @Query("select b from Book b where b.id = :id")
-    List<Book> findAllBooksByAuthorId(@Param("authorId") long id);
+    @Query("SELECT b FROM Book b INNER JOIN b.author a WHERE a.id = :authorId")
+    List<Book> findAllBooksByAuthorId(@Param("authorId") long authorId);
+
+    @EntityGraph("book-author-genres-entity-graph")
+    @Query("SELECT b FROM Book b INNER JOIN b.genres g WHERE g.id = :genresId")
+    List<Book> findAllBooksByGenreId(@Param("genresId") long genresId);
+
 }
