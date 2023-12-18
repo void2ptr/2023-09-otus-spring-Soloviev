@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    <nav th:insert="/api/v1/menu/header :: top-menu"></nav>
+    <p>Главная страница</p>
+
+    <ul>
+        <li><a href="/api/v1/author">Авторы</a></li>
+        <li><a href="/api/v1/genre">Жанры</a></li>
+        <li><a href="/api/v1/book">Книги</a></li>
+    </ul>
+
+    <nav th:insert="/api/v1/menu/footer :: bottom-menu"></nav>
+</body>
+</html>

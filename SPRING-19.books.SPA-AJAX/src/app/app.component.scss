@@ -1,0 +1,29 @@
+.page-content {
+    display: grid;
+
+
+}
+
+.page-nav {
+    display: grid;
+    grid-template-columns: auto auto auto;
+    justify-content: center;
+
+    gap: 10px;
+}
+
+.table-main {
+    display: grid;
+    justify-content: center;
+
+    .table-header {
+        display: grid;
+        grid-template-columns: repeat(4, auto);
+        justify-content: center;
+        gap: 10px;
+    }
+    .table-body {
+        display: grid;
+        gap: 10px;
+    }
+}

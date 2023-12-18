@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit Book</title>
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <nav th:insert="/api/v1/menu/header :: top-menu"></nav>
+    <h3>Комментарий к книге "<span th:text="${book.title}">No Book</span>"
+                   действие: <span th:text="${action}">Action</span>
+    </h3>
+
+    <form class="edit-form" action=""
+          th:method="post"
+          th:action="@{/api/v1/book/__${book.id}__/comment/__${comment.id}__/__${action}__}"
+          th:object="${comment}">
+        <!--       -->
+        <label for="comment-description-input">Комментарий:</label>
+        <textarea id="comment-description-input" name="description" maxlength="255"
+               th:text="*{description}">no comment
+        </textarea>
+        <input type="hidden" id="comment-id-input" name="id" th:value="*{id}" value="-1">
+        <input type="hidden" id="comment-book-input" name="book" th:value="*{book.id}">
+        <!--        -->
+        <button type="reset">Reset</button>
+        <button type="submit">Save</button>
+    </form>
+
+
+    <nav th:insert="/api/v1/menu/footer :: bottom-menu"></nav>
+</body>
+</html>

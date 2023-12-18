@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" type="text/css" />
+    <title>Genres list</title>
+</head>
+<body>
+    <nav th:insert="/api/v1/menu/header :: top-menu"></nav>
+    <h1>Жанры</h1>
+
+    <table>
+        <caption>Table: genres</caption>
+        <thead>
+        <tr>
+            <th>ID</th>
+            <th>Название</th>
+            <th>Действия</th>
+            <th>
+                <a th:href="@{/api/v1/genre/0/add}" href="/genre/genre.html"
+                   th:text="Добавить">Add</a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="genre : ${genres}">
+            <td th:text="${genre.id}">Id</td>
+            <td th:text="${genre.name}">Opera</td>
+            <td><a th:href="@{/api/v1/genre/__${genre.id}__/edit}" href="/genre/genre.html"
+                   th:text="Редактировать">Edit</a>
+            </td>
+            <td><a th:href="@{/api/v1/genre/__${genre.id}__/delete}" href="/genre/genre.html"
+                   th:text="Удалить">Del</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <nav th:insert="/api/v1/menu/footer :: bottom-menu"></nav>
+</body>
+</html>

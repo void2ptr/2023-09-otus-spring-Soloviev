@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit Book</title>
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <nav th:insert="/api/v1/menu/header :: top-menu"></nav>
+    <h3>Книга. действие: <span th:text="${action}">Action</span></h3>
+
+    <form class="edit-form"
+          th:method="post"
+          th:action="@{/api/v1/book/__${book.id}__/__${action}__}" action=""
+          th:object="${book}">
+        <input type="hidden" id="book-id-input"   name="id" th:value="${book.id}" value="-1">
+        <!--  row 1  -->
+        <label for="book-title-input">Название книги :</label>
+        <input type="text"  id="book-title-input" name="title" th:value="${book.title}" value="John Doe">
+        <!--  row 2  -->
+        <label for="book-author-select">Автор :</label>
+        <select id="book-author-select" name="author">
+            <option th:each="author : ${book.author}"
+                    th:value="${author.id}" value=""
+                    th:text="${author.fullName}" selected>
+            </option>
+            <option th:each="author : ${authors}"
+                    th:value="${author.id}" value=""
+                    th:text="${author.fullName}">
+            </option>
+        </select>
+        <!--  row 3  -->
+        <label for="book-genres-select">Жанры :</label>
+        <select id="book-genres-select" name="genres" multiple size="10">
+            <option th:each="genre : ${book.genres}"
+                    th:value="${genre.id}" value=""
+                    th:text="${genre.name}" selected="selected">
+            </option>
+            <option th:each="genre : ${genres}"
+                    th:value="${genre.id}" value=""
+                    th:text="${genre.name}">
+            </option>
+        </select>
+        <!--  row 4  -->
+        <button type="reset">Reset</button>
+        <button type="submit">Save</button>
+    </form>
+
+    <nav th:insert="/api/v1/menu/footer :: bottom-menu"></nav>
+</body>
+</html>
