@@ -44,12 +44,12 @@ public class Book {
     private String title;
 
     // Все данные талицы будут загружены в память отдельным запросом и соединены с родительской сущностью
-    @Fetch(FetchMode.SELECT)
+    @Fetch(FetchMode.JOIN)
     @ManyToOne(cascade = CascadeType.MERGE, fetch = FetchType.LAZY)
     @JoinColumn(name = "author_id", referencedColumnName = "id")
     private Author author;
 
-    @Fetch(FetchMode.JOIN)
+    @Fetch(FetchMode.SUBSELECT)
 //    @BatchSize(size = 5)
     @ManyToMany(targetEntity = Genre.class, fetch = FetchType.LAZY)
     @JoinTable(name = "books_genres",

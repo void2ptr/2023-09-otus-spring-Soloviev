@@ -50,7 +50,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private CommentDto save(long bookId, long commentId, String description) {
-        var bookOpt = bookRepository.findBookById(bookId);
+        var bookOpt = bookRepository.findById(bookId);
         if (bookOpt.isEmpty()) {
             throw new EntityNotFoundException("ERROR: book '%d' not found".formatted(bookId));
         }

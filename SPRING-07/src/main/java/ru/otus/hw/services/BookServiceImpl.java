@@ -26,7 +26,7 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     @Override
     public Optional<BookDto> findById(long id) {
-        Optional<Book> bookOpt = bookRepository.findBookById(id);
+        Optional<Book> bookOpt = bookRepository.findById(id);
         if (bookOpt.isEmpty()) {
             throw new EntityNotFoundException("Book with id '%s' not found".formatted(id));
         }
@@ -36,7 +36,7 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     @Override
     public List<BookDto> findAll() {
-        return bookRepository.findAllBooks()
+        return bookRepository.findAll()
                 .stream()
                 .map(BookMapper::toDto)
                 .toList();

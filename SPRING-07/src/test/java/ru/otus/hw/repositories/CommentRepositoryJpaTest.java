@@ -113,11 +113,11 @@ class CommentRepositoryJpaTest {
     void shouldDeleteComment() {
         // init
         long deleteCommentId = 1L;
-        var comment = commentRepository.findById(deleteCommentId);
-        assertThat(comment).isPresent();
+        var comment = em.find(Comment.class, deleteCommentId);
+        assertThat(comment).isNotNull();
         // method for test
-        commentRepository.delete(comment.get());
+        commentRepository.delete(comment);
         // check
-        assertThat(commentRepository.findById(deleteCommentId)).isEmpty();
+        assertThat(em.find(Comment.class, deleteCommentId)).isNull();
     }
 }

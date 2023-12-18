@@ -48,7 +48,7 @@ class BookRepositoryJpaTest {
     @ArgumentsSource(BooksArgumentsProvider.class)
     void shouldReturnCorrectBookById(Book expectedBook) {
         // method for test
-        var actualBook = bookRepository.findBookById(expectedBook.getId());
+        var actualBook = bookRepository.findById(expectedBook.getId());
         // check
         assertThat(actualBook).isPresent()
                 .get()
@@ -63,7 +63,7 @@ class BookRepositoryJpaTest {
         // init
         List<Book> expectedBooks = dbBooks;
         // method for test
-        List<Book> actualBooks = bookRepository.findAllBooks();
+        List<Book> actualBooks = bookRepository.findAll();
         // check
         assertThat(actualBooks)
                 .usingRecursiveComparison()
@@ -118,10 +118,10 @@ class BookRepositoryJpaTest {
     void shouldDeleteBook() {
         // init
         long deleteBookId = 1L;
-        assertThat(bookRepository.findBookById(deleteBookId)).isPresent();
+        assertThat(em.find(Book.class, deleteBookId)).isNotNull();
         // method for test
         bookRepository.deleteById(deleteBookId);
         // check
-        assertThat(bookRepository.findBookById(deleteBookId)).isEmpty();
+        assertThat(em.find(Book.class, deleteBookId)).isNull();
     }
 }
