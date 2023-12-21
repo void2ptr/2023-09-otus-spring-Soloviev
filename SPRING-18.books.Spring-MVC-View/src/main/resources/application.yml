@@ -14,6 +14,7 @@ spring:
 #      schema-locations: data/schema.sql
 #  h2:
 #    console:
+#      console.enabled: true
 #      path: /h2-console
 #      settings:
 #        web-allow-others: true

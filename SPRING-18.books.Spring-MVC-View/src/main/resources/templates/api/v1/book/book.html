@@ -43,7 +43,7 @@
         </select>
         <!--  row 4  -->
         <button type="reset">Reset</button>
-        <button type="submit">Save</button>
+        <button type="submit" th:text="${action}">Save</button>
     </form>
 
     <nav th:insert="/api/v1/menu/footer :: bottom-menu"></nav>

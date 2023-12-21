@@ -43,7 +43,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Optional<BookDto> findBookById(long bookId) {
-        var book = bookRepository.findBookById(bookId);
+        var book = bookRepository.findAllById(bookId);
         if (book.isEmpty()) {
             throw new EntityNotFoundException("Book with id %d not found".formatted(bookId));
         }
@@ -73,7 +73,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     private void save(long bookId, long commentId, String description) {
-        var bookOpt = bookRepository.findBookById(bookId);
+        var bookOpt = bookRepository.findAllById(bookId);
         if (bookOpt.isEmpty()) {
             throw new EntityNotFoundException("ERROR: book '%d' not found".formatted(bookId));
         }

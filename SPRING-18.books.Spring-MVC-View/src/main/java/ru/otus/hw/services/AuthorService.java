@@ -3,16 +3,17 @@ package ru.otus.hw.services;
 import ru.otus.hw.dto.AuthorDto;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface AuthorService {
     List<AuthorDto> findAll();
 
     AuthorDto findAuthorById(long id);
 
-    void insert(AuthorDto authorDto);
+    Optional<AuthorDto> insert(AuthorDto authorDto);
 
-    void update(AuthorDto authorDto);
+    Optional<AuthorDto> update(AuthorDto authorDto);
 
-    void delete(long authorId);
+    boolean delete(long authorId);
 
 }

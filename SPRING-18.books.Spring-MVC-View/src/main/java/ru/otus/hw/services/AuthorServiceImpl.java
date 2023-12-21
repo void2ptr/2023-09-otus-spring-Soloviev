@@ -12,6 +12,7 @@ import ru.otus.hw.repositories.AuthorRepository;
 import ru.otus.hw.repositories.BookRepository;
 
 import java.util.List;
+import java.util.Optional;
 
 @RequiredArgsConstructor
 @Service
@@ -38,37 +39,36 @@ public class AuthorServiceImpl implements AuthorService {
 
     @Transactional
     @Override
-    public void insert(AuthorDto authorDto) {
-        this.save(authorDto);
+    public Optional<AuthorDto> insert(AuthorDto authorDto) {
+        return this.save(authorDto);
     }
 
     @Transactional
     @Override
-    public void update(AuthorDto authorDto) {
-        this.save(authorDto);
+    public Optional<AuthorDto> update(AuthorDto authorDto) {
+        authorRepository.findAuthorById(authorDto.getId())
+                .orElseThrow(() -> new EntityNotFoundException("Author with id '%d' not found, stop update"
+                        .formatted(authorDto.getId())));
+        return this.save(authorDto);
     }
 
     @Transactional
     @Override
-    public void delete(long authorId) {
+    public boolean delete(long authorId) {
         List<Book> books = bookRepository.findAllBooksByAuthorId(authorId);
         if (!books.isEmpty()) {
             throw new EntityNotFoundException("The Book for the Author '%d' exists, stop deleting".formatted(authorId));
         }
 
         var author = authorRepository.findAuthorById(authorId)
-                .orElseThrow(() -> new EntityNotFoundException("ERROR: Author '%d' not found".formatted(authorId)));
+                .orElseThrow(() ->
+                        new EntityNotFoundException("ERROR: Author '%d' not found, stop deleting".formatted(authorId)));
         authorRepository.delete(author);
+
+        return authorRepository.findAuthorById(authorId).isPresent() ? false : true;
     }
 
-    private void save(AuthorDto authorDto) {
-        var authorById = authorRepository.findAuthorById(authorDto.getId());
-        Author author;
-        if (authorById.isEmpty()) {
-            author = new Author(0, authorDto.getFullName());
-        } else {
-            author = AuthorMapper.toAuthor(authorDto);
-        }
-        authorRepository.save(author);
+    private Optional<AuthorDto> save(AuthorDto authorDto) {
+        return Optional.of(AuthorMapper.toDto(authorRepository.save(AuthorMapper.toAuthor(authorDto))));
     }
 }

@@ -32,7 +32,7 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     @Override
     public Optional<BookDto> findById(long id) {
-        Optional<Book> bookOpt = bookRepository.findBookById(id);
+        Optional<Book> bookOpt = bookRepository.findAllById(id);
         if (bookOpt.isEmpty()) {
             throw new EntityNotFoundException("Book with id '%s' not found".formatted(id));
         }
@@ -42,7 +42,7 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     @Override
     public List<BookDto> findAll() {
-        return bookRepository.findAllBooks()
+        return bookRepository.findAll()
                 .stream()
                 .map(BookMapper::toDto)
                 .toList();
@@ -52,7 +52,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<AuthorDto> findAllAuthorsNotInBook(long bookId) {
         List<Author> authors = authorRepository.findAll();
-        Optional<Book> bookById = bookRepository.findBookById(bookId);
+        Optional<Book> bookById = bookRepository.findAllById(bookId);
         bookById.ifPresent(book -> authors.removeAll(List.of(book.getAuthor())));
 
         return authors.stream()
@@ -64,7 +64,7 @@ public class BookServiceImpl implements BookService {
     @Override
     public List<GenreDto> findAllGenresNotInBook(long bookId) {
         List<Genre> genres = genreRepository.findAll();
-        Optional<Book> bookById = bookRepository.findBookById(bookId);
+        Optional<Book> bookById = bookRepository.findAllById(bookId);
         bookById.ifPresent(book -> genres.removeAll(book.getGenres()));
 
         return genres.stream()

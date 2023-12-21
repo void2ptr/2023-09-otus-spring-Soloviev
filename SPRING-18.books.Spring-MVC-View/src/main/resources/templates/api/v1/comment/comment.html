@@ -24,7 +24,7 @@
         <input type="hidden" id="comment-book-input" name="book" th:value="*{book.id}">
         <!--        -->
         <button type="reset">Reset</button>
-        <button type="submit">Save</button>
+        <button type="submit" th:text="${action}">Save</button>
     </form>
 
 
