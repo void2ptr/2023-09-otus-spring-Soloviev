@@ -8,65 +8,62 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
-import ru.otus.hw.dto.AuthorDto;
-import ru.otus.hw.services.AuthorService;
+import ru.otus.hw.dto.GenreDto;
+import ru.otus.hw.services.GenreService;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 
-@DisplayName("проверка раздела для Авторов")
-@WebMvcTest(AuthorsController.class)
-public class AuthorsControllerTest {
+@DisplayName("проверка раздела для Жанров")
+@WebMvcTest(GenresController.class)
+class GenresControllerTest {
+
     private static final String BASE_URL = "/api/v1";
 
     @Autowired
     private MockMvc mockMvc;
 
     @MockBean
-    private AuthorService authorService;
+    private GenreService genreService;
+
 
     @Autowired
     private ObjectMapper mapper;
 
 
-    @DisplayName("проверка открытия страницы с списком Авторов")
+    @DisplayName("проверка открытия страницы с списком Жанров")
     @Test
     void listPage() throws Exception {
-        // test
-        String url = BASE_URL + "/author";
-        List<AuthorDto> authorDtoList = List.of(
-                new AuthorDto(1, "Author_1"),
-                new AuthorDto(2, "Author_2"));
-        given(authorService.findAll()).willReturn(authorDtoList);
+        String url = BASE_URL + "/genre";
+        List<GenreDto> genres = List.of(
+                new GenreDto(1, "Genre_1"),
+                new GenreDto(2, "Genre_2"));
+        given(genreService.findAll()).willReturn(genres);
 
-        // test
-        var content = mockMvc.perform(get(url))
+        var result = mockMvc.perform(get(url))
                 .andExpect(status().isOk())
                 .andReturn()
                 .getResponse()
                 .getContentAsString();
-        assertThat(content)
-                .contains("Author_1")
-                .contains("Author_2");
+        assertThat(result)
+                .contains("Genre_1")
+                .contains("Genre_2");
     }
 
-    @DisplayName("открытие страницы добавления Автора")
+    @DisplayName("открытие страницы добавления Жанра")
     @Test
     void addPage() throws Exception {
-        // test
-        long id = 0;
-        String url = BASE_URL + "/author/" + id + "/add";
-        String expect = "New Author";
+        String url = BASE_URL + "/genre/0/add";
+        String expect = "new Genre";
 
-        // test
         String content = mockMvc.perform(get(url))
                 .andExpect(status().isOk())
                 .andReturn()
@@ -75,17 +72,15 @@ public class AuthorsControllerTest {
         assertThat(content).contains(expect);
     }
 
-    @DisplayName("открытие страницы редактирования Автора")
+    @DisplayName("открытие страницы редактирования Жанра")
     @Test
     void editPage() throws Exception {
-        // test
         long id = 1;
-        String expect = "Author_EDIT";
-        String url = BASE_URL + "/author/" + id + "/edit";
-        AuthorDto authorDto = new AuthorDto(id, expect);
-        given(authorService.findAuthorById(id)).willReturn(authorDto);
+        String url = BASE_URL + "/genre/" + id + "/edit";
+        String expect = "Genre_EDIT";
+        GenreDto genreDto = new GenreDto(id, expect);
+        given(genreService.findGenreById(id)).willReturn(Optional.of(genreDto));
 
-        // test
         String content = mockMvc.perform(get(url))
                 .andExpect(status().isOk())
                 .andReturn()
@@ -94,17 +89,16 @@ public class AuthorsControllerTest {
         assertThat(content).contains(expect);
     }
 
-    @DisplayName("открытие страницы удаления Автора")
+    @DisplayName("открытие страницы удаления Жанра")
     @Test
     void deletePage() throws Exception {
-        // test
         long id = 1;
-        String expect = "Author_DELETE";
-        String url = BASE_URL + "/author/" + id + "/delete";
-        AuthorDto author = new AuthorDto(id, expect);
-        given(authorService.findAuthorById(id)).willReturn(author);
+        String expect = "Genre_DELETE";
+        String url = BASE_URL + "/genre/" + id + "/delete";
 
-        // test
+        GenreDto genreDto = new GenreDto(id, expect);
+        given(genreService.findGenreById(id)).willReturn(Optional.of(genreDto));
+
         String content = mockMvc.perform(get(url))
                 .andExpect(status().isOk())
                 .andReturn()
@@ -113,58 +107,55 @@ public class AuthorsControllerTest {
         assertThat(content).contains(expect);
     }
 
-    @DisplayName("экшен добавления Автора")
+    @DisplayName("экшен добавления Жанра")
     @Test
     void addAction() throws Exception {
         // init
-        String url = BASE_URL + "/author/0/add";
-        AuthorDto authorDto = new AuthorDto(0, "Author_NEW");
-        given(authorService.insert(authorDto)).willReturn(Optional.of(authorDto));
+        String url = BASE_URL + "/genre/0/add";
+        GenreDto genreDto = new GenreDto(0, "Author_NEW");
 
-        // test
+        // method for test
         mockMvc.perform(post(url)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .characterEncoding(StandardCharsets.UTF_8)
-                        .param("id", String.valueOf(authorDto.getId()))
-                        .param("fullName", authorDto.getFullName())
+                        .param("id", String.valueOf(genreDto.getId()))
+                        .param("name", genreDto.getName())
                         .accept(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(302))
                 .andReturn();
     }
 
-
-    @DisplayName("экшен редактирование Автора")
+    @DisplayName("экшен редактирования Жанра")
     @Test
     void updateAction() throws Exception {
-        // init
-        String url = BASE_URL + "/author/1/edit";
-        AuthorDto authorDto = new AuthorDto(0, "Author_NEW");
-        given(authorService.update(authorDto)).willReturn(Optional.of(authorDto));
+        long id = 1;
+        GenreDto genreDto = new GenreDto(id, "Genre_NEW");
+        String url = BASE_URL + "/genre/" + id + "/edit";
 
-        // test
+        // method for test
         mockMvc.perform(post(url)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .characterEncoding(StandardCharsets.UTF_8)
-                        .param("id", String.valueOf(authorDto.getId()))
-                        .content(mapper.writeValueAsBytes(authorDto))
+                        .param("id", String.valueOf(genreDto.getId()))
+                        .param("name", genreDto.getName())
                         .accept(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(302))
                 .andReturn();
     }
 
-    @DisplayName("экшен удаление Автора")
+    @DisplayName("экшен удаления Жанра")
     @Test
     void deleteAction() throws Exception {
-        // init
-        long authorId = 1;
-        String url = BASE_URL + "/author/" + authorId + "/delete";
-        given(authorService.delete(authorId)).willReturn(true);
+        long id = 1;
+        GenreDto genreDto = new GenreDto(id, "Genre_NEW");
+        String url = BASE_URL + "/genre/" + id + "/delete";
 
-        // test
+        // method for test
         mockMvc.perform(post(url)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .characterEncoding(StandardCharsets.UTF_8)
-                        .param("id", String.valueOf(authorId))
+                        .param("id", String.valueOf(genreDto.getId()))
+                        .param("name", genreDto.getName())
                         .accept(MediaType.APPLICATION_FORM_URLENCODED))
                 .andExpect(status().is(302))
                 .andReturn();

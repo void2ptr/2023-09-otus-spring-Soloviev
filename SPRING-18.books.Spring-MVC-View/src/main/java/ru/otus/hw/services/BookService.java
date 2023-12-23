@@ -12,7 +12,11 @@ public interface BookService {
 
     List<BookDto> findAll();
 
+    AuthorDto findAuthorsById(long authorId);
+
     List<AuthorDto> findAllAuthorsNotInBook(long bookId);
+
+    GenreDto findGenresById(long genreId);
 
     List<GenreDto> findAllGenresNotInBook(long bookId);
 

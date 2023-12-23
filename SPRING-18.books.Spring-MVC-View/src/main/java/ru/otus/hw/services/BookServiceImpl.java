@@ -48,6 +48,15 @@ public class BookServiceImpl implements BookService {
                 .toList();
     }
 
+    @Override
+    public AuthorDto findAuthorsById(long authorId) {
+        Optional<Author> authorOpt = authorRepository.findById(authorId);
+        if (authorOpt.isEmpty()) {
+            throw new EntityNotFoundException("Author with id '%s' not found".formatted(authorId));
+        }
+        return AuthorMapper.toDto(authorOpt.get());
+    }
+
     @Transactional(readOnly = true)
     @Override
     public List<AuthorDto> findAllAuthorsNotInBook(long bookId) {
@@ -58,6 +67,15 @@ public class BookServiceImpl implements BookService {
         return authors.stream()
                 .map(AuthorMapper::toDto)
                 .toList();
+    }
+
+    @Override
+    public GenreDto findGenresById(long genreId) {
+        Optional<Genre> genreOpt = genreRepository.findById(genreId);
+        if (genreOpt.isEmpty()) {
+            throw new EntityNotFoundException("Genre with id '%s' not found".formatted(genreId));
+        }
+        return GenreMapper.toDto(genreOpt.get());
     }
 
     @Transactional(readOnly = true)

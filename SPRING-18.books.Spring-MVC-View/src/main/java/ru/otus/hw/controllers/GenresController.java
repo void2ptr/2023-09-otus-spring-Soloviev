@@ -17,65 +17,65 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/genre")
+@RequestMapping("/api/v1")
 public class GenresController {
-    private static final String API_PATH = "/api/v1/genre";
+    private static final String API_PATH = "/api/v1";
 
     private final GenreService genreService;
 
-    @GetMapping("")
+    @GetMapping("/genre")
     public String listPage(Model model) {
         List<GenreDto> genres = genreService.findAll();
         model.addAttribute("genres", genres);
-        return API_PATH + "/genres";
+        return API_PATH + "/genre/genres";
     }
 
-    @GetMapping("/0/add")
+    @GetMapping("/genre/0/add")
     public String addPage(Model model) {
         GenreDto genre = new GenreDto(0, "new Genre");
         model.addAttribute("genre", genre);
         model.addAttribute("action", "add");
-        return API_PATH + "/genre";
+        return API_PATH + "/genre/genre";
     }
 
-    @GetMapping("/{id}/edit")
-    public String editPage(@PathVariable("id") Long id, Model model) {
+    @GetMapping("/genre/{id}/edit")
+    public String editPage(@PathVariable("id") long id, Model model) {
         GenreDto genre = genreService.findGenreById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Genre with id '%d' not found".formatted(id)));
         model.addAttribute("genre", genre);
         model.addAttribute("action", "edit");
-        return API_PATH + "/genre";
+        return API_PATH + "/genre/genre";
     }
 
-    @GetMapping("/{id}/delete")
+    @GetMapping("/genre/{id}/delete")
     public String deletePage(@PathVariable("id") Long id, Model model) {
         GenreDto genre = genreService.findGenreById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Genre with id '%d' not found".formatted(id)));
         model.addAttribute("genre", genre);
         model.addAttribute("action", "delete");
-        return API_PATH + "/genre";
+        return API_PATH + "/genre/genre";
     }
 
-    @PostMapping("/0/add")
+    @PostMapping("/genre/0/add") // Без фанатизма
     public String addAction(GenreDto genreDto) {
         genreService.insert(genreDto);
-        return "redirect:" + API_PATH;
+        return "redirect:" + API_PATH + "/genre";
     }
 
-    @PostMapping("/{genreId}/edit")
+    @PostMapping("/genre/{genreId}/edit")
     public String updateAction(GenreDto genreDto) {
         genreService.update(genreDto);
-        return "redirect:" + API_PATH;
+        return "redirect:" + API_PATH + "/genre";
     }
 
-    @PostMapping("/{genreId}/delete")
+    @PostMapping("/genre/{genreId}/delete")
     public String deleteAction(@PathVariable("genreId") Long genreId) {
         genreService.delete(genreId);
-        return "redirect:" + API_PATH;
+        return "redirect:" + API_PATH + "/genre";
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<String> handleNotFound(EntityNotFoundException ex) {
+    private ResponseEntity<String> handleNotFound(EntityNotFoundException ex) {
         return ResponseEntity.badRequest().body(ex.getMessage());
     }
 

@@ -19,9 +19,6 @@ spring:
 #      settings:
 #        web-allow-others: true
 
-#  shell:
-#    interactive:
-#      enabled: false
 
   jpa:
     open-in-view: false
@@ -40,6 +37,6 @@ logging:
 
 server:
   port: 8080
-#  error:
+  error:
 #     include-exception: true
 #     include-stacktrace: always

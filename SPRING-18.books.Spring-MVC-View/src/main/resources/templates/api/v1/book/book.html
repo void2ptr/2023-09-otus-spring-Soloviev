@@ -19,7 +19,7 @@
         <input type="text"  id="book-title-input" name="title" th:value="${book.title}" value="John Doe">
         <!--  row 2  -->
         <label for="book-author-select">Автор :</label>
-        <select id="book-author-select" name="author">
+        <select id="book-author-select" name="authorId">
             <option th:each="author : ${book.author}"
                     th:value="${author.id}" value=""
                     th:text="${author.fullName}" selected>
@@ -31,7 +31,7 @@
         </select>
         <!--  row 3  -->
         <label for="book-genres-select">Жанры :</label>
-        <select id="book-genres-select" name="genres" multiple size="10">
+        <select id="book-genres-select" name="genresId" multiple size="10">
             <option th:each="genre : ${book.genres}"
                     th:value="${genre.id}" value=""
                     th:text="${genre.name}" selected="selected">
