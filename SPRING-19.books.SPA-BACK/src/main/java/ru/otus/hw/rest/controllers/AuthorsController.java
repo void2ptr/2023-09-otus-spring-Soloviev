@@ -1,4 +1,4 @@
-package ru.otus.hw.controllers;
+package ru.otus.hw.rest.controllers;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -17,63 +17,65 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/author")
+@RequestMapping("/api/v1")
 public class AuthorsController {
-    private static final String API_PATH = "/api/v1/author";
+//    private static final String API_PATH = "/api/v1";
 
     private final AuthorService authorService;
 
-    @GetMapping("")
+    @GetMapping("/author")
     public String listPage(Model model) {
         List<AuthorDto> authors = authorService.findAll();
         model.addAttribute("authors", authors);
-        return API_PATH + "/authors";
+        return "/author/authors";
     }
 
-    @GetMapping("/0/add")
+    @GetMapping("/author/0/add") // Без фанатизма
     public String addPage(Model model) {
         AuthorDto author = new AuthorDto(0, "New Author");
         model.addAttribute("author", author);
         model.addAttribute("action", "add");
-        return API_PATH + "/author";
+        return "/author/author";
     }
 
-    @GetMapping("/{id}/edit")
+    @GetMapping("/author/{id}/edit")
     public String editPage(@PathVariable("id") Long id, Model model) {
         AuthorDto author = authorService.findAuthorById(id);
         model.addAttribute("author", author);
         model.addAttribute("action", "edit");
-        return API_PATH + "/author";
+        return "/author/author";
     }
 
-    @GetMapping("/{id}/delete")
+    @GetMapping("/author/{id}/delete")
     public String deletePage(@PathVariable("id") Long id, Model model) {
         AuthorDto author = authorService.findAuthorById(id);
         model.addAttribute("author", author);
         model.addAttribute("action", "delete");
-        return API_PATH + "/author";
+        return "/author/author";
     }
 
-    @PostMapping("/{id}/add")
-    public String addAction(AuthorDto authorDto) {
-        authorService.insert(authorDto);
-        return "redirect:" + API_PATH;
+    @PostMapping("/author/{id}/add")
+    public String addAction(@PathVariable("id") Long id, String fullName) {
+        authorService.insert(new AuthorDto(id, fullName));
+        return "redirect:/author";
     }
 
-    @PostMapping("/{id}/edit")
-    public String updateAction(AuthorDto authorDto) {
-        authorService.update(authorDto);
-        return "redirect:" + API_PATH;
+    @PostMapping("/author/{id}/edit")
+    public String updateAction(@PathVariable("id") Long id, String fullName) {
+        authorService.update(new AuthorDto(id, fullName));
+        return "redirect:/author";
     }
 
-    @PostMapping("/{id}/delete")
+    @PostMapping("/author/{id}/delete")
     public String deleteAction(@PathVariable("id") Long id) {
-        authorService.delete(id);
-        return "redirect:" + API_PATH;
+        if (!authorService.delete(id)) {
+            throw new EntityNotFoundException("Author with id '%d' don't deleted".formatted(id));
+        }
+        return "redirect:/author";
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<String> handleNotFound(EntityNotFoundException e) {
+    private ResponseEntity<String> handleNotFound(EntityNotFoundException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 

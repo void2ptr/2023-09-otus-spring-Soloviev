@@ -1,4 +1,4 @@
-package ru.otus.hw.controllers;
+package ru.otus.hw.rest.controllers;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -21,21 +21,19 @@ import java.util.Optional;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/v1/book")
+@RequestMapping("/api/v1")
 public class CommentsController {
 
-    private static final String API_PATH = "/api/v1/comment";
-
-    private static final String ROOT_URL = "/api/v1/book";
+    private static final String API_PATH = "/api/v1";
 
     private final CommentService commentService;
 
-    @GetMapping("/{bookId}/comment")
+    @GetMapping("/book/{bookId}/comment")
     public String listPage(@PathVariable("bookId") Long bookId, Model model) {
         List<CommentDto> comments = commentService.findCommentByBookId(bookId);
         Optional<CommentDto> commentOpt = comments.stream().findFirst();
         if (commentOpt.isEmpty()) {
-            return "redirect:%s/%d/comment/0/add".formatted(ROOT_URL, bookId);
+            return "redirect:%s/book/%d/comment/0/add".formatted(API_PATH, bookId);
         }
 
         Book book = commentOpt.orElseThrow(() ->
@@ -44,10 +42,10 @@ public class CommentsController {
 
         model.addAttribute("book", book);
         model.addAttribute("comments", comments);
-        return API_PATH + "/comments";
+        return API_PATH + "/comment/comments";
     }
 
-    @GetMapping("/{bookId}/comment/0/add")
+    @GetMapping("/book/{bookId}/comment/0/add") // без фанатизма
     public String addPage(@PathVariable("bookId") Long bookId, Model model) {
         BookDto bookDto = commentService.findBookById(bookId)
                 .orElseThrow(() -> new EntityNotFoundException(
@@ -56,10 +54,10 @@ public class CommentsController {
         model.addAttribute("book", bookDto);
         model.addAttribute("comment", commentDto);
         model.addAttribute("action", "add");
-        return API_PATH + "/comment";
+        return API_PATH + "/comment/comment";
     }
 
-    @GetMapping("/{bookId}/comment/{commentId}/edit")
+    @GetMapping("/book/{bookId}/comment/{commentId}/edit")
     public String editPage(@PathVariable("bookId") Long bookId,
                            @PathVariable("commentId") Long commentId,
                            Model model
@@ -72,10 +70,10 @@ public class CommentsController {
         model.addAttribute("book", bookDto);
         model.addAttribute("comment", commentDtoByCommentID);
         model.addAttribute("action", "edit");
-        return API_PATH + "/comment";
+        return API_PATH + "/comment/comment";
     }
 
-    @GetMapping("/{bookId}/comment/{commentId}/delete")
+    @GetMapping("/book/{bookId}/comment/{commentId}/delete")
     public String deletePage(@PathVariable("bookId") Long bookId,
                              @PathVariable("commentId") Long commentId,
                              Model model
@@ -88,40 +86,30 @@ public class CommentsController {
         model.addAttribute("book", bookDto);
         model.addAttribute("comment", commentDtoByCommentID);
         model.addAttribute("action", "delete");
-        return API_PATH + "/comment";
+        return API_PATH + "/comment/comment";
     }
 
-    @PostMapping("/{bookId}/comment/0/add")
-    public String insetAction(
-            @PathVariable("bookId") Long bookId,
-            CommentDto commentDto) {
-        commentService.insert(
-                bookId,
-                commentDto.getDescription());
-        return "redirect:%s/%d/comment".formatted(ROOT_URL, bookId);
+    @PostMapping("/book/{bookId}/comment/0/add") // Без фанатизма
+    public String insertAction(@PathVariable("bookId") Long bookId, String description) {
+        commentService.insert(bookId,description);
+        return "redirect:%s/book/%d/comment".formatted(API_PATH, bookId);
     }
 
-    @PostMapping("/{bookId}/comment/{commentId}/edit")
+    @PostMapping("/book/{bookId}/comment/{commentId}/edit")
     public String updateAction(@PathVariable("bookId") Long bookId, @PathVariable("commentId") Long commentId,
-                               CommentDto commentDto) {
-        commentService.update(
-                bookId,
-                commentId,
-                commentDto.getDescription()
-        );
-        return "redirect:%s/%d/comment".formatted(ROOT_URL, bookId);
+                               String description) {
+        commentService.update(bookId, commentId, description);
+        return "redirect:%s/book/%d/comment".formatted(API_PATH, bookId);
     }
 
-    @PostMapping("{bookId}/comment/{commentId}/delete")
-    public String deleteAction(
-            @PathVariable("bookId") Long bookId,
-            @PathVariable("commentId") Long commentId) {
+    @PostMapping("/book/{bookId}/comment/{commentId}/delete")
+    public String deleteAction(@PathVariable("bookId") Long bookId, @PathVariable("commentId") Long commentId) {
         commentService.delete(commentId);
-        return "redirect:%s/%d/comment".formatted(ROOT_URL, bookId);
+        return "redirect:%s/book/%d/comment".formatted(API_PATH, bookId);
     }
 
     @ExceptionHandler(EntityNotFoundException.class)
-    public ResponseEntity<String> handleNotFound(EntityNotFoundException e) {
+    private ResponseEntity<String> handleNotFound(EntityNotFoundException e) {
         return ResponseEntity.badRequest().body(e.getMessage());
     }
 

@@ -1,6 +1,6 @@
 .table-authors {
   display: grid;
-  justify-content: center;
-  grid-template-columns: repeat(4, auto);
+  justify-content: left;
+  grid-template-columns: 100px 400px 100px 100px;
   gap: 10px;
 }

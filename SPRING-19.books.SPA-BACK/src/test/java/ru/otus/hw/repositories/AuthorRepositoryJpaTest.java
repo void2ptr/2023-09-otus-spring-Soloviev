@@ -19,7 +19,6 @@ import static org.assertj.core.api.Assertions.assertThat;
 @DataJpaTest
 class AuthorRepositoryJpaTest {
 
-
     @Autowired
     private AuthorRepository authorRepository;
 

@@ -1,7 +1,14 @@
-<span>table: Authors</span>
 <div class="table-authors">
-    <span>ID</span>
-    <span>name</span>
-    <span>edit</span>
-    <span>delete</span>
+    <span class="table-header">ID</span>
+    <span class="table-header">Name</span>
+    <span class="table-header">Edit</span>
+    <span class="table-header">Delete</span>
 </div>
+<div class="table-authors" *ngFor="let author of authors">
+    <span>{{author.id}}</span>
+    <span>{{author.fullName}}</span>
+    <span>Edit</span>
+    <span>Delete</span>
+</div>
+
+

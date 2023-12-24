@@ -1,4 +1,4 @@
-package ru.otus.hw.controllers;
+package ru.otus.hw.rest.controllers;
 
 import org.springframework.ui.Model;
 import lombok.RequiredArgsConstructor;

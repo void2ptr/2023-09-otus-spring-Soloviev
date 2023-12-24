@@ -34,4 +34,13 @@ public class BookMapper {
                 bookDto.getGenres()
         );
     }
+
+    public static byte[] toFormUrlEncoded(BookDto bookDto) {
+        StringBuilder result = new StringBuilder();
+        result.append("id=").append(bookDto.getId());
+        result.append("&").append("title=").append(bookDto.getTitle().replace(" ", "+"));
+        result.append("&").append("authorId=").append(bookDto.getAuthor().getId());
+        bookDto.getGenres().forEach(genre -> result.append("&").append("genresId=").append(genre.getId()));
+        return result.toString().getBytes();
+    }
 }

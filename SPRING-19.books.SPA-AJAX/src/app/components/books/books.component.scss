@@ -1,0 +1,6 @@
+.table-books {
+  display: grid;
+  justify-content: start;
+  grid-template-columns: repeat(4, auto);
+  gap: 10px;
+}

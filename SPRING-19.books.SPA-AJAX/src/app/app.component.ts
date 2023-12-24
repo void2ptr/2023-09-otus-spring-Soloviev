@@ -1,21 +1,24 @@
-import {
-  Component
-
-} from '@angular/core';
+import { Component} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { AuthorsComponent } from './components/authors/authors.component'
+import { RouterOutlet, RouterLink, RouterLinkActive } from '@angular/router';
+
+import { AuthorsComponent } from './components/authors/authors.component';
+import { BooksComponent } from './components/books/books.component';
+import { CommentsComponent } from './components/comments/comments.component';
+import { GenresComponent } from './components/genres/genres.component';
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive,
+            AuthorsComponent, BooksComponent, CommentsComponent, GenresComponent],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
-  providers: [AuthorsComponent]
+  // providers: [AuthorsComponent]
 })
 export class AppComponent {
   title = 'Books-SPA';
 
-  constructor( private AuthorsComponent : AuthorsComponent) {}
+  // constructor( private AuthorsComponent : AuthorsComponent) {}
 }

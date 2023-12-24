@@ -1,37 +1,31 @@
+<h1>Books SPA</h1>
+<main class="page-content">
 
-  <main class="page-content">
-      <nav class="page-nav">
-         <span>Authors</span>
-         <span>Genres</span>
-         <span>Books</span>
-      </nav>
+    <nav class="content-nav">
+        <a class="button" routerLink="/app-authors"  routerLinkActive="activebutton" ariaCurrentWhenActive="page">Authors</a>
+        <a class="button" routerLink="/app-genres"   routerLinkActive="activebutton" ariaCurrentWhenActive="page">Genres</a>
+        <a class="button" routerLink="/app-books"    routerLinkActive="activebutton" ariaCurrentWhenActive="page">Books</a>
+        <a class="button" routerLink="/app-comments" routerLinkActive="activebutton" ariaCurrentWhenActive="page">Comments</a>
+    </nav>
+    <router-outlet class="content-body" ></router-outlet>
+    <div style="display: none;">
+        <app-books></app-books>
+        <app-comments></app-comments>
+        <app-authors></app-authors>
+        <app-genres></app-genres>
 
-      <aside>
-         <hr>
-      </aside>
+        <nav class="content-nav">
+            <a routerLink="/app-authors" >Authors</a>
+            <a routerLink="/app-genres"  >Genres</a>
+            <a routerLink="/app-books"   >Books</a>
+            <a routerLink="/app-comments">Comments</a>
+        </nav>
+    </div>
 
-      <div class="app-authors" id="app-authors" name="app-authors"></div>
-      <div class="app-genres"></div>
-      <div class="app-books"></div>
-
-      <div class="table-main">
-          <span>table: Genres</span>
-          <header class="table-header">
-              <span>ID</span>
-              <span>name</span>
-              <span>edit</span>
-              <span>delete</span>
-          </header>
-      </div>
-
-      <div class="table-main">
-          <span>table: Books</span>
-          <header class="table-header">
-              <span>ID</span>
-              <span>title</span>
-              <span>name</span>
-              <span>name</span>
-          </header>
-      </div>
-
-  </main>
+<!--
+    <app-books    class="content-books"></app-books>
+    <app-comments class="content-comments"></app-comments>
+    <app-authors  class="content-authors"></app-authors>
+    <app-genres   class="content-genres"></app-genres>
+-->
+</main>
