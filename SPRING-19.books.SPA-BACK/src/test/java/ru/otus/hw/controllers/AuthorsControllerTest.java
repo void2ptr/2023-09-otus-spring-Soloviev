@@ -9,7 +9,7 @@ import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.dto.AuthorDto;
-import ru.otus.hw.rest.controllers.AuthorsController;
+import ru.otus.hw.rest.AuthorsController;
 import ru.otus.hw.services.AuthorService;
 
 import java.nio.charset.StandardCharsets;

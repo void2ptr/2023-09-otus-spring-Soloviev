@@ -1,14 +1,22 @@
-<div class="table-authors">
-    <span class="table-header">ID</span>
-    <span class="table-header">Name</span>
-    <span class="table-header">Edit</span>
-    <span class="table-header">Delete</span>
-</div>
-<div class="table-authors" *ngFor="let author of authors">
-    <span>{{author.id}}</span>
-    <span>{{author.fullName}}</span>
-    <span>Edit</span>
-    <span>Delete</span>
-</div>
-
+<main class="side-main">
+    <aside class="side-left">
+        <header class="table-authors">
+            <span class="table-header">ID</span>
+            <span class="table-header">Name</span>
+        </header>
+        <div class="table-authors" *ngFor="let author of authors">
+            <span data-id="author-{{author.id}}" onclick="">{{author.id}}</span>
+            <span data-id="author-{{author.id}}" onclick="">{{author.fullName}}</span>
+        </div>
+    </aside>
+    <aside class="side-right">
+       <label  class="side-right-label1" for="author-id">ID:</label>
+       <input  class="side-right-id"      id="author-id" readonly>
+       <label  class="side-right-label2" for="author-name">fullName:</label>
+       <input  class="side-right-name"    id="author-name">
+       <button class="side-right-button1  button" >Add</button>
+       <button class="side-right-button2  button" >Edit</button>
+       <button class="side-right-button3  button" >Delete</button>
+    </aside>
+</main>
 

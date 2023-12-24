@@ -1,7 +1,9 @@
 import { Component } from '@angular/core';
-import { CommonModule } from '@angular/common'
+import { CommonModule } from '@angular/common';
+import { Observable, of } from 'rxjs';
 
 import { AuthorsService } from './../../services/author/authors.service';
+import { Author } from '../../dto/author';
 
 @Component({
   selector: 'app-authors',
@@ -15,10 +17,24 @@ import { AuthorsService } from './../../services/author/authors.service';
   ]
 })
 export class AuthorsComponent {
-  authors: { id: string; fullName: string; }[] = [];
+  authors: Author[] = [];
 
   constructor(private authorsService: AuthorsService) {
-     this.authors = authorsService.getAll();
+
+      const resp = authorsService.getAll().subscribe((res: Author[]) => {
+          this.authors = res;
+      });
+
+      // console.log( resp );
+
+    // getAuthors();
   }
+
+  // getAuthors(): Observable<Author[]>  {
+
+  //     debugger;
+  //     this.authors = this.http.get<Author[]>("/api/products").pipe(shareReplay(1));
+  //     return this.authors;
+  // }
 
 }

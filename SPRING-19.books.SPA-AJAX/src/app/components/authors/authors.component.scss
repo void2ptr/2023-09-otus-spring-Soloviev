@@ -1,6 +1,53 @@
-.table-authors {
+.side-main {
   display: grid;
   justify-content: left;
-  grid-template-columns: 100px 400px 100px 100px;
+  grid-template-columns: auto auto;
+
+  justify-content: start;
+  align-items: start;
+  gap: 20px;
+
+  .side-left{
+    display: grid;
+    gap: 0.3em;
+  }
+
+  .side-right{
+    display: grid;
+    grid-template-areas:
+    "header  header  header"
+    "label1  id      id"
+    "label2  name    name"
+    "button1 button2 button3"
+
+    ;
+    // grid-template-columns: min-content min-content min-content;
+    grid-template-rows: repeat(3, min-content) 1fr;
+
+    align-content: center;
+    align-items: start;
+    justify-items: start;
+    gap: 20px;
+
+    border: 2px solid lightblue;
+    border-radius: 10px;
+    padding: 5px 5px 5px 20px;
+    margin: 10px;
+
+
+    .side-right-label1{  grid-area: label1; }
+    .side-right-label2{  grid-area: label2; }
+    .side-right-id{      grid-area: id; }
+    .side-right-name{    grid-area: name; }
+    .side-right-button1{ grid-area: button1; }
+    .side-right-button2{ grid-area: button2; }
+    .side-right-button3{ grid-area: button3; }
+  }
+}
+
+.table-authors {
+  display: grid;
+  // justify-content: left;
+  grid-template-columns: 100px auto;
   gap: 10px;
 }

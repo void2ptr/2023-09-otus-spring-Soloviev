@@ -1,33 +1,49 @@
-package ru.otus.hw.rest.controllers;
+package ru.otus.hw.rest;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.ExceptionHandler;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.services.AuthorService;
 
 import java.util.List;
 
-@Controller
+@RestController
 @RequiredArgsConstructor
 @RequestMapping("/api/v1")
+@CrossOrigin(
+        // Access-Control-Allow-Origin
+        origins = { "*" },
+
+        // Alternative to origins that supports more flexible originpatterns.
+        // Please, see CorsConfiguration.setAllowedOriginPatterns(List)for details.
+        // originPatterns = { "" },
+
+//            // Access-Control-Allow-Credentials
+//            allowCredentials = "false",
+//
+//            // Access-Control-Allow-Headers
+//            allowedHeaders = { "*" },
+//
+//            // Access-Control-Expose-Headers
+//            exposedHeaders = { "*" },
+//
+//            // Access-Control-Max-Age
+//            maxAge = 60 * 30,
+//
+        // Access-Control-Allow-Methods
+        methods = {RequestMethod.GET}
+)
 public class AuthorsController {
-//    private static final String API_PATH = "/api/v1";
 
     private final AuthorService authorService;
 
     @GetMapping("/author")
-    public String listPage(Model model) {
-        List<AuthorDto> authors = authorService.findAll();
-        model.addAttribute("authors", authors);
-        return "/author/authors";
+    public List<AuthorDto> listPage(Model model) {
+        return authorService.findAll();
     }
 
     @GetMapping("/author/0/add") // Без фанатизма
