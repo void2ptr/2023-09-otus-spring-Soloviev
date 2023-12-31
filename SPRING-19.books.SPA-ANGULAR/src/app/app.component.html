@@ -1,0 +1,21 @@
+<h1>Books SPA</h1>
+<main class="page-content">
+    <nav class="content-nav">
+        <a class="button" routerLink="/app-books"    routerLinkActive="activebutton" ariaCurrentWhenActive="page">Books</a>
+        <a class="button" routerLink="/app-authors"  routerLinkActive="activebutton" ariaCurrentWhenActive="page">Authors</a>
+        <a class="button" routerLink="/app-genres"   routerLinkActive="activebutton" ariaCurrentWhenActive="page">Genres</a>
+    </nav>
+    <router-outlet class="content-body" ></router-outlet>
+    <div style="display: none;">
+        <app-books></app-books>
+        <app-comments></app-comments>
+        <app-authors></app-authors>
+        <app-genres></app-genres>
+
+        <nav class="content-nav">
+            <a routerLink="/app-books"   >Books</a>
+            <a routerLink="/app-authors" >Authors</a>
+            <a routerLink="/app-genres"  >Genres</a>
+        </nav>
+    </div>
+</main>

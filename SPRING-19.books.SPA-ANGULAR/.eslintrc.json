@@ -1,0 +1,25 @@
+{
+    "env": {
+       "browser": true,
+       "node": true,
+       "es6": true
+    },
+    "extends": [
+        "eslint:recommended"
+    ],
+    "rules": {
+        "no-unused-vars"   : "warn",
+        "no-console"       : 1,
+        "consistent-return": 2,
+        "indent"           : [1, 4],
+        "no-else-return"   : 1,
+        "semi"             : [1, "always"],
+        "space-unary-ops"  : 2,
+        "eqeqeq"           : "error"
+    },
+    "parser": "@babel/eslint-parser",
+    "parserOptions": {
+         "ecmaVersion": 9,
+         "sourceType": "module"
+    }
+}

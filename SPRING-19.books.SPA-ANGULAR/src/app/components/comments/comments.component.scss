@@ -1,0 +1,23 @@
+$color-border: lightblue;
+
+/* main component layout*/
+.comment-main{
+    display: grid;
+    grid-template-rows: repeat(9, min-content) 1fr;
+    grid-template-areas:
+    "left right"
+    ;
+
+    align-content: center;
+    align-items: start;
+    justify-items: start;
+    gap: 15px;
+
+    border: 2px solid $color-border;
+    border-radius: 10px;
+    padding: 5px 5px 5px 20px;
+
+    .comment-left{  grid-area: left;}
+    .comment-right{ grid-area: right;}
+}
+

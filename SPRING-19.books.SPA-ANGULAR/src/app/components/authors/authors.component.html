@@ -1,0 +1,24 @@
+<main class="side-main">
+    <aside class="side-left" id="authors-table">
+        <header class="author-row" id="authors-header">
+            <span class="table-header">ID</span>
+            <span class="table-header">Name</span>
+            <span class="table-header">Delete</span>
+        </header>
+        <div class="author-row" id="authors-row-{{author.id}}" *ngFor="let author of authors" >
+            <span (click)="onClick(author)">{{author.id}}</span>
+            <span (click)="onClick(author)">{{author.fullName}}</span>
+            <button class="button-mid" (click)="onClickDelete(author)">Delete</button>
+        </div>
+    </aside>
+    <aside class="side-right">
+       <h3     class="side-right-header">Author Editor:</h3>
+       <label  class="side-right-label1" for="author-id">ID:</label>
+       <label  class="side-right-id"      id="author-id">{{ authorDto.id }}</label>
+       <label  class="side-right-label2" for="author-name">fullName:</label>
+       <input  class="side-right-name"    id="author-name" value="{{ authorDto.fullName }}">
+       <button class="side-right-button1  button" (click)="onClickAdd()">Add</button>
+       <button class="side-right-button2  button" (click)="onClickEdit()">Save</button>
+       <div    class="side-right-footer">{{ error }}</div>
+    </aside>
+</main>
