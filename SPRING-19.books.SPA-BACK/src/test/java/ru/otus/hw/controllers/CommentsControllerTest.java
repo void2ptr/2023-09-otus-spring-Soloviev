@@ -11,10 +11,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.data.CommentsArgumentsProvider;
 import ru.otus.hw.dto.CommentDto;
-import ru.otus.hw.mappers.CommentMapper;
-import ru.otus.hw.models.Comment;
+import ru.otus.hw.mapper.CommentMapper;
+import ru.otus.hw.model.Comment;
 import ru.otus.hw.rest.CommentsController;
-import ru.otus.hw.services.CommentService;
+import ru.otus.hw.service.CommentService;
 
 import java.util.ArrayList;
 import java.util.List;

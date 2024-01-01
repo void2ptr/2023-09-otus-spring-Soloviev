@@ -1,9 +1,9 @@
-package ru.otus.hw.mappers;
+package ru.otus.hw.mapper;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import ru.otus.hw.models.Author;
+import ru.otus.hw.model.Author;
 import ru.otus.hw.dto.AuthorDto;
 
 @AllArgsConstructor

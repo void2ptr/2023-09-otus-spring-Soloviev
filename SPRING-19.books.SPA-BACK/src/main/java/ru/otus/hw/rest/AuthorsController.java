@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.hw.dto.AuthorDto;
-import ru.otus.hw.mappers.AuthorMapper;
-import ru.otus.hw.services.AuthorService;
+import ru.otus.hw.mapper.AuthorMapper;
+import ru.otus.hw.service.AuthorService;
 
 import java.util.List;
 

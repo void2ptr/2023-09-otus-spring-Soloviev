@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.hw.dto.GenreDto;
-import ru.otus.hw.mappers.GenreMapper;
-import ru.otus.hw.services.GenreService;
+import ru.otus.hw.mapper.GenreMapper;
+import ru.otus.hw.service.GenreService;
 
 import java.util.List;
 import java.util.stream.Collectors;

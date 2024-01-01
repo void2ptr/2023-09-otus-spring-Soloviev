@@ -1,13 +1,13 @@
-package ru.otus.hw.services;
+package ru.otus.hw.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import ru.otus.hw.exceptions.EntityNotFoundException;
-import ru.otus.hw.models.Author;
-import ru.otus.hw.models.Book;
-import ru.otus.hw.repositories.AuthorRepository;
-import ru.otus.hw.repositories.BookRepository;
+import ru.otus.hw.exception.EntityNotFoundException;
+import ru.otus.hw.model.Author;
+import ru.otus.hw.model.Book;
+import ru.otus.hw.repository.AuthorRepository;
+import ru.otus.hw.repository.BookRepository;
 
 import java.util.List;
 import java.util.Optional;

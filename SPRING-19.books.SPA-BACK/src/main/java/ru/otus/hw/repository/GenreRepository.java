@@ -1,7 +1,7 @@
-package ru.otus.hw.repositories;
+package ru.otus.hw.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.otus.hw.models.Genre;
+import ru.otus.hw.model.Genre;
 
 import java.util.List;
 

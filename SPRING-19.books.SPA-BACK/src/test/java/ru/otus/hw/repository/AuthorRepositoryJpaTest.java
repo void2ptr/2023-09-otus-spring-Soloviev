@@ -1,4 +1,4 @@
-package ru.otus.hw.repositories;
+package ru.otus.hw.repository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
@@ -9,7 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import ru.otus.hw.data.AuthorsArgumentsProvider;
 import ru.otus.hw.data.InitTestData;
-import ru.otus.hw.models.Author;
+import ru.otus.hw.model.Author;
 
 import java.util.List;
 

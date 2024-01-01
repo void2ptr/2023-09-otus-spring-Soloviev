@@ -15,10 +15,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.data.AuthorsArgumentsProvider;
 import ru.otus.hw.dto.AuthorDto;
-import ru.otus.hw.mappers.AuthorMapper;
-import ru.otus.hw.models.Author;
+import ru.otus.hw.mapper.AuthorMapper;
+import ru.otus.hw.model.Author;
 import ru.otus.hw.rest.AuthorsController;
-import ru.otus.hw.services.AuthorService;
+import ru.otus.hw.service.AuthorService;
 
 import java.util.List;
 

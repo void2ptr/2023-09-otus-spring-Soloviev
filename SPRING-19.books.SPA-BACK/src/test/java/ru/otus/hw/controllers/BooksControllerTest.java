@@ -14,10 +14,10 @@ import ru.otus.hw.data.BooksArgumentsProvider;
 import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.dto.GenreDto;
-import ru.otus.hw.mappers.BookMapper;
-import ru.otus.hw.models.Book;
+import ru.otus.hw.mapper.BookMapper;
+import ru.otus.hw.model.Book;
 import ru.otus.hw.rest.BooksController;
-import ru.otus.hw.services.BookService;
+import ru.otus.hw.service.BookService;
 
 import java.util.List;
 

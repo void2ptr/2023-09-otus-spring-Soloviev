@@ -1,14 +1,14 @@
-package ru.otus.hw.services;
+package ru.otus.hw.service;
 
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.dto.CommentDto;
-import ru.otus.hw.exceptions.EntityNotFoundException;
-import ru.otus.hw.mappers.CommentMapper;
-import ru.otus.hw.models.Comment;
-import ru.otus.hw.repositories.BookRepository;
-import ru.otus.hw.repositories.CommentRepository;
+import ru.otus.hw.exception.EntityNotFoundException;
+import ru.otus.hw.mapper.CommentMapper;
+import ru.otus.hw.model.Comment;
+import ru.otus.hw.repository.BookRepository;
+import ru.otus.hw.repository.CommentRepository;
 
 import java.util.List;
 import java.util.Optional;

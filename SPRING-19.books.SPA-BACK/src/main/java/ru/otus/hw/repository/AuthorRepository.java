@@ -1,7 +1,7 @@
-package ru.otus.hw.repositories;
+package ru.otus.hw.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
-import ru.otus.hw.models.Author;
+import ru.otus.hw.model.Author;
 
 import java.util.Optional;
 

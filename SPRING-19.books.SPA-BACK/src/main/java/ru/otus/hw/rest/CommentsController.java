@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.hw.dto.CommentDto;
-import ru.otus.hw.services.CommentService;
+import ru.otus.hw.service.CommentService;
 
 import java.util.List;
 

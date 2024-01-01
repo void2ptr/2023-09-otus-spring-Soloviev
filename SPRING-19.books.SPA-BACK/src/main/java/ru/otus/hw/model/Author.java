@@ -1,4 +1,4 @@
-package ru.otus.hw.models;
+package ru.otus.hw.model;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;

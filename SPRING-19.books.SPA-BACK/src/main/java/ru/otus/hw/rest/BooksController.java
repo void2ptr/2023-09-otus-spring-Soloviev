@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.hw.dto.BookDto;
-import ru.otus.hw.services.BookService;
+import ru.otus.hw.service.BookService;
 
 import java.util.List;
 

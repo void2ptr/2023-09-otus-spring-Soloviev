@@ -12,10 +12,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.data.GenresArgumentsProvider;
 import ru.otus.hw.dto.GenreDto;
-import ru.otus.hw.mappers.GenreMapper;
-import ru.otus.hw.models.Genre;
+import ru.otus.hw.mapper.GenreMapper;
+import ru.otus.hw.model.Genre;
 import ru.otus.hw.rest.GenresController;
-import ru.otus.hw.services.GenreService;
+import ru.otus.hw.service.GenreService;
 
 import java.util.List;
 
