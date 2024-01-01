@@ -26,7 +26,7 @@ export class AuthorsService {
      * @returns array of Authors
      */
     public findAll(): Observable<AuthorDto[]> {
-        let url = `${this.api}/author`;
+        let url = `${this.api}/authors`;
         return this.http.get<AuthorDto[]>(url, { headers: this.headers }).pipe(
            retry(0),
         );
@@ -38,7 +38,7 @@ export class AuthorsService {
      * @returns Author
      */
     public findById(id: number): Observable<AuthorDto> {
-        let url = `${this.api}/author/${id}`;
+        let url = `${this.api}/authors/${id}`;
         return this.http.get<AuthorDto>(url, {
             headers: this.headers,
             params: new HttpParams().set('id', id)
@@ -53,7 +53,7 @@ export class AuthorsService {
      * @returns
      */
     public create(author: AuthorDto): Observable<AuthorDto> {
-        let url = `${this.api}/author/add`;
+        let url = `${this.api}/authors`;
         const body = JSON.stringify(author);
         return this.http.post<AuthorDto>(url, body, { headers: this.headers }).pipe(
             retry(0),
@@ -66,9 +66,9 @@ export class AuthorsService {
      * @returns
      */
     public update(author: AuthorDto): Observable<AuthorDto> {
-        let url = `${this.api}/author/${author.id | 0}/edit`;
+        let url = `${this.api}/authors/${author.id | 0}`;
         const body = JSON.stringify(author);
-        return this.http.post<AuthorDto>(url, body, { headers: this.headers }).pipe(
+        return this.http.put<AuthorDto>(url, body, { headers: this.headers }).pipe(
             retry(0),
         );
     }
@@ -79,7 +79,7 @@ export class AuthorsService {
      * @returns
      */
     public delete(author: AuthorDto): Observable<AuthorDto> {
-        let url = `${this.api}/author/${author.id | 0}/delete`;
+        let url = `${this.api}/authors/${author.id | 0}`;
 
         return this.http.delete<AuthorDto>(url, {
             headers: this.headers,

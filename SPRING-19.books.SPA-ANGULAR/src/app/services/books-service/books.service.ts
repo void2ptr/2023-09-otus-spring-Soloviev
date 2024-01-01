@@ -26,7 +26,7 @@ export class BooksService {
      * @returns array of Books
      */
     public findAll(): Observable<BookDto[]> {
-        let url = `${this.api}/book`;
+        let url = `${this.api}/books`;
         return this.http.get<BookDto[]>(url, { headers: this.headers }).pipe(
             retry(0),
         );
@@ -38,7 +38,7 @@ export class BooksService {
      * @returns
      */
     public findById(id: number): Observable<BookDto> {
-        let url = `${this.api}/book/${id}`;
+        let url = `${this.api}/books/${id}`;
         return this.http.get<BookDto>(url, {
             headers: this.headers,
             params: new HttpParams().set('id', id)
@@ -53,7 +53,7 @@ export class BooksService {
      * @returns
      */
     public create(book: BookDto): Observable<BookDto> {
-        let url = `${this.api}/book/add`;
+        let url = `${this.api}/books`;
         const body = JSON.stringify(book);
         return this.http.post<BookDto>(url, body, { headers: this.headers }).pipe(
             retry(0),
@@ -66,9 +66,9 @@ export class BooksService {
      * @returns
      */
     public update(book: BookDto): Observable<BookDto> {
-        let url = `${this.api}/book/${book.id | 0}/edit`;
+        let url = `${this.api}/books/${book.id | 0}`;
         const body = JSON.stringify(book);
-        return this.http.post<BookDto>(url, body, { headers: this.headers }).pipe(
+        return this.http.put<BookDto>(url, body, { headers: this.headers }).pipe(
             retry(0),
         );
     }
@@ -79,7 +79,7 @@ export class BooksService {
      * @returns
      */
     public delete(book: BookDto): Observable<BookDto> {
-        let url = `${this.api}/book/${book.id | 0}/delete`;
+        let url = `${this.api}/books/${book.id | 0}`;
         const body = JSON.stringify(book);
 
         return this.http.delete<BookDto>(url, {

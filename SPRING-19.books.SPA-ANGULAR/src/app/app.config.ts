@@ -5,7 +5,7 @@ import { HttpClientModule, provideHttpClient, withFetch, HttpClientXsrfModule  }
 import { importProvidersFrom } from '@angular/core';
 
 import { routes } from './app.routes'
-import { httpInterceptorProviders } from './services/interceptors/http-interceptor-providers'
+import { httpInterceptorProviders } from './services/middleware/http-interceptor-providers'
 
 
 export const appConfig: ApplicationConfig = {

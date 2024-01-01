@@ -15,8 +15,7 @@ import { environment } from './../environments/environment';
   imports: [CommonModule, RouterOutlet, RouterLink, RouterLinkActive,
             AuthorsComponent, BooksComponent, CommentsComponent, GenresComponent],
   templateUrl: './app.component.html',
-  styleUrl: './app.component.scss',
-  // providers: [AuthorsComponent]
+  styleUrl: './app.component.scss'
 })
 export class AppComponent {
     title = 'Books-SPA';

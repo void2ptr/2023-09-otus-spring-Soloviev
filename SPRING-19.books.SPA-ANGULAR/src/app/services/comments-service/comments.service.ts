@@ -16,14 +16,14 @@ export class CommentsService {
     constructor(private http: HttpClient) { }
 
     public findCommentsByBookById(bookId: number): Observable<CommentDto[]> {
-      let url = `${this.api}/book/${bookId | 0}/comment`;
+      let url = `${this.api}/books/${bookId | 0}/comments`;
       return this.http.get<CommentDto[]>(url, { headers: this.headers }).pipe(
           retry(0)
       );
   }
 
   public create(comment: CommentDto): Observable<CommentDto> {
-      let url = `${this.api}/book/${comment.book.id | 0}/comment/add`;
+      let url = `${this.api}/books/${comment.book.id | 0}/comments`;
       const body = JSON.stringify(comment);
       return this.http.post<CommentDto>(url, body, { headers: this.headers }).pipe(
             retry(0),
@@ -31,7 +31,7 @@ export class CommentsService {
   }
 
   public update(comment: CommentDto): Observable<CommentDto> {
-      let url = `${this.api}/book/${comment.book.id | 0}/comment/${comment.id | 0}/edit`;
+      let url = `${this.api}/books/${comment.book.id | 0}/comments/${comment.id | 0}`;
       const body = JSON.stringify(comment);
       return this.http.post<CommentDto>(url, body, { headers: this.headers }).pipe(
             retry(0),
@@ -39,7 +39,7 @@ export class CommentsService {
   }
 
   public delete(comment: CommentDto): Observable<CommentDto> {
-      let url = `${this.api}/book/${comment.book.id | 0}/comment/${comment.id | 0}/delete`;
+      let url = `${this.api}/books/${comment.book.id | 0}/comments/${comment.id | 0}`;
       // const body = JSON.stringify(comment);
 
       return this.http.delete<CommentDto>(url, {

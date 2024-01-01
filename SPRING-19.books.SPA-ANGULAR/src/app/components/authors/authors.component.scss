@@ -29,35 +29,6 @@ $color-border: lightblue;
 
   .side-right{
     display: grid;
-    grid-template-areas:
-    "header  header  header  header"
-    "label1  id      id      id"
-    "label2  name    name    name"
-    "button1 button1 button2 button2"
-    "footer  footer  footer  footer"
-
-    ;
-    // grid-template-columns: min-content min-content min-content;
-    grid-template-rows: repeat(3, min-content) 1fr;
-
-    align-content: center;
-    align-items: start;
-    justify-items: start;
-    gap: 10px;
-
-    border: 2px solid $color-border;
-    border-radius: 10px;
-    padding: 5px 5px 5px 20px;
-
-    .side-right-header{  grid-area: header; }
-    .side-right-label1{  grid-area: label1; }
-    .side-right-label2{  grid-area: label2; }
-    .side-right-id{      grid-area: id; }
-    .side-right-name{    grid-area: name; }
-    .side-right-button1{ grid-area: button1; }
-    .side-right-button2{ grid-area: button2; }
-    .side-right-button3{ grid-area: button3; }
-    .side-right-footer{  grid-area: footer; }
   }
 }
 

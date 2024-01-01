@@ -1,18 +1,19 @@
 import { Component  } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { AuthorEditorComponent } from '@components/author-editor/author-editor.component';
 import { AuthorsService } from '@services/authors-service/authors.service';
 import { AuthorDto } from '@dto/author-dto';
-
 
 @Component({
     selector: 'app-authors',
     standalone: true,
-    imports: [CommonModule],
+    imports: [CommonModule, AuthorEditorComponent],
     templateUrl: './authors.component.html',
     styleUrl: './authors.component.scss',
     providers: [
-        { provide: AuthorsService, useClass: AuthorsService }
+        { provide: AuthorsService, useClass: AuthorsService },
+        { provide: AuthorEditorComponent, useClass: AuthorEditorComponent },
     ]
 })
 export class AuthorsComponent {
@@ -20,6 +21,10 @@ export class AuthorsComponent {
     authorDto: AuthorDto = new AuthorDto(0, "");
     error: unknown = "";
 
+    /**
+     * Inject Service and init list authors
+     * @param authorsService - REST server
+     */
     constructor(private authorsService: AuthorsService) {
 
         this.findAll();
@@ -31,34 +36,6 @@ export class AuthorsComponent {
     private findAll(): void {
         const resp = this.authorsService.findAll().subscribe((res: AuthorDto[]) => {
             this.authors = res;
-        });
-    }
-
-    /**
-     * Add New Author via Service by REST
-     */
-    onClickAdd(): void  {
-        this.getAuthor();
-
-        const res = this.authorsService.create(this.authorDto).subscribe((res: AuthorDto) => {
-            this.authorDto = res;
-            this.authors.push(this.authorDto);
-            this.error = `added: ${res.fullName}`;
-        });
-    }
-
-    /**
-     * Save Author via Service by REST
-     */
-    onClickEdit(): void  {
-        this.getAuthor();
-        const res = this.authorsService.update(this.authorDto).subscribe((res: AuthorDto) => {
-            this.authorDto = res;
-            const index = this.authors.findIndex((a: AuthorDto) => {
-                return a.id === res.id;
-            });
-            this.authors[index] = res;
-            this.error = `save: ${res.fullName}`;
         });
     }
 
@@ -85,23 +62,26 @@ export class AuthorsComponent {
      * Fill Author Editor model
      * @param author
      */
-    onClick(author: AuthorDto): void  {
+    onCellClick(author: AuthorDto): void  {
         this.authorDto = author;
     }
 
     /**
-     * Collect Author model
-     * @returns
+     * Event add author handler
+     * Receive Event(addAuthorEvent) form Child(AuthorEditorComponent) to Parent(AuthorsComponent)
+     * @param author
      */
-    private getAuthor(): void {
-        const elemAuthorId = document.querySelector('#author-id');
-        if (! elemAuthorId) {
-            return;
-        }
-        const elemAuthorName = (<HTMLInputElement>document.querySelector('#author-name'));
-        if (! elemAuthorName) {
-            return;
-        }
-        this.authorDto = new AuthorDto(Number(elemAuthorId.textContent), elemAuthorName.value);
+    receiveAddAuthorEvent(author: AuthorDto): void {
+        this.authors.push(author);
+    }
+
+    /**
+     * Event save author handler
+     * Receive Event(saveAuthorEvent) form child (AuthorEditorComponent) to Parent(AuthorsComponent)
+     * @param author
+     */
+    receiveSaveAuthorEvent(author: AuthorDto): void {
+        const index = this.authors.findIndex((a) => a.id === author.id );
+        this.authors[index] = author;
     }
 }

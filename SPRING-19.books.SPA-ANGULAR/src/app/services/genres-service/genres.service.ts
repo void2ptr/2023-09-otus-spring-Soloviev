@@ -26,7 +26,7 @@ export class GenresService {
      * @returns array of Genres
      */
     public findAll(): Observable<GenreDto[]> {
-        let url = `${this.api}/genre`;
+        let url = `${this.api}/genres`;
         return this.http.get<GenreDto[]>(url, { headers: this.headers }).pipe(
             retry(0), // retry a failed request up to 3 times
         );
@@ -38,7 +38,7 @@ export class GenresService {
      * @returns
      */
     public create(genre: GenreDto): Observable<GenreDto> {
-        let url = `${this.api}/genre/add`;
+        let url = `${this.api}/genres`;
         const body = JSON.stringify(genre);
         return this.http.post<GenreDto>(url, body, { headers: this.headers }).pipe(
             retry(0),
@@ -51,9 +51,9 @@ export class GenresService {
      * @returns
      */
     public update(genre: GenreDto): Observable<GenreDto> {
-        let url = `${this.api}/genre/${genre.id | 0}/edit`;
+        let url = `${this.api}/genres/${genre.id | 0}`;
         const body = JSON.stringify(genre);
-        return this.http.post<GenreDto>(url, body, { headers: this.headers }).pipe(
+        return this.http.put<GenreDto>(url, body, { headers: this.headers }).pipe(
             retry(0),
        );
     }
@@ -64,7 +64,7 @@ export class GenresService {
      * @returns
      */
     public delete(genre: GenreDto): Observable<GenreDto> {
-        let url = `${this.api}/genre/${genre.id | 0}/delete`;
+        let url = `${this.api}/genres/${genre.id | 0}`;
         const body = JSON.stringify(genre);
 
         return this.http.delete<GenreDto>(url, {
