@@ -18,7 +18,9 @@
             <th>Автор</th>
             <th>Жанры</th>
             <th>Действия</th>
-            <th><a th:href="@{/api/v1/book/0/add}" href="/book/book.html" th:text="Добавить">Add</a></th>
+            <th><a th:href="@{/api/v1/book/page-add}"
+                   href="/book/books.html"
+                   th:text="Добавить">Add</a></th>
             <th>Комментарии</th>
         </tr>
         </thead>
@@ -35,15 +37,18 @@
                     <span class="genres-div" th:each="genre : ${book.genres}" th:text="${genre.name}"></span>
                 </td>
                 <td>
-                    <a th:href="@{/api/v1/book/__${book.id}__/edit}" href="/book/books.html"
+                    <a th:href="@{/api/v1/book/__${book.id}__/page-edit}"
+                       href="/book/books.html"
                        th:text="Редактировать">Edit</a>
                 </td>
                 <td>
-                    <a th:href="@{/api/v1/book/__${book.id}__/delete}" href="/book/books.html"
+                    <a th:href="@{/api/v1/book/__${book.id}__/page-delete}"
+                       href="/book/books.html"
                        th:text="Удалить">Delete</a>
                 </td>
                 <td>
-                    <a th:href="@{/api/v1/book/__${book.id}__/comment}" href="/comment/comments.html"
+                    <a th:href="@{/api/v1/book/__${book.id}__/comment}"
+                       href="/comment/comments.html"
                        th:text="Комментарии">Мнения</a>
                 </td>
             </tr>

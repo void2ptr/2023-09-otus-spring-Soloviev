@@ -7,11 +7,11 @@
 </head>
 <body>
     <nav th:insert="/api/v1/menu/header :: top-menu"></nav>
-    <h3>Книга. действие: <span th:text="${action}">Action</span></h3>
+    <h3>Удаление Книги</h3>
 
     <form class="edit-form"
           th:method="post"
-          th:action="@{/api/v1/book/__${book.id}__/__${action}__}" action=""
+          th:action="@{/api/v1/book/__${book.id}__/delete}" action=""
           th:object="${book}">
         <input type="hidden" id="book-id-input"   name="id" th:value="${book.id}" value="-1">
         <!--  row 1  -->
@@ -43,7 +43,7 @@
         </select>
         <!--  row 4  -->
         <button type="reset">Reset</button>
-        <button type="submit" th:text="${action}">Save</button>
+        <button type="submit">Удалить</button>
     </form>
 
     <nav th:insert="/api/v1/menu/footer :: bottom-menu"></nav>

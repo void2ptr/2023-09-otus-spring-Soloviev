@@ -56,6 +56,7 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
+
         <!-- Spring Data -->
         <dependency>
             <groupId>org.springframework.boot</groupId>
@@ -94,11 +95,17 @@
             <version>6.1.1</version>
             <scope>test</scope>
         </dependency>
+<!--**************************************-->
         <dependency>
             <groupId>jakarta.platform</groupId>
             <artifactId>jakarta.jakartaee-web-api</artifactId>
             <version>10.0.0</version>
         </dependency>
+<!--        <dependency>-->
+<!--            <groupId>org.springframework</groupId>-->
+<!--            <artifactId>spring-webmvc</artifactId>-->
+<!--            <version>5.2.6.RELEASE</version>-->
+<!--        </dependency>-->
     </dependencies>
 
     <build>

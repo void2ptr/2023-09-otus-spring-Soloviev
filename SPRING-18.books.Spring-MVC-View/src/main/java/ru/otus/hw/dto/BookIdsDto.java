@@ -9,14 +9,14 @@ import java.util.List;
 @AllArgsConstructor
 @Getter
 @Setter
-public class BookDto {
+public class BookIdsDto {
 
     private long id;
 
     private String title;
 
-    private AuthorDto author;
+    private long authorId;
 
-    private List<GenreDto> genres;
+    private List<Long> genresId;
 
 }

@@ -7,19 +7,20 @@
 </head>
 <body>
     <nav th:insert="/api/v1/menu/header :: top-menu"></nav>
-    <h3>Автор действие: <span th:text="${action}">Action</span></h3>
+    <h3>Удаление Автора</h3>
 
     <form class="edit-form" enctype="application/x-www-form-urlencoded"
           th:method="post"
-          th:action="@{/api/v1/author/__${author.id}__/__${action}__}" action=""
+          th:action="@{/api/v1/author/__${author.id}__/delete}" action=""
           th:object="${author}">
         <!--  -->
-        <label for="author-name-input">Автор известен как :</label>
-        <input type="text"  id="author-name-input" name="fullName" th:value="${author.fullName}" value="John Doe">
         <input type="hidden" id="author-id-input" name="id" th:value="${author.id}" value="-1">
         <!--  -->
+        <label for="author-name-input">Автор был известен как :</label>
+        <label type="text" id="author-name-input" name="fullName" th:text="${author.fullName}">John Doe</label>
+        <!--  -->
         <input type="reset" value="Reset">
-        <button type="submit" th:text="${action}">Save</button>
+        <button type="submit">Удалить</button>
     </form>
 
     <nav th:insert="/api/v1/menu/footer :: bottom-menu"></nav>

@@ -16,7 +16,8 @@
             <th>ID</th>
             <th>Название</th>
             <th>Действия</th>
-            <th><a th:href="@{/api/v1/book/__${book.id}__/comment/0/add}" href="/api/v1/comment/comment.html"
+            <th><a th:href="@{/api/v1/book/__${book.id}__/comment/page-add}"
+                   href="/api/v1/comment/comments.html"
                    th:text="Добавить">Add</a>
             </th>
         </tr>
@@ -25,12 +26,12 @@
         <tr th:each="comment : ${comments}">
             <td th:text="${comment.id}">-1</td>
             <td th:text="${comment.description}">Free Style</td>
-            <td><a th:href="@{/api/v1/book/__${book.id}__/comment/__${comment.id}__/edit}"
-                   href="/api/v1/comment/comment.html"
+            <td><a th:href="@{/api/v1/book/__${book.id}__/comment/__${comment.id}__/page-edit}"
+                   href="/api/v1/comment/comments.html"
                    th:text="Редактировать">Edit</a>
             </td>
-            <td><a th:href="@{/api/v1/book/__${book.id}__/comment/__${comment.id}__/delete}"
-                   href="/api/v1/comment/comment.html"
+            <td><a th:href="@{/api/v1/book/__${book.id}__/comment/__${comment.id}__/page-delete}"
+                   href="/api/v1/comment/comments.html"
                    th:text="Удалить">Edit</a>
             </td>
         </tr>

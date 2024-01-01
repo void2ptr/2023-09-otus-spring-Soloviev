@@ -8,7 +8,6 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
 import ru.otus.hw.dto.GenreDto;
 import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.services.GenreService;
@@ -17,61 +16,56 @@ import java.util.List;
 
 @Controller
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
 public class GenresController {
-    private static final String API_PATH = "/api/v1";
 
     private final GenreService genreService;
 
-    @GetMapping("/genre")
+    @GetMapping("/api/v1/genre")
     public String listPage(Model model) {
         List<GenreDto> genres = genreService.findAll();
         model.addAttribute("genres", genres);
-        return API_PATH + "/genre/genres";
+        return "/api/v1/genre/genres";
     }
 
-    @GetMapping("/genre/0/add")
+    @GetMapping("/api/v1/genre/page-add")
     public String addPage(Model model) {
         GenreDto genre = new GenreDto(0, "new Genre");
         model.addAttribute("genre", genre);
-        model.addAttribute("action", "add");
-        return API_PATH + "/genre/genre";
+        return "/api/v1/genre/genre-add";
     }
 
-    @GetMapping("/genre/{id}/edit")
+    @GetMapping("/api/v1/genre/{id}/page-edit")
     public String editPage(@PathVariable("id") long id, Model model) {
         GenreDto genre = genreService.findGenreById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Genre with id '%d' not found".formatted(id)));
         model.addAttribute("genre", genre);
-        model.addAttribute("action", "edit");
-        return API_PATH + "/genre/genre";
+        return "/api/v1/genre/genre-edit";
     }
 
-    @GetMapping("/genre/{id}/delete")
+    @GetMapping("/api/v1/genre/{id}/page-delete")
     public String deletePage(@PathVariable("id") Long id, Model model) {
         GenreDto genre = genreService.findGenreById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Genre with id '%d' not found".formatted(id)));
         model.addAttribute("genre", genre);
-        model.addAttribute("action", "delete");
-        return API_PATH + "/genre/genre";
+        return "/api/v1/genre/genre-delete";
     }
 
-    @PostMapping("/genre/0/add") // Без фанатизма
+    @PostMapping("/api/v1/genre/add")
     public String addAction(GenreDto genreDto) {
         genreService.insert(genreDto);
-        return "redirect:" + API_PATH + "/genre";
+        return "redirect:/api/v1/genre";
     }
 
-    @PostMapping("/genre/{genreId}/edit")
+    @PostMapping("/api/v1/genre/{genreId}/edit")
     public String updateAction(GenreDto genreDto) {
         genreService.update(genreDto);
-        return "redirect:" + API_PATH + "/genre";
+        return "redirect:/api/v1/genre";
     }
 
-    @PostMapping("/genre/{genreId}/delete")
+    @PostMapping("/api/v1/genre/{genreId}/delete")
     public String deleteAction(@PathVariable("genreId") Long genreId) {
         genreService.delete(genreId);
-        return "redirect:" + API_PATH + "/genre";
+        return "redirect:/api/v1/genre";
     }
 
     @ExceptionHandler(EntityNotFoundException.class)

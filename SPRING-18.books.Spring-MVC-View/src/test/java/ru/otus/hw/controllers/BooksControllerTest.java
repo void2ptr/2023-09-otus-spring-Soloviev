@@ -10,10 +10,10 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.dto.BookDto;
-import ru.otus.hw.mappers.AuthorMapper;
+import ru.otus.hw.dto.BookIdsDto;
+import ru.otus.hw.dto.GenreDto;
 import ru.otus.hw.mappers.BookMapper;
 import ru.otus.hw.mappers.GenreMapper;
-import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Genre;
 import ru.otus.hw.services.BookService;
 
@@ -48,11 +48,11 @@ class BooksControllerTest {
     void listPage() throws Exception {
         // init
         String url = BASE_URL + "/book";
-        Author author = new Author(1, "Author_1");
-        Genre genre = new Genre(1, "Genre_1");
+        AuthorDto authorDto = new AuthorDto(1, "Author_1");
+        GenreDto genreDto = new GenreDto(1, "Genre_1");
         List<BookDto> bookDtoList = List.of(
-                new BookDto(1, "Title_1", author, List.of(genre)),
-                new BookDto(2, "Title_2", author, List.of(genre)));
+                new BookDto(1, "Title_1", authorDto, List.of(genreDto)),
+                new BookDto(2, "Title_2", authorDto, List.of(genreDto)));
         given(bookService.findAll()).willReturn(bookDtoList);
         // test
         var content = mockMvc.perform(get(url))
@@ -73,7 +73,7 @@ class BooksControllerTest {
         // init
         long bookId = 0;
         long genreId = 1;
-        String url = BASE_URL + "/book/" + bookId + "/add";
+        String url = BASE_URL + "/book/page-add";
         String expect = "New Book";
         List<AuthorDto> authorDtoList = List.of(
                 new AuthorDto(1, "Author_1"),
@@ -98,14 +98,14 @@ class BooksControllerTest {
         long bookId = 1;
         long authorId = 1;
         long genreId = 1;
-        String url = BASE_URL + "/book/" + bookId + "/edit";
+        String url = BASE_URL + "/book/" + bookId + "/page-edit";
         String expect = "Title_1";
-        Author author = new Author(authorId, "Author_1");
-        Genre genre = new Genre(genreId, "Genre_1");
-        BookDto bookDto = new BookDto(bookId, expect, author, List.of(genre));
+        AuthorDto authorDto = new AuthorDto(authorId, "Author_1");
+        GenreDto genreDto = new GenreDto(genreId, "Genre_1");
+        BookDto bookDto = new BookDto(bookId, expect, authorDto, List.of(genreDto));
         given(bookService.findById(bookId)).willReturn(Optional.of(bookDto));
-        given(bookService.findAllAuthorsNotInBook(bookId)).willReturn(List.of(AuthorMapper.toDto(author)));
-        given(bookService.findAllGenresNotInBook(bookId)).willReturn(List.of(GenreMapper.toDto(genre)));
+        given(bookService.findAllAuthorsNotInBook(bookId)).willReturn(List.of(authorDto));
+        given(bookService.findAllGenresNotInBook(bookId)).willReturn(List.of(genreDto));
 
         // test
         String content = mockMvc.perform(get(url)
@@ -124,14 +124,14 @@ class BooksControllerTest {
         long bookId = 1;
         long authorId = 1;
         long genreId = 1;
-        String url = BASE_URL + "/book/" + bookId + "/delete";
+        String url = BASE_URL + "/book/" + bookId + "/page-delete";
         String expect = "The Book";
-        Author author = new Author(authorId, "Author_1");
-        Genre genre = new Genre(genreId, "Genre_1");
-        BookDto bookDto = new BookDto(bookId, expect, author, List.of(genre));
+        AuthorDto authorDto = new AuthorDto(authorId, "Author_1");
+        GenreDto genreDto = new GenreDto(genreId, "Genre_1");
+        BookDto bookDto = new BookDto(bookId, expect, authorDto, List.of(genreDto));
         given(bookService.findById(bookId)).willReturn(Optional.of(bookDto));
-        given(bookService.findAllAuthorsNotInBook(bookId)).willReturn(List.of(AuthorMapper.toDto(author)));
-        given(bookService.findAllGenresNotInBook(bookId)).willReturn(List.of(GenreMapper.toDto(genre)));
+        given(bookService.findAllAuthorsNotInBook(bookId)).willReturn(List.of(authorDto));
+        given(bookService.findAllGenresNotInBook(bookId)).willReturn(List.of(genreDto));
         // test
         String content = mockMvc.perform(get(url)
                         .param("bookId", String.valueOf(bookId)))
@@ -146,23 +146,14 @@ class BooksControllerTest {
     @Test
     void addAction() throws Exception {
         // init
-        long bookId = 0;
-        long authorId = 1;
-        long genreId = 1;
-        String url = BASE_URL + "/book/" + bookId + "/add";
-        String expect = "The Book";
-        Author author = new Author(authorId, "Author_1");
-        Genre genre = new Genre(genreId, "Genre_1");
-        BookDto bookDto = new BookDto(bookId, expect, author, List.of(genre));
-
-        given(bookService.findAuthorsById(authorId)).willReturn(AuthorMapper.toDto(author));
-        given(bookService.findGenresById(genreId)).willReturn(GenreMapper.toDto(genre));
+        String url = BASE_URL + "/book/add";
+        BookIdsDto bookIdsDto = new BookIdsDto(1, "The Book", 1, List.of(1L));
 
         // test
         mockMvc.perform(post(url)
-                        .contentType(MediaType.APPLICATION_FORM_URLENCODED)
-                        .content(BookMapper.toFormUrlEncoded(bookDto))
-                        .accept(MediaType.APPLICATION_FORM_URLENCODED))
+                        .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
+                        .content(BookMapper.toFormUrlEncoded(bookIdsDto))
+                        .accept(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
                 .andExpect(status().is(302))
                 .andReturn();
     }
@@ -172,21 +163,14 @@ class BooksControllerTest {
     void editAction() throws Exception {
         // init
         long bookId = 1;
-        long authorId = 1;
-        long genreId = 1;
         String url = BASE_URL + "/book/" + bookId + "/edit";
-        String expect = "The_Book";
-        Author author = new Author(authorId, "Author_1");
-        Genre genre = new Genre(genreId, "Genre_1");
-        BookDto bookDto = new BookDto(bookId, expect, author, List.of(genre));
-        given(bookService.findAuthorsById(authorId)).willReturn(AuthorMapper.toDto(author));
-        given(bookService.findGenresById(genreId)).willReturn(GenreMapper.toDto(genre));
+        BookIdsDto bookIdsDto = new BookIdsDto(bookId, "The Book", 1, List.of(1L, 2L));
 
         // test
         mockMvc.perform(post(url)
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                         .characterEncoding(StandardCharsets.UTF_8)
-                        .content(BookMapper.toFormUrlEncoded(bookDto))
+                        .content(BookMapper.toFormUrlEncoded(bookIdsDto))
                         .accept(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
                 .andExpect(status().is(302))
                 .andReturn();

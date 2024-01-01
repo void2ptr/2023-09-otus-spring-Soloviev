@@ -47,7 +47,7 @@ class GenreRepositoryJpaTest {
     @ArgumentsSource(GenresArgumentsProvider.class)
     void findAllByIds(Genre expectedGenre) {
         // method for test
-        var actualGenres = genreRepository.findAllGenresByIds(List.of(expectedGenre.getId()));
+        var actualGenres = genreRepository.findAllByIdIn(List.of(expectedGenre.getId()));
         // check
         actualGenres.forEach(actualGenre -> assertThat(actualGenre)
                 .isEqualTo(expectedGenre));

@@ -16,7 +16,8 @@
             <th>Название</th>
             <th>Действия</th>
             <th>
-                <a th:href="@{/api/v1/genre/0/add}" href="/genre/genre.html"
+                <a th:href="@{/api/v1/genre/page-add}"
+                   href="/api/v1/genre/genres.html"
                    th:text="Добавить">Add</a>
             </th>
         </tr>
@@ -25,10 +26,12 @@
         <tr th:each="genre : ${genres}">
             <td th:text="${genre.id}">Id</td>
             <td th:text="${genre.name}">Opera</td>
-            <td><a th:href="@{/api/v1/genre/__${genre.id}__/edit}" href="/genre/genre.html"
+            <td><a th:href="@{/api/v1/genre/__${genre.id}__/page-edit}"
+                   href="/api/v1/genre/genres.html"
                    th:text="Редактировать">Edit</a>
             </td>
-            <td><a th:href="@{/api/v1/genre/__${genre.id}__/delete}" href="/genre/genre.html"
+            <td><a th:href="@{/api/v1/genre/__${genre.id}__/page-delete}"
+                   href="/api/v1/genre/genres.html"
                    th:text="Удалить">Del</a>
             </td>
         </tr>

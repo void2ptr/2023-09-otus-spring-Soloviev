@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.dto.BookDto;
+import ru.otus.hw.dto.BookIdsDto;
 import ru.otus.hw.dto.GenreDto;
 import ru.otus.hw.exceptions.EntityNotFoundException;
 import ru.otus.hw.mappers.AuthorMapper;
@@ -48,15 +49,6 @@ public class BookServiceImpl implements BookService {
                 .toList();
     }
 
-    @Override
-    public AuthorDto findAuthorsById(long authorId) {
-        Optional<Author> authorOpt = authorRepository.findById(authorId);
-        if (authorOpt.isEmpty()) {
-            throw new EntityNotFoundException("Author with id '%s' not found".formatted(authorId));
-        }
-        return AuthorMapper.toDto(authorOpt.get());
-    }
-
     @Transactional(readOnly = true)
     @Override
     public List<AuthorDto> findAllAuthorsNotInBook(long bookId) {
@@ -67,15 +59,6 @@ public class BookServiceImpl implements BookService {
         return authors.stream()
                 .map(AuthorMapper::toDto)
                 .toList();
-    }
-
-    @Override
-    public GenreDto findGenresById(long genreId) {
-        Optional<Genre> genreOpt = genreRepository.findById(genreId);
-        if (genreOpt.isEmpty()) {
-            throw new EntityNotFoundException("Genre with id '%s' not found".formatted(genreId));
-        }
-        return GenreMapper.toDto(genreOpt.get());
     }
 
     @Transactional(readOnly = true)
@@ -92,14 +75,14 @@ public class BookServiceImpl implements BookService {
 
     @Transactional
     @Override
-    public void insert(String title, long authorId, List<Long> genresIds) {
-        save(0, title, authorId, genresIds);
+    public void insert(BookIdsDto bookIdsDto) {
+        save(0, bookIdsDto.getTitle(), bookIdsDto.getAuthorId(), bookIdsDto.getGenresId());
     }
 
     @Transactional
     @Override
-    public void update(long id, String title, long authorId, List<Long> genresIds) {
-        save(id, title, authorId, genresIds);
+    public void update(BookIdsDto bookIdsDto) {
+        save(bookIdsDto.getId(), bookIdsDto.getTitle(), bookIdsDto.getAuthorId(), bookIdsDto.getGenresId());
     }
 
     @Transactional
@@ -113,9 +96,9 @@ public class BookServiceImpl implements BookService {
         if (author.isEmpty()) {
             throw new EntityNotFoundException("Author with id %d not found".formatted(authorId));
         }
-        var genres = genreRepository.findAllGenresByIds(genresIds);
+        var genres = genreRepository.findAllByIdIn(genresIds);
         if (genres.isEmpty()) {
-            throw new EntityNotFoundException("Genres with ids %s not found".formatted(genresIds));
+            throw new EntityNotFoundException("Genres with ids [%s] not found".formatted(genresIds));
         }
         var book = new Book(id, title, author.get(), genres);
         bookRepository.save(book);

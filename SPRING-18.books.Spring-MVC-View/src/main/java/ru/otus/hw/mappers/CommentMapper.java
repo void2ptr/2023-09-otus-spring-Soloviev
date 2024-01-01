@@ -3,9 +3,13 @@ package ru.otus.hw.mappers;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
+import ru.otus.hw.dto.AuthorDto;
+import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.dto.CommentDto;
-import ru.otus.hw.models.Book;
+import ru.otus.hw.dto.GenreDto;
 import ru.otus.hw.models.Comment;
+
+import java.util.stream.Collectors;
 
 @AllArgsConstructor
 @Getter
@@ -16,11 +20,16 @@ public class CommentMapper {
         return new CommentDto(
                 comment.getId(),
                 comment.getDescription(),
-                new Book(
+                new BookDto(
                         comment.getBook().getId(),
                         comment.getBook().getTitle(),
-                        comment.getBook().getAuthor(),
+                        new AuthorDto(
+                                comment.getBook().getAuthor().getId(),
+                                comment.getBook().getAuthor().getFullName()),
                         comment.getBook().getGenres()
+                                .stream()
+                                .map(g -> new GenreDto(g.getId(), g.getName()))
+                                .collect(Collectors.toList())
                 )
         );
     }
@@ -29,7 +38,7 @@ public class CommentMapper {
         return new Comment(
                 commentDto.getId(),
                 commentDto.getDescription(),
-                commentDto.getBook()
+                BookMapper.toBook(commentDto.getBook())
         );
     }
 }

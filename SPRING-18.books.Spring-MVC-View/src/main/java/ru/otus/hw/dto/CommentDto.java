@@ -3,7 +3,6 @@ package ru.otus.hw.dto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import ru.otus.hw.models.Book;
 
 @AllArgsConstructor
 @Getter
@@ -14,6 +13,6 @@ public class CommentDto {
 
     private String description;
 
-    private Book book;
+    private BookDto book;
 
 }

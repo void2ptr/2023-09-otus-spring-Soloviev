@@ -9,7 +9,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
 @RequiredArgsConstructor
-//@RequestMapping("/api/v1")
 public class IndexController {
 
     @GetMapping({"/", "/api/v1", "/index", "/index.html"})
@@ -17,7 +16,6 @@ public class IndexController {
         return "/api/v1/index";
     }
 
-    // For future use
     @GetMapping({"/error", "/api/v1/error"})
     public String errorPage(BindingResult result, Model model) {
         result.reject("errorCode1", "Global Error Happened");

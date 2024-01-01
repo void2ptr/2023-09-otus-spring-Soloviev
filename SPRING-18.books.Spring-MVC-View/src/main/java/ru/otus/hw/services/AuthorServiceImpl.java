@@ -65,7 +65,7 @@ public class AuthorServiceImpl implements AuthorService {
                         new EntityNotFoundException("ERROR: Author '%d' not found, stop deleting".formatted(authorId)));
         authorRepository.delete(author);
 
-        return authorRepository.findAuthorById(authorId).isPresent() ? false : true;
+        return authorRepository.findAuthorById(authorId).isEmpty();
     }
 
     private Optional<AuthorDto> save(AuthorDto authorDto) {

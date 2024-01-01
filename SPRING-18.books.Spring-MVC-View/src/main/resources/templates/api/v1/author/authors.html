@@ -17,7 +17,8 @@
                 <th>Творческий псевдоним</th>
                 <th>Действия</th>
                 <th>
-                    <a th:href="@{/api/v1/author/0/add}" href="/api/v1/authors/author.html"
+                    <a th:href="@{/api/v1/author/page-add}"
+                       href="/api/v1/authors/authors.html"
                        th:text="Добавить">Add</a>
                 </th>
             </tr>
@@ -26,10 +27,12 @@
             <tr th:each="author : ${authors}">
                 <td th:text="${author.id}">John Doe</td>
                 <td th:text="${author.fullName}">John Doe</td>
-                <td><a th:href="@{/api/v1/author/__${author.id}__/edit}" href="/api/v1/authors/author.html"
+                <td><a th:href="@{/api/v1/author/__${author.id}__/page-edit}"
+                       href="/api/v1/authors/authors.html"
                        th:text="Редактировать">Edit</a>
                 </td>
-                <td><a th:href="@{/api/v1/author/__${author.id}__/delete}" href="/api/v1/authors/author.html"
+                <td><a th:href="@{/api/v1/author/__${author.id}__/page-delete}"
+                       href="/api/v1/authors/authors.html"
                        th:text="Удалить">Delete</a>
                 </td>
             </tr>

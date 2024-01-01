@@ -61,7 +61,7 @@ class GenresControllerTest {
     @DisplayName("открытие страницы добавления Жанра")
     @Test
     void addPage() throws Exception {
-        String url = BASE_URL + "/genre/0/add";
+        String url = BASE_URL + "/genre/page-add";
         String expect = "new Genre";
 
         String content = mockMvc.perform(get(url))
@@ -76,7 +76,7 @@ class GenresControllerTest {
     @Test
     void editPage() throws Exception {
         long id = 1;
-        String url = BASE_URL + "/genre/" + id + "/edit";
+        String url = BASE_URL + "/genre/" + id + "/page-edit";
         String expect = "Genre_EDIT";
         GenreDto genreDto = new GenreDto(id, expect);
         given(genreService.findGenreById(id)).willReturn(Optional.of(genreDto));
@@ -94,7 +94,7 @@ class GenresControllerTest {
     void deletePage() throws Exception {
         long id = 1;
         String expect = "Genre_DELETE";
-        String url = BASE_URL + "/genre/" + id + "/delete";
+        String url = BASE_URL + "/genre/" + id + "/page-delete";
 
         GenreDto genreDto = new GenreDto(id, expect);
         given(genreService.findGenreById(id)).willReturn(Optional.of(genreDto));
@@ -111,7 +111,7 @@ class GenresControllerTest {
     @Test
     void addAction() throws Exception {
         // init
-        String url = BASE_URL + "/genre/0/add";
+        String url = BASE_URL + "/genre/add";
         GenreDto genreDto = new GenreDto(0, "Author_NEW");
 
         // method for test

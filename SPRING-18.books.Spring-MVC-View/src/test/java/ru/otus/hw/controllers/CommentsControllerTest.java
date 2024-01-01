@@ -8,7 +8,10 @@ import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import ru.otus.hw.dto.AuthorDto;
+import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.dto.CommentDto;
+import ru.otus.hw.dto.GenreDto;
 import ru.otus.hw.mappers.BookMapper;
 import ru.otus.hw.models.Author;
 import ru.otus.hw.models.Book;
@@ -46,11 +49,12 @@ class CommentsControllerTest {
     void listPage() throws Exception {
         long bookId = 1;
         String url = BASE_URL + "/book/" + bookId + "/comment";
-        Book book = new Book(bookId, "Title", new Author(), List.of(new Genre()));
+        BookDto bookDto = new BookDto(bookId, "Title", new AuthorDto(0, "Author"),
+                List.of(new GenreDto(0, "Genre")));
 
         List<CommentDto> comments = new ArrayList<>();
-        comments.add(new CommentDto(1, "Comment_1", book));
-        comments.add(new CommentDto(2, "Comment_2", book));
+        comments.add(new CommentDto(1, "Comment_1", bookDto));
+        comments.add(new CommentDto(2, "Comment_2", bookDto));
         given(commentService.findCommentByBookId(bookId)).willReturn(comments);
 
         var result = mockMvc.perform(get(url))
@@ -68,7 +72,7 @@ class CommentsControllerTest {
     void addPage() throws Exception {
         long bookId = 1;
         String expect = "New Comment";
-        String url = BASE_URL + "/book/" + bookId + "/comment/0/add";
+        String url = BASE_URL + "/book/" + bookId + "/comment/page-add";
         Book book = new Book(bookId, expect, new Author(), List.of(new Genre()));
 
         given(commentService.findBookById(bookId)).willReturn(Optional.of(BookMapper.toDto(book)));
@@ -87,11 +91,12 @@ class CommentsControllerTest {
         long bookId = 1;
         long commentId = 1;
         String expect = "Comment 1";
-        String url = BASE_URL + "/book/" + bookId + "/comment/" + commentId + "/edit";
-        Book book = new Book(bookId, "Title", new Author(), List.of(new Genre()));
-        CommentDto commentDto = new CommentDto(commentId, expect, book);
+        String url = BASE_URL + "/book/" + bookId + "/comment/" + commentId + "/page-edit";
+        BookDto bookDto = new BookDto(bookId, "Title", new AuthorDto(0, "Author"),
+                List.of(new GenreDto(0, "Genre")));
+        CommentDto commentDto = new CommentDto(commentId, expect, bookDto);
 
-        given(commentService.findBookById(bookId)).willReturn(Optional.of(BookMapper.toDto(book)));
+        given(commentService.findBookById(bookId)).willReturn(Optional.of(bookDto));
         given(commentService.findCommentById(commentId)).willReturn(Optional.of(commentDto));
 
         String content = mockMvc.perform(get(url))
@@ -108,11 +113,12 @@ class CommentsControllerTest {
         long bookId = 1;
         long commentId = 1;
         String expect = "Comment 1";
-        String url = BASE_URL + "/book/" + bookId + "/comment/" + commentId + "/delete";
-        Book book = new Book(bookId, "Title", new Author(), List.of(new Genre()));
-        CommentDto commentDto = new CommentDto(commentId, expect, book);
+        String url = BASE_URL + "/book/" + bookId + "/comment/" + commentId + "/page-delete";
+        BookDto bookDto = new BookDto(bookId, "Title", new AuthorDto(0, "Author"),
+                List.of(new GenreDto(0, "Genre")));
+        CommentDto commentDto = new CommentDto(commentId, expect, bookDto);
 
-        given(commentService.findBookById(bookId)).willReturn(Optional.of(BookMapper.toDto(book)));
+        given(commentService.findBookById(bookId)).willReturn(Optional.of(bookDto));
         given(commentService.findCommentById(commentId)).willReturn(Optional.of(commentDto));
 
         String content = mockMvc.perform(get(url))
@@ -128,9 +134,8 @@ class CommentsControllerTest {
     void insetAction() throws Exception {
         // init
         long bookId = 0;
-        long commentId = 0;
         String expected = "Comment New";
-        String url = BASE_URL + "/book/" + bookId + "/comment/" + commentId + "/add";
+        String url = BASE_URL + "/book/" + bookId + "/comment/add";
 
         // method for test
         mockMvc.perform(post(url)

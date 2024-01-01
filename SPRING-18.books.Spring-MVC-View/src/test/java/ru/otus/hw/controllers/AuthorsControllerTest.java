@@ -63,7 +63,7 @@ public class AuthorsControllerTest {
     void addPage() throws Exception {
         // test
         long id = 0;
-        String url = BASE_URL + "/author/" + id + "/add";
+        String url = BASE_URL + "/author/page-add";
         String expect = "New Author";
 
         // test
@@ -81,7 +81,7 @@ public class AuthorsControllerTest {
         // test
         long id = 1;
         String expect = "Author_EDIT";
-        String url = BASE_URL + "/author/" + id + "/edit";
+        String url = BASE_URL + "/author/" + id + "/page-edit";
         AuthorDto authorDto = new AuthorDto(id, expect);
         given(authorService.findAuthorById(id)).willReturn(authorDto);
 
@@ -100,7 +100,7 @@ public class AuthorsControllerTest {
         // test
         long id = 1;
         String expect = "Author_DELETE";
-        String url = BASE_URL + "/author/" + id + "/delete";
+        String url = BASE_URL + "/author/" + id + "/page-delete";
         AuthorDto author = new AuthorDto(id, expect);
         given(authorService.findAuthorById(id)).willReturn(author);
 
@@ -117,7 +117,7 @@ public class AuthorsControllerTest {
     @Test
     void addAction() throws Exception {
         // init
-        String url = BASE_URL + "/author/0/add";
+        String url = BASE_URL + "/author/add";
         AuthorDto authorDto = new AuthorDto(0, "Author_NEW");
         given(authorService.insert(authorDto)).willReturn(Optional.of(authorDto));
 

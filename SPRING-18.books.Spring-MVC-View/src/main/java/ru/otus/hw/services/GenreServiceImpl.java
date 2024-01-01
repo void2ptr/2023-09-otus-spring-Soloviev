@@ -60,7 +60,7 @@ public class GenreServiceImpl implements GenreService {
     @Transactional
     @Override
     public void delete(long genreId) {
-        List<Book> books = bookRepository.findAllBooksByGenreId(genreId);
+        List<Book> books = bookRepository.findAllByGenresId(genreId);
         if (!books.isEmpty()) {
             throw new EntityNotFoundException("The Book for the Genre '%d' exists, stop deleting".formatted(genreId));
         }

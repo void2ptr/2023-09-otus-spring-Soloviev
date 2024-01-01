@@ -4,8 +4,9 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import ru.otus.hw.dto.BookDto;
+import ru.otus.hw.dto.BookIdsDto;
+import ru.otus.hw.dto.GenreDto;
 import ru.otus.hw.models.Book;
-import ru.otus.hw.models.Genre;
 
 import java.util.stream.Collectors;
 
@@ -18,10 +19,10 @@ public class BookMapper {
         return new BookDto(
                 book.getId(),
                 book.getTitle(),
-                book.getAuthor(),
+                AuthorMapper.toDto(book.getAuthor()),
                 book.getGenres()
                         .stream()
-                        .map(g -> new Genre(g.getId(), g.getName()))
+                        .map(g -> new GenreDto(g.getId(), g.getName()))
                         .collect(Collectors.toList())
         );
     }
@@ -30,17 +31,19 @@ public class BookMapper {
         return new Book(
                 bookDto.getId(),
                 bookDto.getTitle(),
-                bookDto.getAuthor(),
-                bookDto.getGenres()
+                AuthorMapper.toAuthor(bookDto.getAuthor()),
+                bookDto.getGenres().stream()
+                        .map(GenreMapper::toGenre)
+                        .collect(Collectors.toList())
         );
     }
 
-    public static byte[] toFormUrlEncoded(BookDto bookDto) {
+    public static byte[] toFormUrlEncoded(BookIdsDto bookDto) {
         StringBuilder result = new StringBuilder();
         result.append("id=").append(bookDto.getId());
         result.append("&").append("title=").append(bookDto.getTitle().replace(" ", "+"));
-        result.append("&").append("authorId=").append(bookDto.getAuthor().getId());
-        bookDto.getGenres().forEach(genre -> result.append("&").append("genresId=").append(genre.getId()));
+        result.append("&").append("authorId=").append(bookDto.getAuthorId());
+        bookDto.getGenresId().forEach(genreId -> result.append("&").append("genresId=").append(genreId));
         return result.toString().getBytes();
     }
 }

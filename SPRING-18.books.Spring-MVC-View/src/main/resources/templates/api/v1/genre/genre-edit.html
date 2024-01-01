@@ -7,19 +7,20 @@
 </head>
 <body>
     <nav th:insert="/api/v1/menu/header :: top-menu"></nav>
-    <h3>Жанр. действие: <span th:text="${action}">Action</span></h3>
+    <h3>Редактирование Жанра</h3>
 
     <form class="edit-form"
           th:method="post"
-          th:action="@{/api/v1/genre/__${genre.id}__/__${action}__}" action=""
+          th:action="@{/api/v1/genre/__${genre.id}__/edit}" action=""
           th:object="${genre}">
             <!--  -->
-            <label for="genre-name-input">Автор известен как :</label>
-            <input type="text"  id="genre-name-input" name="name" th:value="${genre.name}" value="Opus">
             <input type="hidden" id="genre-id-input" name="id" th:value="${genre.id}" value="-1">
             <!--  -->
+            <label for="genre-name-input">Название жанра :</label>
+            <input type="text"  id="genre-name-input" name="name" th:value="${genre.name}" value="Opus">
+            <!--  -->
             <button type="reset">Reset</button>
-            <button type="submit" th:text="${action}">Save</button>
+            <button type="submit">Сохранить</button>
     </form>
 
     <nav th:insert="/api/v1/menu/footer :: bottom-menu"></nav>

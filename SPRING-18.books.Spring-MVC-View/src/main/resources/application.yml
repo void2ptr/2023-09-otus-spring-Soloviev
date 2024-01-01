@@ -39,4 +39,4 @@ server:
   port: 8080
   error:
      include-exception: true
-#     include-stacktrace: always
+     include-stacktrace: always
