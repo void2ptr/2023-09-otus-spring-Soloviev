@@ -1,4 +1,4 @@
-package ru.otus.hw.controllers;
+package ru.otus.hw.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -16,7 +16,6 @@ import ru.otus.hw.dto.BookDto;
 import ru.otus.hw.dto.GenreDto;
 import ru.otus.hw.mapper.BookMapper;
 import ru.otus.hw.model.Book;
-import ru.otus.hw.rest.BooksController;
 import ru.otus.hw.service.BookService;
 
 import java.util.List;

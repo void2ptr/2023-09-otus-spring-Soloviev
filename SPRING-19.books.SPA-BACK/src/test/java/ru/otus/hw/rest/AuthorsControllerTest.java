@@ -1,4 +1,4 @@
-package ru.otus.hw.controllers;
+package ru.otus.hw.rest;
 
 import com.fasterxml.jackson.annotation.JsonAutoDetect;
 import com.fasterxml.jackson.annotation.PropertyAccessor;
@@ -17,7 +17,6 @@ import ru.otus.hw.data.AuthorsArgumentsProvider;
 import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.mapper.AuthorMapper;
 import ru.otus.hw.model.Author;
-import ru.otus.hw.rest.AuthorsController;
 import ru.otus.hw.service.AuthorService;
 
 import java.util.List;

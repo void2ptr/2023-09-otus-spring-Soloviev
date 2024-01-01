@@ -1,4 +1,4 @@
-package ru.otus.hw.controllers;
+package ru.otus.hw.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -13,7 +13,6 @@ import ru.otus.hw.data.CommentsArgumentsProvider;
 import ru.otus.hw.dto.CommentDto;
 import ru.otus.hw.mapper.CommentMapper;
 import ru.otus.hw.model.Comment;
-import ru.otus.hw.rest.CommentsController;
 import ru.otus.hw.service.CommentService;
 
 import java.util.ArrayList;

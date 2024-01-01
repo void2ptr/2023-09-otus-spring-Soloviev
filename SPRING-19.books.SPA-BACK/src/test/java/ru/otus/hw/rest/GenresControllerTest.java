@@ -1,4 +1,4 @@
-package ru.otus.hw.controllers;
+package ru.otus.hw.rest;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
@@ -14,7 +14,6 @@ import ru.otus.hw.data.GenresArgumentsProvider;
 import ru.otus.hw.dto.GenreDto;
 import ru.otus.hw.mapper.GenreMapper;
 import ru.otus.hw.model.Genre;
-import ru.otus.hw.rest.GenresController;
 import ru.otus.hw.service.GenreService;
 
 import java.util.List;
