@@ -31,7 +31,6 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DisplayName("проверка раздела для Авторов")
 @WebMvcTest(AuthorsController.class)
 public class AuthorsControllerTest {
-    private static final String BASE_URL = "/api/v1";
 
     @Autowired
     private MockMvc mockMvc;
@@ -51,7 +50,7 @@ public class AuthorsControllerTest {
     @Test
     void findAll() throws Exception {
         // test
-        String url = BASE_URL + "/author";
+        String url = "/api/v1/authors";
         List<Author> authors = List.of(
                 new Author(1, "Author_1"),
                 new Author(2, "Author_2"));
@@ -72,7 +71,7 @@ public class AuthorsControllerTest {
     @ArgumentsSource(AuthorsArgumentsProvider.class)
     void findById(Author author) throws Exception {
         // test
-        String url = BASE_URL + "/author/"+ author.getId();
+        String url = "/api/v1/authors/"+ author.getId();
         given(authorService.findAuthorById(author.getId())).willReturn(author);
         AuthorDto expected = AuthorMapper.toDto(author);
 
@@ -88,7 +87,7 @@ public class AuthorsControllerTest {
     @ArgumentsSource(AuthorsArgumentsProvider.class)
     void addAction(Author author) throws Exception {
         // init
-        String url = BASE_URL + "/author/add";
+        String url = "/api/v1/authors";
         given(authorService.insert(author)).willReturn(author);
         String expected = mapper.writeValueAsString(AuthorMapper.toDto(author));
 
@@ -106,12 +105,12 @@ public class AuthorsControllerTest {
     @ArgumentsSource(AuthorsArgumentsProvider.class)
     void updateAction(Author author) throws Exception {
         // init
-        String url = BASE_URL + "/author/" + author.getId() + "/edit";
+        String url = "/api/v1/authors/" + author.getId();
         given(authorService.update(author)).willReturn(author);
         String expected = mapper.writeValueAsString(AuthorMapper.toDto(author));
 
         // test
-        mockMvc.perform(post(url)
+        mockMvc.perform(put(url)
                         .contentType(MediaType.APPLICATION_JSON)
                         .param("id", String.valueOf(author.getId()))
                         .content(expected)
@@ -125,7 +124,7 @@ public class AuthorsControllerTest {
     @ArgumentsSource(AuthorsArgumentsProvider.class)
     void deleteAction(Author author) throws Exception {
         // init
-        String url = BASE_URL + "/author/" + author.getId() + "/delete";
+        String url = "/api/v1/authors/" + author.getId();
         given(authorService.delete(author.getId())).willReturn(author);
         String expected = mapper.writeValueAsString(AuthorMapper.toDto(author));
 

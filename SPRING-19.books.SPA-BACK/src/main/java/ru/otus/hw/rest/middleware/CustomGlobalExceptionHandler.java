@@ -1,4 +1,4 @@
-package ru.otus.hw.rest.interseptors;
+package ru.otus.hw.rest.middleware;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Getter;

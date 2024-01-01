@@ -5,8 +5,8 @@ import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.hw.dto.GenreDto;
 import ru.otus.hw.mappers.GenreMapper;
@@ -17,12 +17,11 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/v1")
 public class GenresController {
 
     private final GenreService genreService;
 
-    @GetMapping("/genre")
+    @GetMapping("/api/v1/genres")
     public List<GenreDto> getAll() {
         return genreService.findAll()
                 .stream()
@@ -30,17 +29,17 @@ public class GenresController {
                 .collect(Collectors.toList());
     }
 
-    @PostMapping("/genre/add")
+    @PostMapping("/api/v1/genres")
     public GenreDto addAction(@RequestBody GenreDto genreDto) {
         return GenreMapper.toDto(genreService.insert(GenreMapper.toGenre(genreDto)));
     }
 
-    @PostMapping("/genre/{id}/edit")
+    @PutMapping("/api/v1/genres/{id}")
     public GenreDto updateAction(@PathVariable("id") long id, @RequestBody GenreDto genreDto) {
         return GenreMapper.toDto(genreService.update(GenreMapper.toGenre(genreDto)));
     }
 
-    @DeleteMapping("/genre/{id}/delete")
+    @DeleteMapping("/api/v1/genres/{id}")
     public GenreDto deleteAction(@PathVariable("id") long id) {
         return GenreMapper.toDto(genreService.delete(id));
     }

@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @DisplayName("проверка раздела для Комментариев")
 @WebMvcTest(CommentsController.class)
 class CommentsControllerTest {
-    private static final String BASE_URL = "/api/v1";
+//    private static final String BASE_URL = "/api/v1";
 
     @Autowired
     private MockMvc mockMvc;
@@ -45,7 +45,7 @@ class CommentsControllerTest {
     @ArgumentsSource(CommentsArgumentsProvider.class)
     void shouldReturnCommentsForBook(Comment comment) throws Exception {
         CommentDto commentsDto = CommentMapper.toDto(comment);
-        String url = BASE_URL + "/book/" + commentsDto.getBook().getId() + "/comment";
+        String url = "/api/v1/books/" + commentsDto.getBook().getId() + "/comments";
 
         List<CommentDto> expected = new ArrayList<>();
         expected.add(new CommentDto(1, "Comment_1", commentsDto.getBook()));
@@ -63,7 +63,7 @@ class CommentsControllerTest {
     void insetAction(Comment comment) throws Exception {
         // init
         CommentDto commentDto = CommentMapper.toDto(comment);
-        String url = BASE_URL + "/book/" + commentDto.getBook().getId() + "/comment/add";
+        String url = "/api/v1/books/" + commentDto.getBook().getId() + "/comments";
         given(commentService.insert(any())).willReturn(commentDto);
         String expected = mapper.writeValueAsString(commentDto);
 
@@ -81,13 +81,13 @@ class CommentsControllerTest {
     @ParameterizedTest()
     @ArgumentsSource(CommentsArgumentsProvider.class)
     void updateAction(Comment comment) throws Exception {
-        String url = BASE_URL + "/book/" + comment.getBook().getId() + "/comment/" + comment.getId() + "/edit";
+        String url = "/api/v1/books/" + comment.getBook().getId() + "/comments/" + comment.getId();
         CommentDto commentDto = CommentMapper.toDto(comment);
         given(commentService.update(any())).willReturn(commentDto);
         String expected = mapper.writeValueAsString(commentDto);
 
         // method for test
-        mockMvc.perform(post(url)
+        mockMvc.perform(put(url)
                         .contentType(MediaType.APPLICATION_JSON)
                         .param("bookId", String.valueOf(comment.getBook().getId()))
                         .param("commentId", String.valueOf(comment.getId()))
@@ -101,7 +101,7 @@ class CommentsControllerTest {
     @ParameterizedTest()
     @ArgumentsSource(CommentsArgumentsProvider.class)
     void deleteAction(Comment comment) throws Exception {
-        String url = BASE_URL + "/book/" + comment.getBook().getId() + "/comment/" + comment.getId() + "/delete";
+        String url = "/api/v1/books/" + comment.getBook().getId() + "/comments/" + comment.getId();
         CommentDto commentDto = CommentMapper.toDto(comment);
         given(commentService.delete(comment.getId())).willReturn(commentDto);
         String expected = mapper.writeValueAsString(commentDto);

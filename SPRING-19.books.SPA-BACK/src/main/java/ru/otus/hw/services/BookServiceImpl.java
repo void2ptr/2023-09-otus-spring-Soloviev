@@ -76,7 +76,7 @@ public class BookServiceImpl implements BookService {
             throw new EntityNotFoundException("Author with id %d not found".formatted(authorDto.getId()));
         }
         var genresIds = genresDto.stream().map(GenreDto::getId).toList();
-        var genres = genreRepository.findAllGenresByIds(genresIds);
+        var genres = genreRepository.findAllByIdIn(genresIds);
         if (genres.isEmpty()) {
             throw new EntityNotFoundException("Genres with ids [%s] not found".formatted(genresIds));
         }

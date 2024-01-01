@@ -19,3 +19,10 @@
 - Если Вы хотите засчитать, то обязательно пришлите ссылку в чат соответствующего предыдущего занятия.
 - Данное ДЗ будет использоваться в дальнейшем
 
+# REST API schema
+- Достать список объектов @GetMapping     api/objects/
+- Достать один объект     @GetMapping     api/objects/{id}
+- Добавить объект         @PostMapping    api/objects/
+- Изменить объект         @PutMapping     api/objects/{id}
+- Удалить объект          @DeleteMapping  api/objects/{id}
+

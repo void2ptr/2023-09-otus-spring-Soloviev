@@ -29,7 +29,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(GenresController.class)
 class GenresControllerTest {
 
-    private static final String BASE_URL = "/api/v1";
+//    private static final String BASE_URL = "/api/v1";
 
     @Autowired
     private MockMvc mockMvc;
@@ -43,7 +43,7 @@ class GenresControllerTest {
     @DisplayName("проверка получения всех с списком Жанров")
     @Test
     void getAll() throws Exception {
-        String url = BASE_URL + "/genre";
+        String url = "/api/v1/genres";
         List<Genre> genres = List.of(
                 new Genre(1, "Genre_1"),
                 new Genre(2, "Genre_2"));
@@ -62,7 +62,7 @@ class GenresControllerTest {
     @ArgumentsSource(GenresArgumentsProvider.class)
     void addAction(Genre genre) throws Exception {
         // init
-        String url = BASE_URL + "/genre/add";
+        String url = "/api/v1/genres";
         given(genreService.insert(genre)).willReturn(genre);
         String expected = mapper.writeValueAsString(GenreMapper.toDto(genre));
 
@@ -80,12 +80,12 @@ class GenresControllerTest {
     @ParameterizedTest()
     @ArgumentsSource(GenresArgumentsProvider.class)
     void updateAction(Genre genre) throws Exception {
-        String url = BASE_URL + "/genre/" + genre.getId() + "/edit";
+        String url = "/api/v1/genres/" + genre.getId();
         given(genreService.update(genre)).willReturn(genre);
         String expected = mapper.writeValueAsString(GenreMapper.toDto(genre));
 
         // method for test
-        mockMvc.perform(post(url)
+        mockMvc.perform(put(url)
                         .contentType(MediaType.APPLICATION_JSON)
                         .param("id", String.valueOf(genre.getId()))
                         .content(mapper.writeValueAsBytes(genre))
@@ -98,7 +98,7 @@ class GenresControllerTest {
     @ParameterizedTest()
     @ArgumentsSource(GenresArgumentsProvider.class)
     void deleteAction(Genre genre) throws Exception {
-        String url = BASE_URL + "/genre/" + genre.getId() + "/delete";
+        String url = "/api/v1/genres/" + genre.getId();
         given(genreService.delete(genre.getId())).willReturn(genre);
         String expected = mapper.writeValueAsString(GenreMapper.toDto(genre));
 

@@ -32,7 +32,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @WebMvcTest(BooksController.class)
 class BooksControllerTest {
 
-    private static final String BASE_URL = "/api/v1";
+//    private static final String BASE_URL = "/api/v1";
 
     @Autowired
     private MockMvc mockMvc;
@@ -47,7 +47,7 @@ class BooksControllerTest {
     @Test
     void findAll() throws Exception {
         // init
-        String url = BASE_URL + "/book";
+        String url = "/api/v1/books";
         AuthorDto authorDto = new AuthorDto(1, "Author_1");
         GenreDto genreDto = new GenreDto(1, "Genre_1");
         List<BookDto> expected = List.of(
@@ -67,7 +67,7 @@ class BooksControllerTest {
     void addAction(Book book) throws Exception {
         // init
         BookDto bookDto = BookMapper.toDto(book);
-        String url = BASE_URL + "/book/add";
+        String url = "/api/v1/books";
         given(bookService.insert(any())).willReturn(bookDto);
         var expected = mapper.writeValueAsString(bookDto);
 
@@ -86,12 +86,12 @@ class BooksControllerTest {
     void editAction(Book book) throws Exception {
         // init
         BookDto bookDto = BookMapper.toDto(book);
-        String url = BASE_URL + "/book/" + bookDto.getId() + "/edit";
+        String url = "/api/v1/books/" + bookDto.getId();
         given(bookService.update(any())).willReturn(bookDto);
         var expected = mapper.writeValueAsString(bookDto);
 
         // test
-        mockMvc.perform(post(url)
+        mockMvc.perform(put(url)
                         .contentType(MediaType.APPLICATION_JSON)
                         .content(expected)
                         .accept(MediaType.APPLICATION_JSON))
@@ -105,7 +105,7 @@ class BooksControllerTest {
     void deleteAction(Book book) throws Exception {
         // init
         BookDto bookDto = BookMapper.toDto(book);
-        String url = BASE_URL + "/book/" + bookDto.getId() + "/delete";
+        String url = "/api/v1/books/" + bookDto.getId();
         given(bookService.delete(bookDto.getId())).willReturn(bookDto);
         var expected = mapper.writeValueAsString(bookDto);
 
