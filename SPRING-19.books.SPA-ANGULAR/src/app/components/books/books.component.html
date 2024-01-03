@@ -1,0 +1,33 @@
+<main class="main-books" id="main-books">
+    <aside class="side-book table-books">
+        <div class="book-row">
+            <span class="table-header">ID</span>
+            <span class="table-header">Titile</span>
+            <span class="table-header">Author</span>
+            <span class="table-header">Genres</span>
+            <span class="table-header">Delete</span>
+        </div>
+        <div class="book-row" *ngFor="let book of books">
+            <span   class="cell-id"     (click)="onCellClick(book)" >{{book.id}}</span>
+            <span   class="cell-title"  (click)="onCellClick(book)" >{{book.title}}</span>
+            <span   class="cell-author" (click)="onCellClick(book)" >{{ book.author.fullName }}</span>
+            <span   class="cell-genres" (click)="onCellClick(book)" ><span class="genres" *ngFor="let genre of book.genres">{{genre.name}}</span> </span>
+            <button class="cell-delete button-mid" (click)="onClickDelete(book)">Delete</button>
+        </div>
+    </aside>
+    <aside class="side-book_edit">
+        @defer{
+            <app-book-editor [book]="book"
+                            (addBookEvent)="receiveAddBookEvent($event)"
+                            (saveBookEvent)="receiveSaveBookEvent($event)"
+
+             ></app-book-editor>
+        }
+    </aside>
+    <aside class="side-comment">
+        @defer{
+            <app-comments [book]="book"
+            ></app-comments>
+        }
+    </aside>
+</main>

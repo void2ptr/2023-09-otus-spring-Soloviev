@@ -1,0 +1,22 @@
+.page-content {
+    display: grid;
+    grid-template-areas:
+    "nav"
+    "body";
+
+    gap: 10px;
+
+    .content-nav {
+      grid-area: nav;
+      display: flex;
+      flex-direction: row;
+      gap: 10px;
+    }
+
+    .content-body {
+      grid-area: body;
+      gap: 10px;
+    }
+}
+
+

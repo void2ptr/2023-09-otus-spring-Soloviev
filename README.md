@@ -15,4 +15,5 @@
 - [SPRING-13](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/tree/main/SPRING-13.book.data-SPA) - "Белая магия" Spring Data: Spring Data JPA
 - [SPRING-15](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/tree/main/SPRING-15.books.MongoDB) - Spring Data для подключения к нереляционным БД (MongoDB)
 - [SPRING-18](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/tree/main/SPRING-18.books.Spring-MVC-View) - Spring MVC View
-- [SPRING-19](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/tree/main/SPRING-19.books.SPA-AJAX) - Современные приложения на Spring MVC
+- [SPRING-19](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/tree/main/SPRING-19.books.SPA-ANGULAR) - Современные приложения на Spring MVC - front
+- [SPRING-19](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/tree/main/SPRING-19.books.SPA-BACK) - Современные приложения на Spring MVC - back

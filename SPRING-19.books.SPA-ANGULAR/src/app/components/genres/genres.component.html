@@ -1,0 +1,37 @@
+<aside class="side-main">
+  <aside class="side-left">
+    <table class="table-genres">
+        <thead>
+            <tr>
+                <td class="table-header"><label>ID</label></td>
+                <td class="table-header"><label>Name</label></td>
+                <td class="table-header"><label>Edit</label></td>
+                <td class="table-header"><label>Delete</label></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let genre of genres; let i = index;">
+                <td class="table-row"><label  class="column-genre-id">{{ genre.id }}</label></td>
+                <td class="table-row"><input  class="column-genre-name" attr.data-id="{{ genre.id }}" value="{{ genre.name }}"  type="text"
+                    #genreEdit (keyup)="onKey(genreEdit)"/></td>
+                <td class="table-row"><button class="button-mid" (click)="editRow(i)">Save</button></td>
+                <td class="table-row"><button class="button-mid" (click)="deleteRow(i)">Delete</button></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <td class="table-row"><label  class="column-genre-id" #genreId></label></td>
+                <td class="table-row"><input  class="column-genre-name" data-id="0"
+                    #genreAdd (keyup)="onKey(genreAdd)" value="" type="text" /></td>
+                <td class="table-row"><button class="button-mid" (click)="addRow()">Add</button></td>
+            </tr>
+        </tfoot>
+    </table>
+  </aside>
+  <!--
+  <aside  class="side-right">
+      <div>debug JSON:</div>
+      <pre>{{genres | json}}</pre>
+  </aside>
+  -->
+</aside>

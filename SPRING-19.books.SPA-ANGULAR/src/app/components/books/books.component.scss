@@ -1,0 +1,88 @@
+$color-border: lightblue;
+
+/* main layout */
+.main-books{
+    display: grid;
+    grid-template-areas:
+    "book    book_edit"
+    "comment book_edit"
+    ;
+    grid-template-rows: repeat(1, min-content);
+
+    align-content: center;
+    align-items: start;
+    gap: 10px;
+
+    .side-book{      grid-area: book; }
+    .side-book_edit{ grid-area: book_edit; }
+    .side-comment{   grid-area: comment; }
+}
+
+/* table layout */
+.table-books {
+    border: 2px solid $color-border;
+    border-radius: 10px;
+    padding: 5px 5px 5px 20px;
+
+    .book-row {
+        display: grid;
+        align-items: left;
+        grid-template-columns: 50px repeat(3, minmax(auto, 1fr)) 100px;
+        grid-template-rows: auto;
+        align-items: center;
+        gap: 5px;
+
+        border-bottom: 1px solid lightgray;
+        padding: 1px;
+    }
+}
+
+/* editor layout */
+.book-editor {
+    display: grid;
+    grid-template-areas:
+    "header     header"
+    "id_lbl     id_val    "
+    "title_lbl  title_val "
+    "author_lbl author_sel"
+    "genres_lbl genres_sel"
+    "button_add button_edit"
+    "footer     footer "
+
+    ;
+    // grid-template-columns: min-content min-content min-content;
+    grid-template-rows: repeat(3, min-content) 1fr;
+
+    align-content: center;
+    align-items: start;
+    justify-items: start;
+    gap: 10px;
+
+    border: 2px solid $color-border;
+    border-radius: 10px;
+    padding: 5px 5px 5px 20px;
+
+    .editor-header{      grid-area: header; }
+    .editor-id_lbl{      grid-area: id_lbl; }
+    .editor-id_val{      grid-area: id_val; }
+    .editor-title_lbl{   grid-area: title_lbl; }
+    .editor-title_val{   grid-area: title_val; }
+    .editor-author_lbl{  grid-area: author_lbl; }
+    .editor-author_sel{  grid-area: author_sel; }
+    .editor-genres_lbl{  grid-area: genres_lbl; }
+    .editor-genres_sel{  grid-area: genres_sel; }
+    .editor-button_add{  grid-area: button_add; }
+    .editor-button_edit{ grid-area: button_edit; }
+    .editor-footer{      grid-area: footer; }
+}
+
+/* genres */
+.genres {
+    display: inline-block;
+    text-decoration: none;
+    white-space: nowrap;
+ }
+ .genres:not(:last-child):after {
+   content: ', ';
+   margin-right: 10px;
+ }

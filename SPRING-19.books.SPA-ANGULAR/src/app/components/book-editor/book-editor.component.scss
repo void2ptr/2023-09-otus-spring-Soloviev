@@ -1,0 +1,44 @@
+$color-border: lightblue;
+
+.book-editor {
+  display: grid;
+  grid-template-rows: repeat(9, min-content) 1fr;
+  grid-template-areas:
+  "header       header"
+  "id_lbl       id_val    "
+  "title_lbl    title_val "
+  "author_lbl_l author_lbl_r"
+  "author_sel_l author_sel_r"
+  "genres_lbl_l genres_lbl_r"
+  "genres_sel_l genres_sel_r"
+  "button_add   button_edit"
+  "footer       footer "
+  ;
+  // grid-template-columns: min-content min-content min-content;
+
+  align-content: center;
+  align-items: start;
+  justify-items: start;
+  gap: 15px;
+
+  border: 2px solid $color-border;
+  border-radius: 10px;
+  padding: 5px 5px 5px 20px;
+
+  .editor-header{       grid-area: header; }
+  .editor-id_lbl{       grid-area: id_lbl; }
+  .editor-id_val{       grid-area: id_val; }
+  .editor-title_lbl{    grid-area: title_lbl; }
+  .editor-title_val{    grid-area: title_val; }
+  .editor-author_lbl_l{ grid-area: author_lbl_l; }
+  .editor-author_sel_l{ grid-area: author_sel_l; }
+  .editor-author_lbl_r{ grid-area: author_lbl_r; }
+  .editor-author_sel_r{ grid-area: author_sel_r; }
+  .editor-genres_lbl_l{ grid-area: genres_lbl_l; }
+  .editor-genres_sel_l{ grid-area: genres_sel_l; }
+  .editor-genres_lbl_r{ grid-area: genres_lbl_r; }
+  .editor-genres_sel_r{ grid-area: genres_sel_r; }
+  .editor-button_add{   grid-area: button_add; }
+  .editor-button_edit{  grid-area: button_edit; }
+  .editor-footer{       grid-area: footer; }
+}

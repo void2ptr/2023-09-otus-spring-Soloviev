@@ -1,0 +1,44 @@
+<form class="book-editor" name="bookEditor" #bookForm="ngForm"  >
+    <div class="editor-header">Book Editor:</div>
+
+    <!-- Row ID -->
+    <label class="editor-id_lbl">id</label>
+    <input class="editor-id_val" name="id" [(ngModel)]="book.id" value="{{ book.id }}" readonly>
+
+    <!-- Row Title -->
+    <label class="editor-title_lbl">title</label>
+    <textarea class="editor-title_val" name="title" [(ngModel)]="book.title">{{ book.title }}</textarea>
+
+    <!--Row Author -->
+    <!--[selected]="author.selected == true"-->
+    <label  class="editor-author_lbl_l">Autor All</label>
+    <select class="editor-author_sel_l" name="author" [(ngModel)]="book.author">
+        <option *ngFor="let author of authors" [ngValue]="author">{{ author.fullName }}</option>
+    </select>
+
+    <label class="editor-author_lbl_r">Autor Current</label>
+    <input class="editor-author_sel_r" name="book.author" [(ngModel)]="book.author.fullName" value="{{ book.author.fullName }}" readonly>
+
+    <!-- Row Genres -->
+    <!--[selected]="genre.selected == true"-->
+    <label  class="editor-genres_lbl_l">Genres All</label>
+    <select class="editor-genres_sel_l" multiple size="18" name="genres" [(ngModel)]="book.genres">
+        <option *ngFor="let genre of genres" [ngValue]="genre"
+        >{{ genre.name }}</option>
+    </select>
+
+    <label  class="editor-genres_lbl_r">Genres Current</label>
+    <select class="editor-genres_sel_r" multiple size="18" name="genres" [(ngModel)]="book.genres">
+        <option *ngFor="let genre of book.genres" [ngValue]="genre">{{ genre.name }}</option>
+    </select>
+
+    <!-- Row Actions -->
+    <button class="button_add  button-mid" (click)="onClickAdd(bookForm)" >Add</button>
+    <button class="button_edit button-mid" (click)="onClickSave(bookForm)">Save</button>
+
+    <!-- Row Imfo -->
+    <div class="editor-footer">{{ error }}</div>
+</form>
+<!--
+<pre> Debug: {{ book | json }} </pre>
+-->
