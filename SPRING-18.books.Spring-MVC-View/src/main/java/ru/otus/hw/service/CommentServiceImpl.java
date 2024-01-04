@@ -9,8 +9,8 @@ import ru.otus.hw.exception.EntityNotFoundException;
 import ru.otus.hw.mapper.BookMapper;
 import ru.otus.hw.mapper.CommentMapper;
 import ru.otus.hw.model.Comment;
-import ru.otus.hw.repositorie.BookRepository;
-import ru.otus.hw.repositorie.CommentRepository;
+import ru.otus.hw.repository.BookRepository;
+import ru.otus.hw.repository.CommentRepository;
 
 import java.util.List;
 import java.util.Optional;

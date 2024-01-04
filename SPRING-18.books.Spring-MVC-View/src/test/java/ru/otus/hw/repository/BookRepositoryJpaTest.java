@@ -1,4 +1,4 @@
-package ru.otus.hw.repositorie;
+package ru.otus.hw.repository;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;

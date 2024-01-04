@@ -8,8 +8,8 @@ import ru.otus.hw.exception.EntityNotFoundException;
 import ru.otus.hw.mapper.GenreMapper;
 import ru.otus.hw.model.Book;
 import ru.otus.hw.model.Genre;
-import ru.otus.hw.repositorie.BookRepository;
-import ru.otus.hw.repositorie.GenreRepository;
+import ru.otus.hw.repository.BookRepository;
+import ru.otus.hw.repository.GenreRepository;
 
 import java.util.List;
 import java.util.Optional;
