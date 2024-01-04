@@ -7,19 +7,18 @@
 </head>
 <body>
     <nav th:insert="/api/v1/menu/header :: top-menu"></nav>
-    <h1>Авторы</h1>
+    <h1 th:text="#{authors-title}">Страница для работы с Авторами</h1>
 
     <table>
-        <caption>Table: authors</caption>
         <thead>
             <tr>
-                <th>ID</th>
-                <th>Творческий псевдоним</th>
-                <th>Действия</th>
+                <th th:text="#{common-field-id}">ID</th>
+                <th th:text="#{authors-field-name}">Творческий псевдоним</th>
+                <th th:text="#{common-field-action}">Действия</th>
                 <th>
-                    <a th:href="@{/api/v1/author/page-add}"
+                    <a th:href="@{/api/v1/authors/add}"
                        href="/api/v1/authors/authors.html"
-                       th:text="Добавить">Add</a>
+                       th:text="#{button-caption-add}">Add</a>
                 </th>
             </tr>
         </thead>
@@ -27,13 +26,13 @@
             <tr th:each="author : ${authors}">
                 <td th:text="${author.id}">John Doe</td>
                 <td th:text="${author.fullName}">John Doe</td>
-                <td><a th:href="@{/api/v1/author/__${author.id}__/page-edit}"
+                <td><a th:href="@{/api/v1/authors/__${author.id}__/edit}"
                        href="/api/v1/authors/authors.html"
-                       th:text="Редактировать">Edit</a>
+                       th:text="#{button-caption-edit}">Edit</a>
                 </td>
-                <td><a th:href="@{/api/v1/author/__${author.id}__/page-delete}"
+                <td><a th:href="@{/api/v1/authors/__${author.id}__/delete}"
                        href="/api/v1/authors/authors.html"
-                       th:text="Удалить">Delete</a>
+                       th:text="#{button-caption-delete}">Delete</a>
                 </td>
             </tr>
         </tbody>

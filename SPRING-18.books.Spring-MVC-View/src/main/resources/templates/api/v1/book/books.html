@@ -7,21 +7,20 @@
     <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" type="text/css" />
 <body>
     <nav th:insert="/api/v1/menu/header :: top-menu"></nav>
-    <h1>Книги</h1>
+    <h1 th:text="#{books-title}">Страница для работы с Книгами</h1>
 
     <table>
-        <caption>Table: books</caption>
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Название</th>
-            <th>Автор</th>
-            <th>Жанры</th>
-            <th>Действия</th>
-            <th><a th:href="@{/api/v1/book/page-add}"
+            <th th:text="#{common-field-id}">ID</th>
+            <th th:text="#{common-field-name}">Название</th>
+            <th th:text="#{books-field-author}">Автор</th>
+            <th th:text="#{books-field-genre}">Жанры</th>
+            <th th:text="#{common-field-action}">Действия</th>
+            <th><a th:href="@{/api/v1/books/add}"
                    href="/book/books.html"
-                   th:text="Добавить">Add</a></th>
-            <th>Комментарии</th>
+                   th:text="#{button-caption-add}">Add</a></th>
+            <th th:text="#{books-field-comments}">Комментарии</th>
         </tr>
         </thead>
         <tbody>
@@ -37,19 +36,19 @@
                     <span class="genres-div" th:each="genre : ${book.genres}" th:text="${genre.name}"></span>
                 </td>
                 <td>
-                    <a th:href="@{/api/v1/book/__${book.id}__/page-edit}"
+                    <a th:href="@{/api/v1/books/__${book.id}__/edit}"
                        href="/book/books.html"
-                       th:text="Редактировать">Edit</a>
+                       th:text="#{button-caption-edit}">Edit</a>
                 </td>
                 <td>
-                    <a th:href="@{/api/v1/book/__${book.id}__/page-delete}"
+                    <a th:href="@{/api/v1/books/__${book.id}__/delete}"
                        href="/book/books.html"
-                       th:text="Удалить">Delete</a>
+                       th:text="#{button-caption-delete}">Delete</a>
                 </td>
                 <td>
-                    <a th:href="@{/api/v1/book/__${book.id}__/comment}"
+                    <a th:href="@{/api/v1/books/__${book.id}__/comments}"
                        href="/comment/comments.html"
-                       th:text="Комментарии">Мнения</a>
+                       th:text="#{button-caption-comments}">Мнения</a>
                 </td>
             </tr>
         </tbody>

@@ -6,19 +6,20 @@
 </head>
 <body>
     <nav th:insert="/api/v1/menu/header :: top-menu"></nav>
-    <h1>Комментарии к книге "<span th:text="${book.title}">________</span>" </h1>
 
+    <h1> <span th:text="#{comment-title}">Комментарии к книге : </span>
+        "<span th:text="${book.title}">No Book</span>"
+    </h1>
 
     <table>
-        <caption>Table: comments</caption>
         <thead>
         <tr>
-            <th>ID</th>
-            <th>Название</th>
-            <th>Действия</th>
-            <th><a th:href="@{/api/v1/book/__${book.id}__/comment/page-add}"
+            <th th:text="#{common-field-id}">ID</th>
+            <th th:text="#{common-field-name}">Название</th>
+            <th th:text="#{common-field-action}">Действия</th>
+            <th><a th:href="@{/api/v1/books/__${book.id}__/comments/add}"
                    href="/api/v1/comment/comments.html"
-                   th:text="Добавить">Add</a>
+                   th:text="#{button-caption-add}">Add</a>
             </th>
         </tr>
         </thead>
@@ -26,13 +27,13 @@
         <tr th:each="comment : ${comments}">
             <td th:text="${comment.id}">-1</td>
             <td th:text="${comment.description}">Free Style</td>
-            <td><a th:href="@{/api/v1/book/__${book.id}__/comment/__${comment.id}__/page-edit}"
+            <td><a th:href="@{/api/v1/books/__${book.id}__/comments/__${comment.id}__/edit}"
                    href="/api/v1/comment/comments.html"
-                   th:text="Редактировать">Edit</a>
+                   th:text="#{button-caption-edit}">Edit</a>
             </td>
-            <td><a th:href="@{/api/v1/book/__${book.id}__/comment/__${comment.id}__/page-delete}"
+            <td><a th:href="@{/api/v1/books/__${book.id}__/comments/__${comment.id}__/delete}"
                    href="/api/v1/comment/comments.html"
-                   th:text="Удалить">Edit</a>
+                   th:text="#{button-caption-delete}">Edit</a>
             </td>
         </tr>
         </tbody>

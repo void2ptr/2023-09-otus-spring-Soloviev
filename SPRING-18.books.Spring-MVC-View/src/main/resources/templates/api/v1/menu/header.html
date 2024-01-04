@@ -1,6 +1,20 @@
 <main class="nav-header-top" th:fragment="top-menu">
-    <span><a href="/index">Главная</a></span>
-    <span><a href="/api/v1/author">Авторы</a></span>
-    <span><a href="/api/v1/genre">Жанры</a></span>
-    <span><a href="/api/v1/book">Книги</a></span>
+    <span><a href="/index"          th:text="#{index-link-main}">Главная</a></span>
+    <span><a href="/api/v1/books"   th:text="#{index-link-book}">Книги</a></span>
+    <span><a href="/api/v1/authors" th:text="#{index-link-author}">Авторы</a></span>
+    <span><a href="/api/v1/genres"  th:text="#{index-link-genre}">Жанры</a></span>
+
+
+
+    <aside>
+        <div><a href="#" th:href="@{?(lang=en)}"
+                th:text="#{en-lang-switch-button-caption}"
+                th:title="#{lang-switcher-header}">EN</a></div>
+        <div><a href="#" th:href="@{?(lang=ru)}"
+                th:text="#{ru-lang-switch-button-caption}"
+                th:title="#{lang-switcher-header}">RU</a></div>
+    </aside>
+
 </main>
+
+

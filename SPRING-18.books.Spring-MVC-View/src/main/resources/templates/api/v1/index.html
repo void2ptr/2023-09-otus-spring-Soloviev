@@ -6,12 +6,11 @@
 </head>
 <body>
     <nav th:insert="/api/v1/menu/header :: top-menu"></nav>
-    <p>Главная страница</p>
 
     <ul>
-        <li><a href="/api/v1/author">Авторы</a></li>
-        <li><a href="/api/v1/genre">Жанры</a></li>
-        <li><a href="/api/v1/book">Книги</a></li>
+        <li><a href="/api/v1/books"   th:text="#{index-link-book}">Книги</a></li>
+        <li><a href="/api/v1/authors" th:text="#{index-link-author}">Авторы</a></li>
+        <li><a href="/api/v1/genres"  th:text="#{index-link-genre}">Жанры</a></li>
     </ul>
 
     <nav th:insert="/api/v1/menu/footer :: bottom-menu"></nav>
