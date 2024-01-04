@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" type="text/css" />
+    <title>Comments list</title>
+</head>
+<body>
+    <nav th:insert="/api/v1/menu/header :: top-menu"></nav>
+
+    <h1> <span th:text="#{comment-title}">Комментарии к книге : </span>
+        "<span th:text="${book.title}">No Book</span>"
+    </h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th th:text="#{common-field-id}">ID</th>
+            <th th:text="#{common-field-name}">Название</th>
+            <th th:text="#{common-field-action}">Действия</th>
+            <th><a th:href="@{/api/v1/books/__${book.id}__/comments/add}"
+                   href="/api/v1/comment/comments.html"
+                   th:text="#{button-caption-add}">Add</a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="comment : ${comments}">
+            <td th:text="${comment.id}">-1</td>
+            <td th:text="${comment.description}">Free Style</td>
+            <td><a th:href="@{/api/v1/books/__${book.id}__/comments/__${comment.id}__/edit}"
+                   href="/api/v1/comment/comments.html"
+                   th:text="#{button-caption-edit}">Edit</a>
+            </td>
+            <td><a th:href="@{/api/v1/books/__${book.id}__/comments/__${comment.id}__/delete}"
+                   href="/api/v1/comment/comments.html"
+                   th:text="#{button-caption-delete}">Edit</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <nav th:insert="/api/v1/menu/footer :: bottom-menu"></nav>
+</body>
+</html>

@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Authors list</title>
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <nav th:insert="/api/v1/menu/header :: top-menu"></nav>
+    <h1 th:text="#{authors-title}">Страница для работы с Авторами</h1>
+
+    <table>
+        <thead>
+            <tr>
+                <th th:text="#{common-field-id}">ID</th>
+                <th th:text="#{authors-field-name}">Творческий псевдоним</th>
+                <th th:text="#{common-field-action}">Действия</th>
+                <th>
+                    <a th:href="@{/api/v1/authors/add}"
+                       href="/api/v1/authors/authors.html"
+                       th:text="#{button-caption-add}">Add</a>
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr th:each="author : ${authors}">
+                <td th:text="${author.id}">John Doe</td>
+                <td th:text="${author.fullName}">John Doe</td>
+                <td><a th:href="@{/api/v1/authors/__${author.id}__/edit}"
+                       href="/api/v1/authors/authors.html"
+                       th:text="#{button-caption-edit}">Edit</a>
+                </td>
+                <td><a th:href="@{/api/v1/authors/__${author.id}__/delete}"
+                       href="/api/v1/authors/authors.html"
+                       th:text="#{button-caption-delete}">Delete</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <nav th:insert="/api/v1/menu/footer :: bottom-menu"></nav>
+</body>
+</html>
