@@ -5,7 +5,7 @@
     <module name="spring-study-webflux" />
     <extension name="coverage">
       <pattern>
-        <option name="PATTERN" value="ru.otus.hw.*" />
+        <option name="PATTERN" value="ru.otus.hw.rest.func.*" />
         <option name="ENABLED" value="true" />
       </pattern>
     </extension>

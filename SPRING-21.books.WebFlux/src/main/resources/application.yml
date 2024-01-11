@@ -1,9 +1,4 @@
 spring:
-#  sql.init.mode: always
-#  main:
-#    web-application-type: none
-#    web-application-type: reactive
-
   r2dbc:
     url: r2dbc:postgresql://localhost:5430/demoDB
     username: usr
@@ -13,31 +8,12 @@ spring:
     user: usr
     password: pwd
 
-#  datasource:
-#    url: jdbc:h2:mem:testdb
-#  r2dbc:
-#    url: r2dbc:h2:mem:testdb
-#  flyway:
-#    url: jdbc:h2:mem:testdb
-
-#  sql:
-#    init:
-#      mode: always
-#      data-locations: data/data.sql
-#      schema-locations: data/schema.sql
-#  jpa:
-#    generate-ddl: true
-#    hibernate:
-#      ddl-auto: none
-#    properties:
-#      hibernate:
-##        format_sql: true
-#    show-sql: false
-
 logging:
   level:
     ROOT: ERROR
     org.springframework.jdbc.core.JdbcTemplate: TRACE
+    io.r2dbc.postgresql.QUERY: DEBUG # for queries
+    io.r2dbc.postgresql.PARAM: DEBUG # for parameters
 
 server:
   port: 8080

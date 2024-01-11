@@ -1,19 +1,20 @@
 package ru.otus.hw.model;
 
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
+import lombok.Getter;
+import lombok.ToString;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.relational.core.mapping.Table;
 
 
+@Getter
+@ToString
 @Table(name = "author")
 public class Author {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    private String fullName;
+    private final String fullName;
 
     @PersistenceCreator
     public Author(Long id, String fullName) {
@@ -24,14 +25,4 @@ public class Author {
     public Author(String fullName) {
         this.fullName = fullName;
     }
-
-    public Long getId() {
-        return id;
-    }
-
-    public String getFullName() {
-        return fullName;
-    }
-
-
 }

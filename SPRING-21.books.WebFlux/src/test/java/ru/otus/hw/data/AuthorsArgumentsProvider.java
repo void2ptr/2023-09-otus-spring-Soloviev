@@ -7,6 +7,7 @@ import org.junit.jupiter.params.provider.ArgumentsProvider;
 import java.util.stream.Stream;
 
 public class AuthorsArgumentsProvider implements ArgumentsProvider {
+
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
         return InitTestData.getDbAuthors()

@@ -4,14 +4,11 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import ru.otus.hw.dto.BookDto;
 
-import java.util.List;
-import java.util.Optional;
-
 public interface BookService {
 
     Flux<BookDto> findAll();
 
-    Mono<BookDto> findById(Long id);
+    Mono<BookDto> findById(BookDto bookDto);
 
     Mono<BookDto> insert(BookDto bookDto);
 

@@ -17,10 +17,11 @@ create table book (
     primary key (id)
 );
 
-create table books_genres (
+create table book_genre (
+    id bigserial,
     book_id bigint references book(id) on delete cascade,
     genre_id bigint references genre(id) on delete cascade,
-    primary key (book_id, genre_id)
+    primary key (id)
 );
 
 create table comment (

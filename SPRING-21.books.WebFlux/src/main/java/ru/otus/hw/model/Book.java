@@ -6,24 +6,28 @@ import org.springframework.data.annotation.Id;
 import org.springframework.data.annotation.PersistenceCreator;
 import org.springframework.data.relational.core.mapping.Table;
 
+
 @Getter
 @ToString
-@Table(name = "genre")
-public class Genre {
+@Table(name = "book")
+public class Book {
     @Id
     private Long id;
 
-    private final String name;
+    private final String title;
+
+    private final Long authorId;
 
     @PersistenceCreator
-    public Genre(Long id, String name) {
+    public Book(Long id, String title, Long authorId) {
         this.id = id;
-        this.name = name;
+        this.title = title;
+        this.authorId = authorId;
     }
 
-    @PersistenceCreator
-    public Genre(String name) {
-        this.name = name;
+    public Book(String title, Long authorId) {
+        this.title = title;
+        this.authorId = authorId;
     }
 
 }
