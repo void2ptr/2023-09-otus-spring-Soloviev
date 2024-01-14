@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.dto.BookDto;
@@ -32,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @DisplayName("проверка раздела для Книги")
 @WebMvcTest(BooksController.class)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class BooksControllerTest {
 
     @Autowired
@@ -51,6 +54,7 @@ class BooksControllerTest {
 
     @DisplayName("проверка открытия страницы с списком Книг")
     @Test
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void listPage() throws Exception {
         // init
         String url = "/books";
@@ -75,6 +79,7 @@ class BooksControllerTest {
 
     @DisplayName("открытие страницы добавления Книги")
     @Test
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void addPage() throws Exception {
         // init
         long bookId = 0;
@@ -99,6 +104,7 @@ class BooksControllerTest {
 
     @DisplayName("открытие страницы редактирования Книги")
     @Test
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void editPage() throws Exception {
         // init
         long bookId = 1;
@@ -125,6 +131,7 @@ class BooksControllerTest {
 
     @DisplayName("открытие страницы удаления Книги")
     @Test
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void deletePage() throws Exception {
         // init
         long bookId = 1;

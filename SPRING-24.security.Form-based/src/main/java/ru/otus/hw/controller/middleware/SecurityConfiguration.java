@@ -3,6 +3,8 @@ package ru.otus.hw.controller.middleware;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
+import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.config.Customizer;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -21,7 +23,7 @@ import ru.otus.hw.service.UserService;
 @RequiredArgsConstructor
 @EnableWebSecurity
 public class SecurityConfiguration {
-
+    public static final String[] ENDPOINTS_WHITELIST = {"/","/index/**","/static/**", "/css/**"};
     private final String REMEMBER_ME_KEY = "MY_SECRET_KEY";
     private final int REMEMBER_ME_SEC = 60 * 10; // token validity seconds
 
@@ -32,15 +34,19 @@ public class SecurityConfiguration {
         http
                 .csrf(Customizer.withDefaults())
                 .authorizeHttpRequests( ( authorize ) -> authorize
-                        .requestMatchers( "/", "/static/**", "/css/**" ).permitAll()
-                        .requestMatchers( "/index/**" ).permitAll()
-                        .requestMatchers( "/**" ).authenticated()
-                        .requestMatchers( "/books/**").authenticated()
-                        .requestMatchers( "/authors/**" ).authenticated()
-                        .requestMatchers( "/genres/**").authenticated()
-                        .requestMatchers("/comments/**").authenticated()
-                        .requestMatchers("/**").hasAnyRole("USER","ADMIN")
-                        .anyRequest().authenticated())
+//                        .requestMatchers(ENDPOINTS_WHITELIST).permitAll()
+//                        .requestMatchers( "/**" ).authenticated()
+
+                        .requestMatchers( HttpMethod.POST, "/books/**").authenticated()
+                        .requestMatchers( HttpMethod.GET, "/books/**").authenticated()
+//                        .requestMatchers( "/books/**").authenticated()
+//
+//                        .requestMatchers( "/authors/**" ).authenticated()
+//                        .requestMatchers( "/genres/**").authenticated()
+//                        .requestMatchers("/comments/**").authenticated()
+//                        .requestMatchers("/**").hasAnyRole("USER","ADMIN")
+                        .anyRequest().denyAll()
+                )
                 .logout((logout) -> logout
                         .logoutUrl("/logout")
                         .logoutSuccessUrl("/login")

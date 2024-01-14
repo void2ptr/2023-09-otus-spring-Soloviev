@@ -4,9 +4,11 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.dto.BookDto;
@@ -32,6 +34,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @DisplayName("проверка раздела для Комментариев")
 @WebMvcTest(CommentsController.class)
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class CommentsControllerTest {
 
     @Autowired
@@ -45,6 +48,7 @@ class CommentsControllerTest {
 
     @DisplayName("проверка открытия страницы с списком Комментариев")
     @Test
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void listPage() throws Exception {
         long bookId = 1;
         String url = "/books/" + bookId + "/comments";
@@ -68,6 +72,7 @@ class CommentsControllerTest {
 
     @DisplayName("открытие страницы добавления Комментария")
     @Test
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void addPage() throws Exception {
         long bookId = 1;
         String expect = "The Book";
@@ -86,6 +91,7 @@ class CommentsControllerTest {
 
     @DisplayName("открытие страницы редактирование Комментария")
     @Test
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void editPage() throws Exception {
         long bookId = 1;
         long commentId = 1;
@@ -108,6 +114,7 @@ class CommentsControllerTest {
 
     @DisplayName("открытие страницы удаления Комментария")
     @Test
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void deletePage() throws Exception {
         long bookId = 1;
         long commentId = 1;

@@ -8,7 +8,9 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import ru.otus.hw.data.AuthorsArgumentsProvider;
 import ru.otus.hw.data.InitTestData;
+import org.springframework.context.annotation.Import;
 import ru.otus.hw.model.Author;
 
 import java.util.List;
@@ -17,42 +19,40 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @DisplayName("Репозиторий на основе JPA для работы с авторами книг")
 @DataJpaTest
+@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class AuthorRepositoryJpaTest {
 
     @Autowired
     private AuthorRepository authorRepository;
 
-//    @Autowired
-//    private InitTestData initTestData;
-
     private List<Author> dbAuthors;
 
     @BeforeEach
     void setUp() {
-//        dbAuthors = initTestData.getDbAuthors();
+        dbAuthors = InitTestData.getDbAuthors();
     }
 
     @DisplayName("должен загружать список всех авторов")
     @Test
     void findAll() {
-//        // init
-//        var expectedAuthor = dbAuthors;
-//        // method for test
-//        var actualAuthor = authorRepository.findAll();
-//        // check
-//        assertThat(actualAuthor).containsExactlyElementsOf(expectedAuthor);
-//        actualAuthor.forEach(System.out::println);
+        // init
+        var expectedAuthor = dbAuthors;
+        // method for test
+        var actualAuthor = authorRepository.findAll();
+        // check
+        assertThat(actualAuthor).containsExactlyElementsOf(expectedAuthor);
+        actualAuthor.forEach(System.out::println);
     }
 
-//    @DisplayName("должен загружать авторов по id")
-//    @ParameterizedTest
-//    @ArgumentsSource(AuthorsArgumentsProvider.class)
-//    void findById(Author expectedAuthor) {
-//        // method for test
-//        var actualAuthor = authorRepository.findAuthorById(expectedAuthor.getId());
-//        // check
-//        assertThat(actualAuthor).isPresent()
-//                .get()
-//                .isEqualTo(expectedAuthor);
-//    }
+    @DisplayName("должен загружать авторов по id")
+    @ParameterizedTest
+    @ArgumentsSource(AuthorsArgumentsProvider.class)
+    void findById(Author expectedAuthor) {
+        // method for test
+        var actualAuthor = authorRepository.findAuthorById(expectedAuthor.getId());
+        // check
+        assertThat(actualAuthor).isPresent()
+                .get()
+                .isEqualTo(expectedAuthor);
+    }
 }
