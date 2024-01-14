@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" type="text/css" />
+    <title></title>
+</head>
+<body>
+    <nav th:insert="/menu/header :: top-menu"></nav>
+
+    <ul>
+        <li><a href="/books"   th:text="#{index-link-book}">Книги</a></li>
+        <li><a href="/authors" th:text="#{index-link-author}">Авторы</a></li>
+        <li><a href="/genres"  th:text="#{index-link-genre}">Жанры</a></li>
+    </ul>
+
+    <nav th:insert="/menu/footer :: bottom-menu"></nav>
+</body>
+</html>
