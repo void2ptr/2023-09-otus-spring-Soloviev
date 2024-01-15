@@ -8,7 +8,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.mock.web.MockHttpSession;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.dto.AuthorDto;
@@ -20,6 +19,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.*;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -130,6 +130,7 @@ public class AuthorsControllerTest {
 
         // test
         mockMvc.perform(post(url)
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .characterEncoding(StandardCharsets.UTF_8)
                         .param("id", String.valueOf(authorDto.getId()))
@@ -151,6 +152,7 @@ public class AuthorsControllerTest {
 
         // test
         mockMvc.perform(post(url)
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .characterEncoding(StandardCharsets.UTF_8)
                         .param("id", String.valueOf(authorDto.getId()))
@@ -171,6 +173,7 @@ public class AuthorsControllerTest {
 
         // test
         mockMvc.perform(post(url)
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .characterEncoding(StandardCharsets.UTF_8)
                         .param("id", String.valueOf(authorId))

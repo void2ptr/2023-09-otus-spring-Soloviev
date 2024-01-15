@@ -9,5 +9,5 @@ services:
       - POSTGRES_HOST_AUTH_METHOD=trust
       - POSTGRES_DB=demoDB
     ports:
-    - 5430:5432
+    - "5430:5432"
     command: [ "postgres", "-c", "log_statement=all" ]

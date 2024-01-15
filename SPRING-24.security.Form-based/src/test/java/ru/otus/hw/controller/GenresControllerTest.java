@@ -19,6 +19,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -114,6 +115,7 @@ class GenresControllerTest {
 
     @DisplayName("экшен добавления Жанра")
     @Test
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void addAction() throws Exception {
         // init
         String url = "/genres/add";
@@ -121,6 +123,7 @@ class GenresControllerTest {
 
         // method for test
         mockMvc.perform(post(url)
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .characterEncoding(StandardCharsets.UTF_8)
                         .param("id", String.valueOf(genreDto.getId()))
@@ -132,6 +135,7 @@ class GenresControllerTest {
 
     @DisplayName("экшен редактирования Жанра")
     @Test
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void updateAction() throws Exception {
         long id = 1;
         GenreDto genreDto = new GenreDto(id, "Genre_NEW");
@@ -139,6 +143,7 @@ class GenresControllerTest {
 
         // method for test
         mockMvc.perform(post(url)
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .characterEncoding(StandardCharsets.UTF_8)
                         .param("id", String.valueOf(genreDto.getId()))
@@ -150,6 +155,7 @@ class GenresControllerTest {
 
     @DisplayName("экшен удаления Жанра")
     @Test
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void deleteAction() throws Exception {
         long id = 1;
         GenreDto genreDto = new GenreDto(id, "Genre_NEW");
@@ -157,6 +163,7 @@ class GenresControllerTest {
 
         // method for test
         mockMvc.perform(post(url)
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .characterEncoding(StandardCharsets.UTF_8)
                         .param("id", String.valueOf(genreDto.getId()))
@@ -165,4 +172,5 @@ class GenresControllerTest {
                 .andExpect(status().is(302))
                 .andReturn();
     }
+
 }

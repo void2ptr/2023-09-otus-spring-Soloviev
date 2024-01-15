@@ -16,7 +16,7 @@ spring:
 
     properties:
       hibernate:
-        format_sql: true
+        format_sql: false
     show-sql: false
 
 server:
@@ -28,4 +28,4 @@ server:
 logging:
   level:
     ROOT: ERROR
-    org.springframework.jdbc.core.JdbcTemplate: TRACE
+#    org.springframework.jdbc.core.JdbcTemplate: TRACE

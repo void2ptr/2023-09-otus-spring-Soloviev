@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 @RequiredArgsConstructor
 public class SecurityController {
 
-    SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
+    private final SecurityContextLogoutHandler logoutHandler = new SecurityContextLogoutHandler();
 
     @GetMapping({"/login"})
     public String login(Model model) {

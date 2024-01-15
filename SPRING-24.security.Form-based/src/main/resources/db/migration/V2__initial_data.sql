@@ -163,7 +163,7 @@ insert into roles(role)
 values
      ( 'ROLE_ADMIN' ),
      ( 'ROLE_USER' ),
-     ( 'ROLE_ANON' );
+     ( 'ROLE_ANONYMOUS' );
 
 insert into users_roles(user_id, role_id)
 values

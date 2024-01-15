@@ -27,6 +27,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -137,6 +138,7 @@ class CommentsControllerTest {
 
     @DisplayName("экшен добавления Комментария")
     @Test
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void insetAction() throws Exception {
         // init
         long bookId = 0;
@@ -145,6 +147,7 @@ class CommentsControllerTest {
 
         // method for test
         mockMvc.perform(post(url)
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .characterEncoding(StandardCharsets.UTF_8)
                         .param("bookId", String.valueOf(bookId))
@@ -156,6 +159,7 @@ class CommentsControllerTest {
 
     @DisplayName("экшен редактирования Комментария")
     @Test
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void updateAction() throws Exception {
         long bookId = 1;
         long commentId = 1;
@@ -164,6 +168,7 @@ class CommentsControllerTest {
 
         // method for test
         mockMvc.perform(post(url)
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .characterEncoding(StandardCharsets.UTF_8)
                         .param("bookId", String.valueOf(bookId))
@@ -176,6 +181,7 @@ class CommentsControllerTest {
 
     @DisplayName("экшен удаления Комментария")
     @Test
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void deleteAction() throws Exception {
         long bookId = 1;
         long commentId = 1;
@@ -183,6 +189,7 @@ class CommentsControllerTest {
 
         // method for test
         mockMvc.perform(post(url)
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED)
                         .characterEncoding(StandardCharsets.UTF_8)
                         .param("bookId", String.valueOf(bookId))

@@ -10,7 +10,6 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
 import ru.otus.hw.data.AuthorsArgumentsProvider;
 import ru.otus.hw.data.InitTestData;
-import org.springframework.context.annotation.Import;
 import ru.otus.hw.model.Author;
 
 import java.util.List;
@@ -53,6 +52,7 @@ class AuthorRepositoryJpaTest {
         // check
         assertThat(actualAuthor).isPresent()
                 .get()
+                .usingRecursiveComparison()
                 .isEqualTo(expectedAuthor);
     }
 }

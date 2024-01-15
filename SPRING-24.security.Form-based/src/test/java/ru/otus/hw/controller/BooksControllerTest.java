@@ -27,6 +27,7 @@ import java.util.Optional;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -157,6 +158,7 @@ class BooksControllerTest {
 
     @DisplayName("экшен добавления Книги")
     @Test
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void addAction() throws Exception {
         // init
         String url = "/books/add";
@@ -164,6 +166,7 @@ class BooksControllerTest {
 
         // test
         mockMvc.perform(post(url)
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                         .content(BookMapper.toFormUrlEncoded(bookIdsDto))
                         .accept(MediaType.APPLICATION_FORM_URLENCODED_VALUE))
@@ -173,6 +176,7 @@ class BooksControllerTest {
 
     @DisplayName("экшен редактирование Книги")
     @Test
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void editAction() throws Exception {
         // init
         long bookId = 1;
@@ -181,6 +185,7 @@ class BooksControllerTest {
 
         // test
         mockMvc.perform(post(url)
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                         .characterEncoding(StandardCharsets.UTF_8)
                         .content(BookMapper.toFormUrlEncoded(bookIdsDto))
@@ -191,6 +196,7 @@ class BooksControllerTest {
 
     @DisplayName("экшен удаления Книги")
     @Test
+    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void deleteAction() throws Exception {
         // init
         long bookId = 1;
@@ -198,6 +204,7 @@ class BooksControllerTest {
 
         // test
         mockMvc.perform(post(url)
+                        .with(csrf())
                         .contentType(MediaType.APPLICATION_FORM_URLENCODED_VALUE)
                         .characterEncoding(StandardCharsets.UTF_8)
                         .param("id", String.valueOf(bookId))
