@@ -17,7 +17,6 @@ import reactor.core.publisher.Mono;
 import ru.otus.hw.data.CommentsArgumentsProvider;
 
 import ru.otus.hw.dto.CommentDto;
-import ru.otus.hw.dto.GenreDto;
 import ru.otus.hw.service.CommentService;
 
 import java.util.ArrayList;
@@ -120,7 +119,7 @@ class CommentsControllerTest {
         var actual = webClient.delete().uri(url)
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody(GenreDto.class)
+                .expectBody(CommentDto.class)
                 .returnResult().getResponseBody();
         assertThat(actual).isNotNull()
                 .usingRecursiveComparison()

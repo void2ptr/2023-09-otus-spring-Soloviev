@@ -12,7 +12,6 @@ import ru.otus.hw.repository.AuthorRepository;
 import ru.otus.hw.repository.BookRepository;
 
 import java.util.Comparator;
-import java.util.Objects;
 
 @RequiredArgsConstructor
 @Service
@@ -26,51 +25,46 @@ public class AuthorServiceImpl implements AuthorService {
         return authorRepository.findAll()
                 .sort(Comparator.comparing(Author::getId))
                 .map(AuthorMapper::toDto);
-
     }
 
     @Override
     public Mono<AuthorDto> findById(Long id) {
         return authorRepository.findById(id)
-                .map(AuthorMapper::toDto)
-                .switchIfEmpty(Mono.error(new EntityNotFoundException("Author with id '%d' not found".formatted(id))));
+                .switchIfEmpty(Mono.error(new EntityNotFoundException("Author with id '%d' not found".formatted(id))))
+                .map(AuthorMapper::toDto);
     }
 
     @Override
     public Mono<AuthorDto> insert(AuthorDto authorDto) {
         return authorRepository.save(new Author(authorDto.getFullName()))
-                .map(AuthorMapper::toDto)
                 .switchIfEmpty(Mono.error(new EntityNotFoundException("Author with id '%d' not inserted"
-                        .formatted(authorDto.getId()))));
+                        .formatted(authorDto.getId()))))
+                .map(AuthorMapper::toDto);
     }
 
     @Override
     public Mono<AuthorDto> update(AuthorDto authorDto) {
         return authorRepository.findById(authorDto.getId())
-                .flatMap(a -> authorRepository.save(AuthorMapper.toAuthor(authorDto)))
-                .map(AuthorMapper::toDto)
                 .switchIfEmpty(Mono.error(new EntityNotFoundException("Author with id '%d' not found, stop update"
-                        .formatted(authorDto.getId()))));
+                        .formatted(authorDto.getId()))))
+                .flatMap(author -> authorRepository.save(AuthorMapper.toAuthor(authorDto)))
+                .map(AuthorMapper::toDto);
     }
 
     @Override
     public Mono<AuthorDto> delete(Long id) {
-        bookRepository.findByAuthorId(id)
-                .flatMap(book -> Mono.error(
-                        new EntityNotFoundException("The Book for the Author '%d' exists, stop deleting".formatted(id))
-                ))
-                .blockFirst();
-
-        var authorBefore = authorRepository.findById(id)
+        return authorRepository.findById(id)
                 .switchIfEmpty(Mono.error(
                         new EntityNotFoundException("ERROR: Author '%d' not found, stop deleting".formatted(id))))
-                .block();
-        authorRepository.deleteById(id).block();
-        authorRepository.findById(id)
-                .doOnSuccess(author -> Mono.error(new EntityNotFoundException("ERROR: Author '%d' found after deleting"
-                        .formatted(id))))
-                .block();
-        return Mono.just(AuthorMapper.toDto(Objects.requireNonNull(authorBefore)));
+                .doOnSuccess(author -> bookRepository.findByAuthorId(id)
+                        .switchIfEmpty(Mono.error(
+                                new EntityNotFoundException("The Book for the Author '%d' exists, stop deleting"
+                                        .formatted(id)))))
+                .doOnSuccess(author -> authorRepository.deleteById(id))
+                .doOnSuccess(author -> authorRepository.findById(id)
+                        .doOnSuccess(a -> Mono.error(
+                                new EntityNotFoundException("ERROR: Author '%d' found after deleting".formatted(id)))))
+                .map(AuthorMapper::toDto);
     }
 
 }

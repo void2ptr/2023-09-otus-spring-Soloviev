@@ -4,18 +4,14 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
 import ru.otus.hw.dto.BookDto;
-import ru.otus.hw.model.Author;
-import ru.otus.hw.model.Genre;
-
-import java.util.List;
-import java.util.stream.Collectors;
+import ru.otus.hw.model.Book;
 
 @AllArgsConstructor
 @Getter
 @Setter
 public class BookMapper {
 
-    public static BookDto toDto(ru.otus.hw.model.Book book) {
+    public static BookDto toDto(Book book) {
         return new BookDto(
                 book.getId(),
                 book.getTitle(),
@@ -24,27 +20,12 @@ public class BookMapper {
         );
     }
 
-    public static ru.otus.hw.model.Book toBook(BookDto bookDto) {
-        return new ru.otus.hw.model.Book(
+    public static Book toBook(BookDto bookDto) {
+        return new Book(
                 bookDto.getId(),
                 bookDto.getTitle(),
                 bookDto.getAuthor().getId()
         );
     }
-
-    public static Author toAuthor(BookDto bookDto) {
-        return new Author(
-                bookDto.getAuthor().getId(),
-                bookDto.getAuthor().getFullName()
-        );
-    }
-
-    public static List<Genre> toGenre(BookDto bookDto) {
-        return bookDto.getGenres()
-                .stream()
-                .map(genreDto -> new Genre(genreDto.getId(), genreDto.getName()))
-                .collect(Collectors.toList());
-    }
-
 
 }

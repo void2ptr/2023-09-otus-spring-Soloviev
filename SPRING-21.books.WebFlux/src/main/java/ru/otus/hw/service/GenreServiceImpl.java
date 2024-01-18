@@ -12,7 +12,6 @@ import ru.otus.hw.repository.BookGenreRepository;
 import ru.otus.hw.repository.GenreRepository;
 
 import java.util.Comparator;
-import java.util.Objects;
 
 
 @RequiredArgsConstructor
@@ -31,11 +30,10 @@ public class GenreServiceImpl implements GenreService {
 
     @Override
     public Mono<GenreDto> findById(Long id) {
-        return Mono.just(id)
-                .flatMap(genreRepository::findById)
+        return genreRepository.findById(id)
                 .switchIfEmpty(Mono.error(
-                        new EntityNotFoundException("Genres with ids '%d' not found".formatted(id))
-                )).map(GenreMapper::toDto);
+                        new EntityNotFoundException("Genres with ids '%d' not found".formatted(id))))
+                .map(GenreMapper::toDto);
     }
 
     @Override
@@ -47,31 +45,25 @@ public class GenreServiceImpl implements GenreService {
     @Override
     public Mono<GenreDto> update(GenreDto genreDto) {
         return genreRepository.findById(genreDto.getId())
-                .flatMap(a -> genreRepository.save(GenreMapper.toGenre(genreDto)))
-                .map(GenreMapper::toDto)
                 .switchIfEmpty(Mono.error(new EntityNotFoundException("ERROR: genre '%d' not found"
-                        .formatted(genreDto.getId()))));
+                        .formatted(genreDto.getId()))))
+                .flatMap(genre -> genreRepository.save(GenreMapper.toGenre(genreDto)))
+                .map(GenreMapper::toDto);
     }
 
     @Override
     public Mono<GenreDto> delete(Long id) {
-        bookGenreRepository.findByGenreId(id)
-                .flatMap(book -> Mono.error(
-                        new EntityNotFoundException("The Book use this Genre '%d', stop deleting".formatted(id))
-                ))
-                .blockFirst();
-       var genreBefore = genreRepository.findById(id)
-                .map(GenreMapper::toDto)
+        return genreRepository.findById(id)
                 .switchIfEmpty(Mono.error(new EntityNotFoundException("ERROR: Genre '%d' not found".formatted(id))))
-                .block();
-
-        genreRepository.deleteById(id).subscribe();
-
-        genreRepository.findById(id)
-                .switchIfEmpty(Mono.error(new EntityNotFoundException("ERROR: Genre '%d' not deleted".formatted(id))))
-                .block();
-
-        return Mono.just(Objects.requireNonNull(genreBefore));
+                .doOnSuccess(genre -> bookGenreRepository.findByGenreId(id)
+                        .flatMap(book -> Mono.error(
+                                new EntityNotFoundException("The Book use this Genre '%d', stop deleting"
+                                        .formatted(id)))))
+                .doOnSuccess(genre -> genreRepository.deleteById(id))
+                .doOnSuccess(genre -> genreRepository.findById(id)
+                        .switchIfEmpty(Mono.error(new EntityNotFoundException("ERROR: Genre '%d' not deleted"
+                                .formatted(id)))))
+                .map(GenreMapper::toDto);
     }
 
 }

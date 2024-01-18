@@ -9,7 +9,7 @@ services:
       - POSTGRES_HOST_AUTH_METHOD=trust
       - POSTGRES_DB=demoDB
     ports:
-    - 5430:5432
+    - "5430:5432"
   postgres_test:
     image: postgres
     container_name: java-postgres-test
@@ -19,4 +19,4 @@ services:
       - POSTGRES_HOST_AUTH_METHOD=trust
       - POSTGRES_DB=testDB
     ports:
-      - 5440:5432
+      - "5440:5432"

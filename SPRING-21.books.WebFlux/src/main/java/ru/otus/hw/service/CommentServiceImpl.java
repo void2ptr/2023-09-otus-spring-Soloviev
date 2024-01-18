@@ -11,8 +11,6 @@ import ru.otus.hw.model.Comment;
 import ru.otus.hw.repository.BookRepository;
 import ru.otus.hw.repository.CommentRepository;
 
-import java.util.Objects;
-
 @RequiredArgsConstructor
 @Service
 public class CommentServiceImpl implements CommentService {
@@ -28,44 +26,36 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Mono<CommentDto> insert(CommentDto commentDto) {
-        return this.save(new Comment(commentDto.getBook().getId(), commentDto.getDescription()));
+        return bookRepository.findById(commentDto.getBook().getId())
+                        .switchIfEmpty(Mono.error(new EntityNotFoundException("ERROR: book '%d' not found"
+                                .formatted(commentDto.getBook().getId()))))
+                .flatMap(book -> commentRepository.save(
+                        new Comment(commentDto.getBook().getId(), commentDto.getDescription())))
+                .map(CommentMapper::toDto);
     }
 
     @Override
     public Mono<CommentDto> update(CommentDto commentDto) {
-        commentRepository.findCommentById(commentDto.getId())
+        return commentRepository.findCommentById(commentDto.getId())
                 .switchIfEmpty(Mono.error(new EntityNotFoundException("ERROR: comment '%d' not found"
-                .formatted(commentDto.getBook().getId()))))
-                .block();
-        return this.save(new Comment(commentDto.getId(), commentDto.getBook().getId(), commentDto.getDescription()));
+                        .formatted(commentDto.getBook().getId()))))
+                .doOnSuccess(comment -> bookRepository.findById(comment.getBookId())
+                        .switchIfEmpty(Mono.error(new EntityNotFoundException("ERROR: book '%d' not found"
+                                .formatted(comment.getBookId())))))
+                .flatMap(comment -> commentRepository.save(
+                        new Comment(commentDto.getId(), commentDto.getBook().getId(), commentDto.getDescription())))
+                .map(CommentMapper::toDto);
     }
 
     @Override
     public Mono<CommentDto> delete(long commentId) {
-        CommentDto commentBefore = commentRepository.findById(commentId)
-                .map(CommentMapper::toDto)
+        return commentRepository.findById(commentId)
                 .switchIfEmpty(Mono.error(new EntityNotFoundException("ERROR: comment '%d' not found"
                         .formatted(commentId))))
-                .block();
-
-        commentRepository.deleteById(commentId).block();
-
-        commentRepository.findById(commentId)
-                .doOnSuccess(q -> Mono.error(new EntityNotFoundException("ERROR: comment '%d' do not deleted"
-                        .formatted(commentId))))
-                .block();
-
-        return Mono.just(Objects.requireNonNull(commentBefore));
-    }
-
-    private Mono<CommentDto> save(Comment comment) {
-        bookRepository.findById(comment.getBookId())
-                .switchIfEmpty(Mono.error(new EntityNotFoundException("ERROR: book '%d' not found"
-                        .formatted(comment.getBookId()))))
-                .block();
-
-        Comment commentSave = commentRepository.save(comment).block();
-
-        return Mono.just(CommentMapper.toDto(Objects.requireNonNull(commentSave)));
+                .doOnSuccess(comment -> commentRepository.deleteById(commentId))
+                .doOnSuccess(comment -> commentRepository.findById(commentId)
+                        .doOnSuccess(q -> Mono.error(new EntityNotFoundException("ERROR: comment '%d' do not deleted"
+                                .formatted(commentId)))))
+                .map(CommentMapper::toDto);
     }
 }

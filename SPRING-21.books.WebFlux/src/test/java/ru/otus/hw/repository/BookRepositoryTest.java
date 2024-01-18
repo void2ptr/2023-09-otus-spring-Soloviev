@@ -43,7 +43,9 @@ class BookRepositoryTest {
     @DisplayName("должен загружать книгу по id")
     @ParameterizedTest
     @ArgumentsSource(BooksArgumentsProvider.class)
-    void shouldReturnCorrectBookById(BookDto expected) {
+    void shouldReturnCorrectBookById(BookDto bookDto) {
+        //
+        Book expected = BookMapper.toBook(bookDto);
         // method for test
         var actual = bookRepository.findById(expected.getId()).block();
         // check

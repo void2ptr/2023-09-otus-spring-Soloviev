@@ -59,7 +59,7 @@ class BooksControllerTest {
                 .header(HttpHeaders.ACCEPT, "application/json")
                 .exchange()
                 .expectStatus().isOk()
-                .expectBodyList(AuthorDto.class)
+                .expectBodyList(BookDto.class)
                 .returnResult().getResponseBody();
 
         BDDMockito.then(bookService).should().findAll();
@@ -122,7 +122,7 @@ class BooksControllerTest {
         var actual = webClient.delete().uri(url)
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody(AuthorDto.class)
+                .expectBody(BookDto.class)
                 .returnResult().getResponseBody();
 
         BDDMockito.then(bookService).should().delete(bookDto.getId());
