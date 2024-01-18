@@ -1,5 +1,9 @@
 package ru.otus.hw.controller;
 
+import org.springframework.security.authentication.AuthenticationTrustResolverImpl;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.ui.Model;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Controller;
@@ -13,6 +17,7 @@ public class IndexController {
 
     @GetMapping({"/", "/index", "/index.html"})
     public String indexPage(Model model) {
+        this.logAuthentication();
         return "/index";
     }
 
@@ -21,7 +26,13 @@ public class IndexController {
         result.reject("errorCode1", "Global Error Happened");
         result.rejectValue("newField", "Error 2 happened");
         model.addAttribute("error", "");
+        this.logAuthentication();
         return "/error";
     }
 
+    private void logAuthentication() {
+        SecurityContext securityContext = SecurityContextHolder.getContext();
+        Authentication authentication =  securityContext.getAuthentication();
+        System.out.println(authentication.getPrincipal());
+    }
 }
