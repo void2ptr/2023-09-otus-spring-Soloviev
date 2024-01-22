@@ -36,10 +36,8 @@ class GenresControllerTest {
     @MockBean
     private GenreService genreService;
 
-
     @Autowired
     private ObjectMapper mapper;
-
 
     @DisplayName("проверка открытия страницы с списком Жанров")
     @Test

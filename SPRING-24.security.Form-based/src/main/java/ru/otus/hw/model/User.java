@@ -9,6 +9,8 @@ import jakarta.persistence.JoinColumn;
 import jakarta.persistence.JoinTable;
 import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
@@ -22,6 +24,7 @@ import java.util.List;
 
 @Entity
 @RequiredArgsConstructor
+@AllArgsConstructor
 @Table(name = "users")
 public class User implements UserDetails {
     @Id
@@ -32,6 +35,15 @@ public class User implements UserDetails {
 
     private String password;
 
+    private Boolean accountNonExpired;
+
+    private Boolean accountNonLocked;
+
+    private Boolean credentialsNonExpired;
+
+    private Boolean enabled;
+
+    @Getter
     @Fetch(FetchMode.JOIN)
     @ManyToMany(targetEntity = Role.class, fetch = FetchType.LAZY)
     @JoinTable(name = "users_roles",
@@ -60,21 +72,30 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return true;
+        return accountNonExpired;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return true;
+        return accountNonLocked;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return true;
+        return credentialsNonExpired;
     }
 
     @Override
     public boolean isEnabled() {
-        return true;
+        return enabled;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", roles=" + roles.stream().map(Role::getRole).toList() +
+                '}';
     }
 }

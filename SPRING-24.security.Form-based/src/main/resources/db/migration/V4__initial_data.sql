@@ -153,19 +153,3 @@ values -- 'Война и Мир'
        ( 18, 'Сунь У Кун - лучший!'),
        ( 18, 'Теперь не могу есть хурму, вспоминаю Джу Ба Дзе');
 
--- Security
-insert into users(username, password)
-values
-     ( 'admin', '$2a$10$InGthJc0x34rVxfWUJbIjOIv5DxAJGaWUTyKxaNmrew5FU.vAmxaC' ),
-     ( 'user' , '$2a$10$InGthJc0x34rVxfWUJbIjOIv5DxAJGaWUTyKxaNmrew5FU.vAmxaC' );
-
-insert into roles(role)
-values
-     ( 'ROLE_ADMIN' ),
-     ( 'ROLE_USER' ),
-     ( 'ROLE_ANONYMOUS' );
-
-insert into users_roles(user_id, role_id)
-values
-     ( 1, 1 ),
-     ( 2, 2 );

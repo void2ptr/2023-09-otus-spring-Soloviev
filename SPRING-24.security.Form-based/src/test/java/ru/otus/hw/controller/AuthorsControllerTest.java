@@ -17,7 +17,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.List;
 import java.util.Optional;
 
-import static org.assertj.core.api.Assertions.*;
+import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -43,7 +43,7 @@ public class AuthorsControllerTest {
     @Test
     @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void listPage() throws Exception {
-        // test
+        // init
         String url = "/authors";
         List<AuthorDto> authorDtoList = List.of(
                 new AuthorDto(1, "Author_1"),
@@ -65,7 +65,7 @@ public class AuthorsControllerTest {
     @Test
     @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void addPage() throws Exception {
-        // test
+        // init
         long id = 0;
         String url = "/authors/add";
         String expect = "New Author";
@@ -83,7 +83,7 @@ public class AuthorsControllerTest {
     @Test
     @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void editPage() throws Exception {
-        // test
+        // init
         long id = 1;
         String expect = "Author_EDIT";
         String url = "/authors/" + id + "/edit";
@@ -103,7 +103,7 @@ public class AuthorsControllerTest {
     @Test
     @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void deletePage() throws Exception {
-        // test
+        // init
         long id = 1;
         String expect = "Author_DELETE";
         String url = "/authors/" + id + "/delete";

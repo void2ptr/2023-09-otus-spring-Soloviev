@@ -18,19 +18,3 @@ values (1, 'Comment_1'), ( 1, 'Comment_2'), (1, 'Comment_3'),
        (2, 'Comment_1'), ( 2, 'Comment_2'), (2, 'Comment_3'),
        (3, 'Comment_1'), ( 3, 'Comment_2'), (3, 'Comment_3');
 
--- Security
-insert into users(username, password)
-values
-     ( 'admin', '$2a$10$InGthJc0x34rVxfWUJbIjOIv5DxAJGaWUTyKxaNmrew5FU.vAmxaC' ),
-     ( 'user' , '$2a$10$InGthJc0x34rVxfWUJbIjOIv5DxAJGaWUTyKxaNmrew5FU.vAmxaC' );
-
-insert into roles(role)
-values
-     ( 'ROLE_ADMIN' ),
-     ( 'ROLE_USER' ),
-     ( 'ROLE_ANONYMOUS' );
-
-insert into users_roles(user_id, role_id)
-values
-     ( 1, 1 ),
-     ( 2, 2 );

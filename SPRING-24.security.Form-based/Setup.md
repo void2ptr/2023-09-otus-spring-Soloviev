@@ -1,5 +1,5 @@
 ### Before run application
-- Setup a Host for docker
+- Configure the own host for docker
 - Init docker container
 ```bash
 cd ./docker
@@ -7,5 +7,5 @@ cd ./docker
 ```
 
 ### tests
-- Setup a Host for docker
-- test use embedded postgresql
+- Configure the own host for docker
+- for testing case used the embedded postgresql (docker)
