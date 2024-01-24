@@ -8,9 +8,11 @@ import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.exception.EntityNotFoundException;
 import ru.otus.hw.mapper.AuthorMapper;
 import ru.otus.hw.model.Author;
+import ru.otus.hw.model.Book;
 import ru.otus.hw.repository.AuthorRepository;
 import ru.otus.hw.repository.BookRepository;
 
+import java.time.Duration;
 import java.util.Comparator;
 
 @RequiredArgsConstructor
@@ -52,18 +54,13 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Mono<AuthorDto> delete(Long id) {
-        return authorRepository.findById(id)
+    public Mono<AuthorDto> delete(Long authorId) {
+        return authorRepository.findById(authorId)
+                .doOnSuccess(author -> authorRepository.deleteById(authorId))
+                .doOnError(author ->Mono.error(
+                        new EntityNotFoundException("ERROR: Author '%d' do not delete".formatted(authorId))))
                 .switchIfEmpty(Mono.error(
-                        new EntityNotFoundException("ERROR: Author '%d' not found, stop deleting".formatted(id))))
-                .doOnSuccess(author -> bookRepository.findByAuthorId(id)
-                        .switchIfEmpty(Mono.error(
-                                new EntityNotFoundException("The Book for the Author '%d' exists, stop deleting"
-                                        .formatted(id)))))
-                .doOnSuccess(author -> authorRepository.deleteById(id))
-                .doOnSuccess(author -> authorRepository.findById(id)
-                        .doOnSuccess(a -> Mono.error(
-                                new EntityNotFoundException("ERROR: Author '%d' found after deleting".formatted(id)))))
+                        new EntityNotFoundException("ERROR: Author '%d' not found, stop deleting".formatted(authorId))))
                 .map(AuthorMapper::toDto);
     }
 

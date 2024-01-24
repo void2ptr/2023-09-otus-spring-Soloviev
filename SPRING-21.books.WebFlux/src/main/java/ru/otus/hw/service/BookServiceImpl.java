@@ -47,15 +47,14 @@ public class BookServiceImpl implements BookService {
                                 .formatted(bookDto.getAuthor().getId()))));
         Mono<AuthorDto> authorMono = this.findBookAuthor(bookDto);
         Mono<List<GenreDto>> genresMono = this.findBookGenres(bookDto);
-        return Flux.zip(bookMono, authorMono, genresMono)
+        return Mono.zip(bookMono, authorMono, genresMono)
+                .doOnError(e -> {
+                    throw new EntityNotFoundException("Error book not found: \n%s\n".formatted(e.getMessage())); })
                 .map((Tuple3<Book, AuthorDto, List<GenreDto>> tuple) -> new BookDto(
                         tuple.getT1().getId(),
                         tuple.getT1().getTitle(),
                         tuple.getT2(),
-                        tuple.getT3()))
-                .doOnError(e -> {
-                    throw new EntityNotFoundException("Error book not found: \n%s\n".formatted(e.getMessage())); })
-                .next();
+                        tuple.getT3()));
     }
 
     @Override
@@ -87,15 +86,14 @@ public class BookServiceImpl implements BookService {
         Mono<Book> bookMono = this.saveBook(bookDto);
         Mono<AuthorDto> authorMono = this.findBookAuthor(bookDto);
         Mono<List<GenreDto>> genresMono = this.findBookGenres(bookDto);
-        return Flux.zip(bookMono, authorMono, genresMono)
+        return Mono.zip(bookMono, authorMono, genresMono)
+                .doOnError(e -> {
+                    throw new EntityNotFoundException("Error save: \n%s\n".formatted(e.getMessage())); })
                 .map((Tuple3<Book, AuthorDto, List<GenreDto>> tuple) -> new BookDto(
                         tuple.getT1().getId(),
                         tuple.getT1().getTitle(),
                         tuple.getT2(),
-                        tuple.getT3()))
-                .doOnError(e -> {
-                    throw new EntityNotFoundException("Error save: \n%s\n".formatted(e.getMessage())); })
-                .next();
+                        tuple.getT3()));
     }
 
     private Mono<Book> saveBook(BookDto bookDto) {

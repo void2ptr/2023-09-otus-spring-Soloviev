@@ -8,6 +8,7 @@ import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import reactor.core.publisher.Flux;
+import reactor.core.publisher.Mono;
 import reactor.test.StepVerifier;
 import ru.otus.hw.data.BooksArgumentsProvider;
 import ru.otus.hw.data.InitTestData;
@@ -60,11 +61,11 @@ class BookRepositoryTest {
     @ArgumentsSource(BooksArgumentsProvider.class)
     void shouldFindByAuthorId(BookDto expected) {
         // test
-        Flux<Book> bookFlux = bookRepository.findByAuthorId(expected.getAuthor().getId());
+        Mono<Book> bookFlux = bookRepository.findByAuthorId(expected.getAuthor().getId());
         bookFlux.log().subscribe(System.out::println);
         StepVerifier
                 .create(bookFlux)
-                .expectNextMatches(book -> book.getAuthorId().equals(expected.getAuthor().getId()))
+                .expectNextMatches(book -> book.getClass().equals(expected.getAuthor().getId()))
                 .thenConsumeWhile(x -> true)
                 .verifyComplete();
     }

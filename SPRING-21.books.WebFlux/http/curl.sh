@@ -18,6 +18,7 @@ curl  -X "DELETE" http://localhost:8080/api/v1/genres/22
 
 # Books
 curl  -X "GET"    http://localhost:8080/api/v1/books
+curl --header "Content-Type: application/json" --request PUT  --data '{"id":13,"title":"Прометей","author":{"id":11,"fullName":"Эсхил"},"genres":[{"id":12,"name":"эпопея"},{"id":21,"name":"трагедия"}],"book.author":"Эсхил"}' http://localhost:4200/api/v1/books/13
 
 # Comments
 curl  -X "GET" http://localhost:8080/api/v1/books/4/comments

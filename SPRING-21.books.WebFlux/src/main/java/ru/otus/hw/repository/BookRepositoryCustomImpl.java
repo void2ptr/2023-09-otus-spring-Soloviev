@@ -1,6 +1,5 @@
 package ru.otus.hw.repository;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.r2dbc.core.DatabaseClient;
 import reactor.core.publisher.Flux;
 import ru.otus.hw.dto.BookDto;
@@ -12,9 +11,9 @@ public class BookRepositoryCustomImpl implements BookRepositoryCustom {
 
     private final BookR2Mapper mapper;
 
-    public BookRepositoryCustomImpl(DatabaseClient client) {
+    public BookRepositoryCustomImpl(DatabaseClient client, BookR2Mapper mapper) {
         this.client = client;
-        this.mapper = new BookR2Mapper(new ObjectMapper());
+        this.mapper = mapper;
     }
 
     @Override
