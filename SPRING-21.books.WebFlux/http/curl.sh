@@ -22,6 +22,6 @@ curl --header "Content-Type: application/json" --request PUT  --data '{"id":13,"
 
 # Comments
 curl  -X "GET" http://localhost:8080/api/v1/books/4/comments
-curl --header "Content-Type: application/json" --request POST --data '{"id":0,"description":"New-Comment","book":{"id":18,"title":"Путешествие на запад","author":{"id":16,"fullName":"фольклёр"},"genres":[{"id":7,"name":"повесть"},{"id":15,"name":"комедия"}]}}' http://localhost:8080/api/v1/books/18/comments
-curl --header "Content-Type: application/json" --request PUT  --data '{"id":54,"description":"Теперь не могу есть хурму, вспоминаю Джу Ба Дзе","book":{"id":18,"title":"Путешествие на запад","author":{"id":16,"fullName":"фольклёр"},"genres":[{"id":7,"name":"повесть"},{"id":15,"name":"комедия"}]}}' http://localhost:8080/api/v1/books/18/comments/54
+curl --header "Content-Type: application/json" --request POST --data '{"id":0,"description":"New-Comment","book":{"id":18,"title":"Путешествие на запад","author":{"id":16,"fullName":"фольклор"},"genres":[{"id":7,"name":"повесть"},{"id":15,"name":"комедия"}]}}' http://localhost:8080/api/v1/books/18/comments
+curl --header "Content-Type: application/json" --request PUT  --data '{"id":54,"description":"Теперь не могу есть хурму, вспоминаю Джу Ба Дзе","book":{"id":18,"title":"Путешествие на запад","author":{"id":16,"fullName":"фольклор"},"genres":[{"id":7,"name":"повесть"},{"id":15,"name":"комедия"}]}}' http://localhost:8080/api/v1/books/18/comments/54
 curl  -X "DELETE" http://localhost:8080/api/v1/books/18/comments/56

@@ -28,7 +28,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.BDDMockito.given;
 
 
-@DisplayName("проверка раздела для Книги")
+@DisplayName("Контроллер для раздела Книги")
 @WebFluxTest(BooksController.class)
 class BooksControllerTest {
 

@@ -28,7 +28,7 @@ import static org.mockito.BDDMockito.given;
 
 
 
-@DisplayName("проверка раздела для Комментариев")
+@DisplayName("Контроллер для раздела Комментарии")
 @WebFluxTest(CommentsController.class)
 class CommentsControllerTest {
 

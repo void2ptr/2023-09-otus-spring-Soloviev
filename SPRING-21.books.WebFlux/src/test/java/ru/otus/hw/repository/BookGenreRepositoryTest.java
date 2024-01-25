@@ -11,6 +11,8 @@ import ru.otus.hw.model.BookGenre;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+
+@DisplayName("Репозиторий на основе R2DBC для работы с Books and Genres")
 @SpringBootTest
 class BookGenreRepositoryTest {
 

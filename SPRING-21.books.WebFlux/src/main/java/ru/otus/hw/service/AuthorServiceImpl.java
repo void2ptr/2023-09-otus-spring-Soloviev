@@ -8,19 +8,15 @@ import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.exception.EntityNotFoundException;
 import ru.otus.hw.mapper.AuthorMapper;
 import ru.otus.hw.model.Author;
-import ru.otus.hw.model.Book;
 import ru.otus.hw.repository.AuthorRepository;
-import ru.otus.hw.repository.BookRepository;
 
-import java.time.Duration;
 import java.util.Comparator;
 
 @RequiredArgsConstructor
 @Service
 public class AuthorServiceImpl implements AuthorService {
-    private final AuthorRepository authorRepository;
 
-    private final BookRepository bookRepository;
+    private final AuthorRepository authorRepository;
 
     @Override
     public Flux<AuthorDto> findAll() {
@@ -57,7 +53,7 @@ public class AuthorServiceImpl implements AuthorService {
     public Mono<AuthorDto> delete(Long authorId) {
         return authorRepository.findById(authorId)
                 .doOnSuccess(author -> authorRepository.deleteById(authorId))
-                .doOnError(author ->Mono.error(
+                .doOnError(author -> Mono.error(
                         new EntityNotFoundException("ERROR: Author '%d' do not delete".formatted(authorId))))
                 .switchIfEmpty(Mono.error(
                         new EntityNotFoundException("ERROR: Author '%d' not found, stop deleting".formatted(authorId))))

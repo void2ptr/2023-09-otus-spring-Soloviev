@@ -27,7 +27,7 @@ import static org.mockito.BDDMockito.given;
 
 
 
-@DisplayName("проверка раздела для Авторов")
+@DisplayName("Контроллер для раздела Авторы")
 @WebFluxTest(AuthorsController.class)
 public class AuthorsControllerTest {
 

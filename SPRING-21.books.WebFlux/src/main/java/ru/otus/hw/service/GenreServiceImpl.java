@@ -8,18 +8,15 @@ import ru.otus.hw.dto.GenreDto;
 import ru.otus.hw.exception.EntityNotFoundException;
 import ru.otus.hw.mapper.GenreMapper;
 import ru.otus.hw.model.Genre;
-import ru.otus.hw.repository.BookGenreRepository;
 import ru.otus.hw.repository.GenreRepository;
 
 import java.util.Comparator;
 
-
 @RequiredArgsConstructor
 @Service
 public class GenreServiceImpl implements GenreService {
-    private final GenreRepository genreRepository;
 
-    private final BookGenreRepository bookGenreRepository;
+    private final GenreRepository genreRepository;
 
     @Override
     public Flux<GenreDto> findAll() {
@@ -55,10 +52,6 @@ public class GenreServiceImpl implements GenreService {
     public Mono<GenreDto> delete(Long id) {
         return genreRepository.findById(id)
                 .switchIfEmpty(Mono.error(new EntityNotFoundException("ERROR: Genre '%d' not found".formatted(id))))
-                .doOnSuccess(genre -> bookGenreRepository.findByGenreId(id)
-                        .flatMap(book -> Mono.error(
-                                new EntityNotFoundException("The Book use this Genre '%d', stop deleting"
-                                        .formatted(id)))))
                 .doOnSuccess(genre -> genreRepository.deleteById(id))
                 .doOnSuccess(genre -> genreRepository.findById(id)
                         .switchIfEmpty(Mono.error(new EntityNotFoundException("ERROR: Genre '%d' not deleted"

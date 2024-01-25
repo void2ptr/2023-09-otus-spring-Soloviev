@@ -27,7 +27,7 @@ import static org.mockito.ArgumentMatchers.any;
 
 
 
-@DisplayName("проверка раздела для Жанров")
+@DisplayName("Контроллер для раздела Жанров")
 @WebFluxTest(GenresController.class)
 class GenresControllerTest {
 
