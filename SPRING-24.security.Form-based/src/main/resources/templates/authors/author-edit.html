@@ -11,7 +11,7 @@
 
     <form class="edit-form" enctype="application/x-www-form-urlencoded"
           th:method="post"
-          th:action="@{/authors/__${author.id}__/update}" action=""
+          th:action="@{/authors/__${author.id}__/edit}" action=""
           th:object="${author}">
         <!--  -->
         <input type="hidden" id="author-id-input" name="id" th:value="${author.id}" value="-1">

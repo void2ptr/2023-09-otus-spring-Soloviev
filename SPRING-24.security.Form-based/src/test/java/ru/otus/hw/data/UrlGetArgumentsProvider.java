@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor
-public class UrlAuthorArgumentsProvider implements ArgumentsProvider {
+public class UrlGetArgumentsProvider implements ArgumentsProvider {
 
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
@@ -17,7 +17,20 @@ public class UrlAuthorArgumentsProvider implements ArgumentsProvider {
                         "/authors",
                         "/authors/add",
                         "/authors/4/edit",
-                        "/authors/4/delete"))
+                        "/authors/4/delete",
+                        "/books",
+                        "/books/add",
+                        "/books/4/edit",
+                        "/books/4/delete",
+                        "/books/1/comments",
+                        "/books/1/comments/add",
+                        "/books/1/comments/4/edit",
+                        "/books/1/comments/4/delete",
+                        "/genres",
+                        "/genres/add",
+                        "/genres/4/edit",
+                        "/genres/4/delete"
+                        ))
                 .stream()
                 .map(Arguments::of);
     }

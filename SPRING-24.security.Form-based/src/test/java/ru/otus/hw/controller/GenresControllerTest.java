@@ -5,10 +5,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.dto.GenreDto;
 import ru.otus.hw.service.GenreService;
@@ -27,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @DisplayName("проверка раздела для Жанров")
 @WebMvcTest(GenresController.class)
+@AutoConfigureMockMvc(addFilters = false)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 class GenresControllerTest {
 
@@ -41,7 +42,7 @@ class GenresControllerTest {
 
     @DisplayName("проверка открытия страницы с списком Жанров")
     @Test
-    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
+//    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void listPage() throws Exception {
         String url = "/genres";
         List<GenreDto> genres = List.of(
@@ -61,7 +62,7 @@ class GenresControllerTest {
 
     @DisplayName("открытие страницы добавления Жанра")
     @Test
-    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
+//    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void addPage() throws Exception {
         String url = "/genres/add";
         String expect = "new Genre";
@@ -76,7 +77,7 @@ class GenresControllerTest {
 
     @DisplayName("открытие страницы редактирования Жанра")
     @Test
-    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
+//    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void editPage() throws Exception {
         long id = 1;
         String url = "/genres/" + id + "/edit";
@@ -94,7 +95,7 @@ class GenresControllerTest {
 
     @DisplayName("открытие страницы удаления Жанра")
     @Test
-    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
+//    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void deletePage() throws Exception {
         long id = 1;
         String expect = "Genre_DELETE";
@@ -113,7 +114,7 @@ class GenresControllerTest {
 
     @DisplayName("экшен добавления Жанра")
     @Test
-    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
+//    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void addAction() throws Exception {
         // init
         String url = "/genres/add";
@@ -133,7 +134,7 @@ class GenresControllerTest {
 
     @DisplayName("экшен редактирования Жанра")
     @Test
-    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
+//    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void updateAction() throws Exception {
         long id = 1;
         GenreDto genreDto = new GenreDto(id, "Genre_NEW");
@@ -153,7 +154,7 @@ class GenresControllerTest {
 
     @DisplayName("экшен удаления Жанра")
     @Test
-    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
+//    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void deleteAction() throws Exception {
         long id = 1;
         GenreDto genreDto = new GenreDto(id, "Genre_NEW");

@@ -1,24 +1,12 @@
 spring:
-#  autoconfigure:
-#    exclude:
-#      - org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration
-#  datasource:
-#    driverClassName: org.postgresql.Driver
+  main:
+    allow-circular-references: true
+#    allow-bean-definition-overriding: true
+
   datasource:
-#    url: jdbc:h2:mem:testDd
     url: jdbc:tc:postgresql:15:///testDd
-#    replace: none
-#    url: jdbc:postgresql://localhost:5430/demoDB
-#    username: usr
-#    password: pwd
   flyway:
     sql-migration-prefix: VT
-#    url: jdbc:tc:postgresql:15:///testDd
-#    url: jdbc:h2:mem:testDd
-#    url: jdbc:postgresql://localhost:5430/demoDB
-#    user: usr
-#    password: pwd
-
 
 #jpa:
 #    generate-ddl: true

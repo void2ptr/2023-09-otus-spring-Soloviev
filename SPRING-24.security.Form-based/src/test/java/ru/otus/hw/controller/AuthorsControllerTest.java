@@ -5,10 +5,10 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
+import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
-import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.service.AuthorService;
@@ -27,6 +27,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @DisplayName("проверка раздела для Авторов")
 @WebMvcTest(AuthorsController.class)
+@AutoConfigureMockMvc(addFilters = false)
 @AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
 public class AuthorsControllerTest {
 
@@ -41,7 +42,7 @@ public class AuthorsControllerTest {
 
     @DisplayName("проверка открытия страницы с списком Авторов")
     @Test
-    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
+//    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void listPage() throws Exception {
         // init
         String url = "/authors";
@@ -63,7 +64,7 @@ public class AuthorsControllerTest {
 
     @DisplayName("открытие страницы добавления Автора")
     @Test
-    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
+//    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void addPage() throws Exception {
         // init
         long id = 0;
@@ -81,7 +82,7 @@ public class AuthorsControllerTest {
 
     @DisplayName("открытие страницы редактирования Автора")
     @Test
-    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
+//    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void editPage() throws Exception {
         // init
         long id = 1;
@@ -101,7 +102,7 @@ public class AuthorsControllerTest {
 
     @DisplayName("открытие страницы удаления Автора")
     @Test
-    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
+//    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void deletePage() throws Exception {
         // init
         long id = 1;
@@ -121,7 +122,7 @@ public class AuthorsControllerTest {
 
     @DisplayName("экшен добавления Автора")
     @Test
-    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
+//    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void addAction() throws Exception {
         // init
         String url = "/authors/add";
@@ -143,7 +144,7 @@ public class AuthorsControllerTest {
 
     @DisplayName("экшен редактирование Автора")
     @Test
-    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
+//    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void updateAction() throws Exception {
         // init
         String url = "/authors/1/edit";
@@ -164,7 +165,7 @@ public class AuthorsControllerTest {
 
     @DisplayName("экшен удаление Автора")
     @Test
-    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
+//    @WithMockUser(username = "admin", authorities = "ROLE_ADMIN")
     void deleteAction() throws Exception {
         // init
         long authorId = 1;

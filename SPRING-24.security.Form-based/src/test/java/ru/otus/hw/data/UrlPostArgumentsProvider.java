@@ -9,15 +9,24 @@ import java.util.List;
 import java.util.stream.Stream;
 
 @RequiredArgsConstructor
-public class UrlBooksArgumentsProvider implements ArgumentsProvider {
+public class UrlPostArgumentsProvider implements ArgumentsProvider {
 
     @Override
     public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
         return InitTestData.mixUrlsAndUsers(List.of(
-                        "/books",
+                        "/authors/add",
+                        "/authors/4/edit",
+                        "/authors/4/delete",
                         "/books/add",
                         "/books/4/edit",
-                        "/books/4/delete"))
+                        "/books/4/delete",
+                        "/books/1/comments/add",
+                        "/books/1/comments/4/edit",
+                        "/books/1/comments/4/delete",
+                        "/genres/add",
+                        "/genres/4/edit",
+                        "/genres/4/delete"
+                        ))
                 .stream()
                 .map(Arguments::of);
     }
