@@ -112,19 +112,16 @@ class CommentsControllerTest {
     @ArgumentsSource(CommentsArgumentsProvider.class)
     void deleteAction(CommentDto commentDto) {
         String url = "/api/v1/books/" + commentDto.getBook().getId() + "/comments/" + commentDto.getId();
-        Mono<CommentDto> commentDtoMono = Mono.just(commentDto);
-        given(commentService.delete(commentDto.getId())).willReturn(commentDtoMono);
+        given(commentService.delete(commentDto.getId())).willReturn(Mono.just(true));
 
         // method for test
         var actual = webClient.delete().uri(url)
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody(CommentDto.class)
+                .expectBody(Boolean.class)
                 .returnResult().getResponseBody();
         assertThat(actual).isNotNull()
-                .usingRecursiveComparison()
-                .ignoringExpectedNullFields()
-                .isEqualTo(commentDto);
+                .isEqualTo(true);
     }
 
 }

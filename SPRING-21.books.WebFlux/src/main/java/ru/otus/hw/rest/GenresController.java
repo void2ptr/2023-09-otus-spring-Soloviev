@@ -47,7 +47,7 @@ public class GenresController {
 
     @DeleteMapping("/api/v1/genres/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Mono<GenreDto> delete(@PathVariable("id") Long id) {
+    public Mono<Boolean> delete(@PathVariable("id") Long id) {
         return genreService.delete(id);
     }
 

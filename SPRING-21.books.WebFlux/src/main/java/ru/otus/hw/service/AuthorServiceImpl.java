@@ -9,6 +9,7 @@ import ru.otus.hw.exception.EntityNotFoundException;
 import ru.otus.hw.mapper.AuthorMapper;
 import ru.otus.hw.model.Author;
 import ru.otus.hw.repository.AuthorRepository;
+import ru.otus.hw.repository.BookRepository;
 
 import java.util.Comparator;
 
@@ -17,6 +18,8 @@ import java.util.Comparator;
 public class AuthorServiceImpl implements AuthorService {
 
     private final AuthorRepository authorRepository;
+
+    private final BookRepository bookRepository;
 
     @Override
     public Flux<AuthorDto> findAll() {
@@ -50,14 +53,16 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Override
-    public Mono<AuthorDto> delete(Long authorId) {
-        return authorRepository.findById(authorId)
-                .doOnSuccess(author -> authorRepository.deleteById(authorId))
-                .doOnError(author -> Mono.error(
-                        new EntityNotFoundException("ERROR: Author '%d' do not delete".formatted(authorId))))
-                .switchIfEmpty(Mono.error(
-                        new EntityNotFoundException("ERROR: Author '%d' not found, stop deleting".formatted(authorId))))
-                .map(AuthorMapper::toDto);
+    public Mono<Boolean> delete(Long authorId) {
+        return bookRepository.existByAuthorId(authorId)
+                .doOnSuccess(isBookExist -> {
+                    if (!isBookExist) {
+                        authorRepository.deleteById(authorId).subscribe();
+                    }
+                })
+                .doOnError(throwable -> Mono.error(
+                        new EntityNotFoundException("ERROR: Author '%d' not found, stop deleting"
+                                .formatted(authorId))));
     }
 
 }

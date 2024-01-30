@@ -40,21 +40,12 @@ public class BookServiceImpl implements BookService {
     }
 
     @Override
-    public Mono<BookDto> findById(BookDto bookDto) {
-
-        Mono<Book> bookMono = bookRepository.findById(bookDto.getId())
-                .switchIfEmpty(Mono.error(new EntityNotFoundException("Book with id %d not found"
-                                .formatted(bookDto.getAuthor().getId()))));
-        Mono<AuthorDto> authorMono = this.findBookAuthor(bookDto);
-        Mono<List<GenreDto>> genresMono = this.findBookGenres(bookDto);
-        return Mono.zip(bookMono, authorMono, genresMono)
-                .doOnError(e -> {
-                    throw new EntityNotFoundException("Error book not found: \n%s\n".formatted(e.getMessage())); })
-                .map((Tuple3<Book, AuthorDto, List<GenreDto>> tuple) -> new BookDto(
-                        tuple.getT1().getId(),
-                        tuple.getT1().getTitle(),
-                        tuple.getT2(),
-                        tuple.getT3()));
+    public Mono<BookDto> findById(Long id) {
+        return bookRepository.findByBookId(id)
+                .doOnError(throwable -> Mono.error(
+                        new EntityNotFoundException("Book with id %d not found".formatted(id))))
+                .switchIfEmpty(Mono.error(
+                        new EntityNotFoundException("Book with id %d not found".formatted(id))));
     }
 
     @Override
@@ -70,16 +61,15 @@ public class BookServiceImpl implements BookService {
 
     @Override
     public Mono<BookDto> delete(Long id) {
-        return bookRepository.findById(id)
-                .doOnError(book -> Mono.error(
+        return bookRepository.findByBookId(id)
+                .doOnSuccess(bookDto -> {
+                    bookGenreRepository.deleteByBookID(id).subscribe();
+                    bookRepository.deleteById(id).subscribe();
+                })
+                .doOnError(throwable -> Mono.error(
                         new EntityNotFoundException("Bool not found %d not found, stop deletion".formatted(id))))
-                .doOnSuccess(book -> bookRepository.deleteById(id))
-                .doOnSuccess(book -> bookGenreRepository.deleteByBookID(id))
-                .doOnSuccess(book -> bookRepository.findById(id)
-                        .doOnSuccess(b -> Mono.error(
-                                new EntityNotFoundException("Bool not found %d not found, error deletion"
-                                        .formatted(id)))))
-                .map(BookMapper::toDto);
+                .switchIfEmpty(Mono.error(
+                        new EntityNotFoundException("Bool not found %d not found, stop deletion".formatted(id))));
     }
 
     private Mono<BookDto> save(BookDto bookDto) {
@@ -87,36 +77,46 @@ public class BookServiceImpl implements BookService {
         Mono<AuthorDto> authorMono = this.findBookAuthor(bookDto);
         Mono<List<GenreDto>> genresMono = this.findBookGenres(bookDto);
         return Mono.zip(bookMono, authorMono, genresMono)
-                .doOnError(e -> {
-                    throw new EntityNotFoundException("Error save: \n%s\n".formatted(e.getMessage())); })
                 .map((Tuple3<Book, AuthorDto, List<GenreDto>> tuple) -> new BookDto(
                         tuple.getT1().getId(),
                         tuple.getT1().getTitle(),
                         tuple.getT2(),
-                        tuple.getT3()));
+                        tuple.getT3()))
+                .doOnError(throwable -> {
+                    throw new EntityNotFoundException("Error save: \n%s\n".formatted(throwable.getMessage()));
+                });
     }
 
     private Mono<Book> saveBook(BookDto bookDto) {
         return bookRepository.save(BookMapper.toBook(bookDto))
-                .doOnSuccess(bookSave -> bookGenreRepository.deleteByBookID(Objects.requireNonNull(bookSave).getId()))
-                .doOnSuccess(bookSave -> bookDto.getGenres().forEach(genre ->
-                        bookGenreRepository.save(new BookGenre(bookSave.getId(), genre.getId()))));
+                .doOnSuccess(bookSave -> {
+                    bookGenreRepository.deleteByBookID(Objects.requireNonNull(bookSave).getId()).subscribe();
+                    bookDto.getGenres().forEach(genre ->
+                            bookGenreRepository.save(new BookGenre(bookSave.getId(), genre.getId())).subscribe()
+                    );
+                })
+                .doOnError(throwable -> Mono.error(
+                        new EntityNotFoundException("Error: Save Book %d".formatted(bookDto.getId()))));
     }
 
     private Mono<AuthorDto> findBookAuthor(BookDto bookDto) {
         return authorRepository.findById(bookDto.getAuthor().getId())
-                .switchIfEmpty(Mono.error(
-                        new EntityNotFoundException("Author with id %d not found"
-                                .formatted(bookDto.getAuthor().getId()))))
+                .switchIfEmpty(Mono.error(new EntityNotFoundException("Author with id %d not found"
+                        .formatted(bookDto.getAuthor().getId()))))
+                .doOnError(throwable -> Mono.error(new EntityNotFoundException("Error: '%s'"
+                        .formatted(throwable.getMessage()))))
                 .map(AuthorMapper::toDto);
     }
 
     private Mono<List<GenreDto>> findBookGenres(BookDto bookDto) {
         List<Long> genresId = bookDto.getGenres().stream().map(GenreDto::getId).toList();
         return genreRepository.findGenresByIdIn(genresId)
-                .switchIfEmpty(Mono.error(
-                        new EntityNotFoundException("Genres with ids [%s] not found".formatted(genresId))))
-                .map(GenreMapper::toDto).collectList();
+                .switchIfEmpty(Mono.error(new EntityNotFoundException("Genres with ids [%s] not found"
+                        .formatted(genresId))))
+                .doOnError(throwable -> Mono.error(new EntityNotFoundException("Error: '%s'"
+                                .formatted(throwable.getMessage()))))
+                .map(GenreMapper::toDto)
+                .collectList();
     }
 
 }

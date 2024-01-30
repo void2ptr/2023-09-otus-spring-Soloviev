@@ -43,7 +43,7 @@ public class CommentsController {
 
     @DeleteMapping("/api/v1/books/{bookId}/comments/{commentId}")
     @ResponseStatus(HttpStatus.OK)
-    public Mono<CommentDto> delete(@PathVariable("bookId") Long bookId, @PathVariable("commentId") Long commentId) {
+    public Mono<Boolean> delete(@PathVariable("bookId") Long bookId, @PathVariable("commentId") Long commentId) {
         return commentService.delete(commentId);
     }
 }

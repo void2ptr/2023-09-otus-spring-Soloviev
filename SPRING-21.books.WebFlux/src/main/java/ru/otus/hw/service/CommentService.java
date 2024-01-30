@@ -11,5 +11,5 @@ public interface CommentService {
 
     Mono<CommentDto> update(CommentDto commentDto);
 
-    Mono<CommentDto> delete(long commentId);
+    Mono<Boolean> delete(long commentId);
 }

@@ -18,10 +18,11 @@ curl  -X "DELETE" http://localhost:8080/api/v1/genres/22
 
 # Books
 curl  -X "GET"    http://localhost:8080/api/v1/books
-curl --header "Content-Type: application/json" --request PUT  --data '{"id":13,"title":"Прометей","author":{"id":11,"fullName":"Эсхил"},"genres":[{"id":12,"name":"эпопея"},{"id":21,"name":"трагедия"}],"book.author":"Эсхил"}' http://localhost:4200/api/v1/books/13
+curl --header "Content-Type: application/json" --request POST --data '{"id":13,"title":"Прометей","author":{"id":11,"fullName":"Эсхил"},"genres":[{"id":12,"name":"эпопея"},{"id":21,"name":"трагедия"}]}' http://localhost:4200/api/v1/books
+curl --header "Content-Type: application/json" --request PUT  --data '{"id":13,"title":"Прометей","author":{"id":11,"fullName":"Эсхил"},"genres":[{"id":12,"name":"эпопея"},{"id":21,"name":"трагедия"}]}' http://localhost:4200/api/v1/books/13
 
 # Comments
 curl  -X "GET" http://localhost:8080/api/v1/books/4/comments
-curl --header "Content-Type: application/json" --request POST --data '{"id":0,"description":"New-Comment","book":{"id":18,"title":"Путешествие на запад","author":{"id":16,"fullName":"фольклор"},"genres":[{"id":7,"name":"повесть"},{"id":15,"name":"комедия"}]}}' http://localhost:8080/api/v1/books/18/comments
+curl --header "Content-Type: application/json" --request POST --data '{"id":0,"description":"New-Comment","book":{"id":31,"title":"Путешествие на запад","author":{"id":16,"fullName":"фольклор"},"genres":[{"id":7,"name":"повесть"},{"id":15,"name":"комедия"}]}}' http://localhost:8080/api/v1/books/31/comments
 curl --header "Content-Type: application/json" --request PUT  --data '{"id":54,"description":"Теперь не могу есть хурму, вспоминаю Джу Ба Дзе","book":{"id":18,"title":"Путешествие на запад","author":{"id":16,"fullName":"фольклор"},"genres":[{"id":7,"name":"повесть"},{"id":15,"name":"комедия"}]}}' http://localhost:8080/api/v1/books/18/comments/54
 curl  -X "DELETE" http://localhost:8080/api/v1/books/18/comments/56

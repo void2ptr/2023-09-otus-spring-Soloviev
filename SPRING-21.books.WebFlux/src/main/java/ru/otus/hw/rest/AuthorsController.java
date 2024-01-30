@@ -48,7 +48,7 @@ public class AuthorsController {
 
     @DeleteMapping("/api/v1/authors/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Mono<AuthorDto> delete(@PathVariable("id") Long id) {
+    public Mono<Boolean> delete(@PathVariable("id") Long id) {
         return authorService.delete(id);
     }
 }

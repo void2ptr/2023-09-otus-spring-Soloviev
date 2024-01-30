@@ -110,20 +110,17 @@ class GenresControllerTest {
     @ArgumentsSource(GenresArgumentsProvider.class)
     void deleteAction(GenreDto genreDto) {
         String url = "/api/v1/genres/" + genreDto.getId();
-        Mono<GenreDto> genreDtoMono = Mono.just(genreDto);
-        BDDMockito.given(genreService.delete(genreDto.getId())).willReturn(genreDtoMono);
+        BDDMockito.given(genreService.delete(genreDto.getId())).willReturn(Mono.just(true));
 
         // method for test
         var actual = webClient.delete().uri(url)
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody(GenreDto.class)
+                .expectBody(Boolean.class)
                 .returnResult().getResponseBody();
 
         BDDMockito.then(genreService).should().delete(genreDto.getId());
         assertThat(actual).isNotNull()
-                .usingRecursiveComparison()
-                .ignoringExpectedNullFields()
-                .isEqualTo(genreDto);
+                .isEqualTo(true);
     }
 }

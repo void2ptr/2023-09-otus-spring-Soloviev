@@ -8,7 +8,7 @@ public interface BookService {
 
     Flux<BookDto> findAll();
 
-    Mono<BookDto> findById(BookDto bookDto);
+    Mono<BookDto> findById(Long id);
 
     Mono<BookDto> insert(BookDto bookDto);
 

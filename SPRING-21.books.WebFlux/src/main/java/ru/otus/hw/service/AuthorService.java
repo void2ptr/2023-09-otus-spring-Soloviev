@@ -13,6 +13,6 @@ public interface AuthorService {
 
     Mono<AuthorDto> update(AuthorDto authorDto);
 
-    Mono<AuthorDto> delete(Long id);
+    Mono<Boolean> delete(Long id);
 
 }

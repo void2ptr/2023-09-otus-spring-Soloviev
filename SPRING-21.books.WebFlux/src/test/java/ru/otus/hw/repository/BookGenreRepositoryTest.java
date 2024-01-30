@@ -77,4 +77,20 @@ class BookGenreRepositoryTest {
                 .thenConsumeWhile(x -> true)
                 .verifyComplete();
     }
+
+    @DisplayName("должен загружать жанр принадлежащий книге по ID жанра")
+    @Test
+    void shouldExistByGenreId() {
+        // init
+        BookGenre bookGenre = repository.findAll().blockFirst();
+        assertThat(bookGenre).isNotNull();
+        // test
+        Mono<Boolean> booleanMono = repository.existByGenreId(bookGenre.getGenreId());
+        booleanMono.log().subscribe(System.out::println);
+        StepVerifier
+                .create(booleanMono)
+                .expectNextMatches(aBoolean -> aBoolean)
+                .thenConsumeWhile(x -> true)
+                .verifyComplete();
+    }
 }

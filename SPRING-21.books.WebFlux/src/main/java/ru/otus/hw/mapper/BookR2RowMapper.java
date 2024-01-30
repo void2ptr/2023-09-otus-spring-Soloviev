@@ -11,11 +11,11 @@ import java.io.IOException;
 import java.util.List;
 import java.util.function.BiFunction;
 
-public class BookR2Mapper implements BiFunction<Row, Object, BookDto> {
+public class BookR2RowMapper implements BiFunction<Row, Object, BookDto> {
 
     private final ObjectMapper objectMapper;
 
-    public BookR2Mapper(ObjectMapper objectMapper) {
+    public BookR2RowMapper(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
 

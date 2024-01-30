@@ -29,8 +29,8 @@ public class BooksController {
 
     @GetMapping("/api/v1/books/{id}")
     @ResponseStatus(HttpStatus.OK)
-    public Mono<BookDto> findById(@PathVariable("id") Long id, @RequestBody BookDto bookDto) {
-        return bookService.findById(bookDto);
+    public Mono<BookDto> findById(@PathVariable("id") Long id) {
+        return bookService.findById(id);
     }
 
     @PostMapping("/api/v1/books")

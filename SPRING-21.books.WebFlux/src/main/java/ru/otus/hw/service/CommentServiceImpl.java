@@ -26,36 +26,36 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Mono<CommentDto> insert(CommentDto commentDto) {
-        return bookRepository.findById(commentDto.getBook().getId())
-                        .switchIfEmpty(Mono.error(new EntityNotFoundException("ERROR: book '%d' not found"
-                                .formatted(commentDto.getBook().getId()))))
-                .flatMap(book -> commentRepository.save(
+        return bookRepository.existsById(commentDto.getBook().getId())
+                .filter(aBoolean -> aBoolean)
+                .flatMap(isBookExist -> commentRepository.save(
                         new Comment(commentDto.getBook().getId(), commentDto.getDescription())))
+                .doOnError(throwable -> Mono.error(
+                        new EntityNotFoundException("ERROR: insert comment for book '%d'"
+                                .formatted(commentDto.getBook().getId()))))
                 .map(CommentMapper::toDto);
     }
 
     @Override
     public Mono<CommentDto> update(CommentDto commentDto) {
-        return commentRepository.findCommentById(commentDto.getId())
-                .switchIfEmpty(Mono.error(new EntityNotFoundException("ERROR: comment '%d' not found"
-                        .formatted(commentDto.getBook().getId()))))
-                .doOnSuccess(comment -> bookRepository.findById(comment.getBookId())
-                        .switchIfEmpty(Mono.error(new EntityNotFoundException("ERROR: book '%d' not found"
-                                .formatted(comment.getBookId())))))
+        return bookRepository.existsById(commentDto.getBook().getId())
+                .filter(aBoolean -> aBoolean)
+                .flatMap(aBoolean -> commentRepository.existsById(commentDto.getId()))
+                .filter(aBoolean -> aBoolean)
                 .flatMap(comment -> commentRepository.save(
                         new Comment(commentDto.getId(), commentDto.getBook().getId(), commentDto.getDescription())))
                 .map(CommentMapper::toDto);
     }
 
     @Override
-    public Mono<CommentDto> delete(long commentId) {
-        return commentRepository.findById(commentId)
-                .switchIfEmpty(Mono.error(new EntityNotFoundException("ERROR: comment '%d' not found"
-                        .formatted(commentId))))
-                .doOnSuccess(comment -> commentRepository.deleteById(commentId))
-                .doOnSuccess(comment -> commentRepository.findById(commentId)
-                        .doOnSuccess(q -> Mono.error(new EntityNotFoundException("ERROR: comment '%d' do not deleted"
-                                .formatted(commentId)))))
-                .map(CommentMapper::toDto);
+    public Mono<Boolean> delete(long commentId) {
+        return commentRepository.existsById(commentId)
+                .doOnSuccess(isCommentExist -> {
+                    if (isCommentExist) {
+                        commentRepository.deleteById(commentId).subscribe();
+                    }
+                })
+                .doOnError(throwable ->
+                        Mono.error(new EntityNotFoundException("ERROR: Book '%d' not found".formatted(commentId))));
     }
 }

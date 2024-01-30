@@ -17,5 +17,8 @@ public interface BookGenreRepository extends ReactiveCrudRepository<BookGenre, L
 
     @Query("SELECT bg.id, bg.book_id, bg.genre_id FROM book_genre bg WHERE bg.genre_id = :genre_id")
     Flux<BookGenre> findByGenreId(@Param("genre_id") Long genreId);
+
+    @Query("SELECT exists (SELECT bg.id FROM book_genre bg WHERE bg.genre_id = :genre_id) limit 1")
+    Mono<Boolean> existByGenreId(@Param("genre_id") Long genreId);
 }
 

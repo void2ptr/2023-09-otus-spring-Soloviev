@@ -14,5 +14,5 @@ public interface GenreService {
 
     Mono<GenreDto> update(GenreDto genreDto);
 
-    Mono<GenreDto> delete(Long genreId);
+    Mono<Boolean> delete(Long genreId);
 }

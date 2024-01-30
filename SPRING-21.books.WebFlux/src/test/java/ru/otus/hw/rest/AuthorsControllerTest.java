@@ -129,20 +129,17 @@ public class AuthorsControllerTest {
     void deleteAction(AuthorDto authorDto) {
         // init
         String url = "/api/v1/authors/" + authorDto.getId();
-        Mono<AuthorDto> authorDtoMono = Mono.just(authorDto);
-        given(authorService.delete(authorDto.getId())).willReturn(authorDtoMono);
+        given(authorService.delete(authorDto.getId())).willReturn(Mono.just(true));
 
         // test
         var actual = webClient.delete().uri(url)
                 .exchange()
                 .expectStatus().isOk()
-                .expectBody(AuthorDto.class)
+                .expectBody(Boolean.class)
                 .returnResult().getResponseBody();
 
         BDDMockito.then(authorService).should().delete(authorDto.getId());
         assertThat(actual).isNotNull()
-                .usingRecursiveComparison()
-                .ignoringExpectedNullFields()
-                .isEqualTo(authorDto);
+                .isEqualTo(true);
     }
 }
