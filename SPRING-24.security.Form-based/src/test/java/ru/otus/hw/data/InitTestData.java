@@ -8,7 +8,6 @@ import ru.otus.hw.model.Genre;
 import ru.otus.hw.model.Role;
 import ru.otus.hw.model.User;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicLong;
 import java.util.stream.IntStream;
@@ -66,13 +65,5 @@ public class InitTestData {
                         List.of(new Role(2L, "USER"))));
     }
 
-
-public static List<UrlAndUser> mixUrlsAndUsers(List<String> urls) {
-        List<UrlAndUser> urlAndUser = new ArrayList<>();
-        urls.forEach(url -> InitTestData.getDbUsers().forEach(user ->
-                        urlAndUser.add(new UrlAndUser(url, user))
-                ));
-        return urlAndUser;
-    }
 }
 

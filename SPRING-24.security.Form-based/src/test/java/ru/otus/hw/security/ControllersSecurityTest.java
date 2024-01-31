@@ -1,115 +1,80 @@
 package ru.otus.hw.security;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.extension.ExtensionContext;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.ArgumentsProvider;
 import org.junit.jupiter.params.provider.ArgumentsSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.test.context.ContextConfiguration;
+import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-import org.springframework.web.context.WebApplicationContext;
 import ru.otus.hw.config.security.SecurityConfig;
-import ru.otus.hw.controller.AuthorsController;
-import ru.otus.hw.data.UrlAndUser;
-import ru.otus.hw.data.UrlGetArgumentsProvider;
-import ru.otus.hw.data.UrlPostArgumentsProvider;
+import ru.otus.hw.data.InitTestData;
+import ru.otus.hw.model.User;
+import ru.otus.hw.service.AuthorService;
+import ru.otus.hw.service.BookService;
+import ru.otus.hw.service.CommentService;
+import ru.otus.hw.service.GenreService;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.anonymous;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.csrf;
+import org.springframework.http.HttpMethod;
+
+import java.util.List;
+import java.util.stream.Stream;
+
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
-import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultHandlers.exportTestSecurityContext;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.unauthenticated;
-import static org.springframework.security.test.web.servlet.setup.SecurityMockMvcConfigurers.springSecurity;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
-import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.request;
 
-
-@DisplayName("проверка Get на безопасность")
-@WebMvcTest(AuthorsController.class)
-//@Import({SecurityConfig.class})
-
-//@ExtendWith(SpringExtension.class)
-@ContextConfiguration(classes = SecurityConfig.class)
-//@WebAppConfiguration
-
-@AutoConfigureTestDatabase(replace = AutoConfigureTestDatabase.Replace.NONE)
-class ControllersSecurityTest {
-
+@DisplayName("Проверка контроллеров на безопасность")
+@WebMvcTest
+@MockBean(classes = {BookService.class, AuthorService.class, GenreService.class, CommentService.class})
+@Import({SecurityConfig.class})
+public class ControllersSecurityTest {
     @Autowired
     private MockMvc mockMvc;
 
-    @Autowired
-    private WebApplicationContext context;
-
-    @BeforeEach
-    public void setup() {
-        mockMvc = MockMvcBuilders
-                .webAppContextSetup(context)
-                .apply(springSecurity())
-                .build();
-    }
-
-    @DisplayName("GET: должен пройти проверку подлинности (authenticated)")
+    @DisplayName("Заданные конечные точки должны быть доступны под заданным юзером")
     @ParameterizedTest
-    @ArgumentsSource(UrlGetArgumentsProvider.class)
-    void checkSecurityForGetResource(UrlAndUser urlAndUser) throws Exception  {
-
-        System.out.printf("----%s:%s@ %s\n", urlAndUser.user().getUsername(),
-                urlAndUser.user().getPassword(), urlAndUser.url());
-
-        // test
-       mockMvc.perform(get(urlAndUser.url())
-                        .with(csrf())
-                    .with(user(urlAndUser.user()))
-                )
-                .andDo(exportTestSecurityContext())
-                .andDo(print())
-                .andExpect(authenticated());
+    @ArgumentsSource(SecurityTestArgumentsProvider.class)
+    void givenEndpointShouldBeAccessibleUnderTheSpecifiedUser(String method, String url, User user) throws Exception  {
+        var requestBuilder = request(HttpMethod.valueOf(method), url).with(user(user));
+        mockMvc.perform(requestBuilder).andExpect(authenticated());
     }
 
-    @DisplayName("POST: должен пройти проверку подлинности (authenticated)")
+    @DisplayName("Заданные конечные точки не должны быть доступны без юзера")
     @ParameterizedTest
-    @ArgumentsSource(UrlPostArgumentsProvider.class)
-    void checkSecurityForPostResource(UrlAndUser urlAndUser) throws Exception  {
-
-        System.out.printf("----%s:%s@ %s\n", urlAndUser.user().getUsername(),
-                urlAndUser.user().getPassword(), urlAndUser.url());
-
-        // test
-        mockMvc.perform(post(urlAndUser.url())
-                        .with(csrf())
-                        .with(user(urlAndUser.user()))
-                )
-                .andDo(exportTestSecurityContext())
-                .andDo(print())
-                .andExpect(authenticated());
+    @ArgumentsSource(SecurityTestArgumentsProvider.class)
+    void givenEndpointShouldBeUnAccessibleWithoutUser(String method, String url) throws Exception  {
+        var requestBuilder = request(HttpMethod.valueOf(method), url);
+        mockMvc.perform(requestBuilder).andExpect(unauthenticated());
     }
 
-    @DisplayName("GET: не должен пройти проверку подлинности (unauthenticated)")
-    @ParameterizedTest
-    @ArgumentsSource(UrlGetArgumentsProvider.class)
-    void checkAnonymousGetResource(UrlAndUser urlAndUser) throws Exception  {
-        // test
-        mockMvc.perform(get(urlAndUser.url())
-                        .with(csrf())
-                        .with(anonymous()))
-                .andExpect(unauthenticated());
-    }
+    private static class SecurityTestArgumentsProvider implements ArgumentsProvider {
 
-    @DisplayName("POST: не должен пройти проверку подлинности (unauthenticated)")
-    @ParameterizedTest
-    @ArgumentsSource(UrlPostArgumentsProvider.class)
-    void checkAnonymousPostResource(UrlAndUser urlAndUser) throws Exception  {
-        // test
-        mockMvc.perform(post(urlAndUser.url())
-                        .with(csrf())
-                        .with(anonymous()))
-                .andExpect(unauthenticated());
-    }
+        @Override
+        public Stream<? extends Arguments> provideArguments(ExtensionContext extensionContext) {
+            List<User> dbUsers = InitTestData.getDbUsers();
+            var getUrls = List.of(
+                    "/authors", "/authors/add", "/authors/4/edit", "/authors/4/delete",
+                    "/books", "/books/add", "/books/4/edit", "/books/4/delete",
+                    "/books/1/comments", "/books/1/comments/add", "/books/1/comments/4/edit",
+                    "/books/1/comments/4/delete",
+                    "/genres", "/genres/add", "/genres/4/edit", "/genres/4/delete");
+            var postUrls = List.of(
+                    "/authors/add", "/authors/4/edit", "/authors/4/delete",
+                    "/books/add", "/books/4/edit", "/books/4/delete", "/books/1/comments/add",
+                    "/books/1/comments/4/edit", "/books/1/comments/4/delete",
+                    "/genres/add", "/genres/4/edit", "/genres/4/delete");
 
+            var getArgsStream = getUrls.stream().flatMap(url ->
+                    dbUsers.stream().map(user -> Arguments.of("get", url, user)));
+            var postArgsStream = postUrls.stream().flatMap(url ->
+                    dbUsers.stream().map(user -> Arguments.of("post", url, user)));
+            return Stream.concat(getArgsStream, postArgsStream);
+        }
+    }
 }

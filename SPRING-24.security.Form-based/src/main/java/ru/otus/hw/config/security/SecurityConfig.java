@@ -2,7 +2,6 @@ package ru.otus.hw.config.security;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Lazy;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
@@ -11,9 +10,6 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.DelegatingPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import ru.otus.hw.repository.UserRepository;
-import ru.otus.hw.service.UserService;
-import ru.otus.hw.service.UserServiceImpl;
 
 import java.util.Date;
 
@@ -43,7 +39,6 @@ public class SecurityConfig {
                         .requestMatchers("/genres/**").authenticated()
                         .anyRequest().denyAll())
 //                .addFilterAfter(new MyOwnFilter(), ConcurrentSessionFilter.class)
-//                .anonymous(Customizer.withDefaults())
                 .rememberMe().key(REMEMBER_ME_KEY).tokenValiditySeconds(REMEMBER_ME_SECONDS).and()
                 .logout((logout) -> logout
                         .logoutUrl("/logout")
@@ -60,11 +55,6 @@ public class SecurityConfig {
         BCryptPasswordEncoder bcryptPasswordEncoder = new BCryptPasswordEncoder();
         delegatingPasswordEncoder.setDefaultPasswordEncoderForMatches(bcryptPasswordEncoder);
         return delegatingPasswordEncoder;
-    }
-
-    @Bean(name = "userDetailsService") // move to: service/UserService
-    public UserService userDetailsService(@Lazy UserRepository userRepository) {
-        return new UserServiceImpl(userRepository);
     }
 
 }

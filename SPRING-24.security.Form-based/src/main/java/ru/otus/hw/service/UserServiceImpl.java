@@ -3,12 +3,13 @@ package ru.otus.hw.service;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.stereotype.Service;
 import ru.otus.hw.exception.UserNotFoundException;
 import ru.otus.hw.repository.UserRepository;
 
 
 @RequiredArgsConstructor
-//@Service("userDetailsService")
+@Service("userDetailsService")
 public class UserServiceImpl implements UserService {
 
     private final UserRepository userRepository;
