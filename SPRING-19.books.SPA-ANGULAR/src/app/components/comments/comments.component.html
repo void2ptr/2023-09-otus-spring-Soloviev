@@ -3,27 +3,27 @@
     <table class="table-genres">
         <thead>
             <tr>
-                <td class="table-header"><label>ID</label></td>
-                <td class="table-header"><label>Comment</label></td>
-                <td class="table-header"><label>Save</label></td>
-                <td class="table-header"><label>Delete</label></td>
+                <td class="table-header"><span>ID</span></td>
+                <td class="table-header"><span>Comment</span></td>
+                <td class="table-header"><span>Save</span></td>
+                <td class="table-header"><span>Delete</span></td>
             </tr>
         </thead>
         <tbody>
             <tr *ngFor="let comment of comments; let i = index;">
-                <td class="table-row"><label  class="column-comment-id">{{ comment.id }}</label></td>
-                <td class="table-row"><input  class="column-comment-name" type="text" size="80"
+                <td class="table-row"><label class="column-comment-id"  >{{ comment.id }}</label></td>
+                <td class="table-row"><input class="column-comment-name" type="text" size="80"
                     attr.data-id="{{ comment.id }}" value="{{ comment.description }}"
-                    #commentEdit (keyup)="onKey(commentEdit)"/></td>
+                    #commentEdit (keyup)="onKey(commentEdit)"></td>
                 <td class="table-row"><button class="button-mid" (click)="editRow(i)">Save</button></td>
                 <td class="table-row"><button class="button-mid" (click)="deleteRow(i)">Delete</button></td>
             </tr>
         </tbody>
         <tfoot>
             <tr>
-                <td class="table-row"><label  class="column-comment-id" #genreId></label></td>
-                <td class="table-row"><input  class="column-comment-name" data-id="0" type="text" size="80"
-                    #commentAdd (keyup)="onKey(commentAdd)" value="" /></td>
+                <td class="table-row"><label class="column-comment-id" #genreId></label></td>
+                <td class="table-row"><input class="column-comment-name" data-id="0" type="text" size="80"
+                    #commentAdd (keyup)="onKey(commentAdd)" value=""></td>
                 <td class="table-row"><button class="button-mid" (click)="addRow()">Add</button></td>
             </tr>
         </tfoot>

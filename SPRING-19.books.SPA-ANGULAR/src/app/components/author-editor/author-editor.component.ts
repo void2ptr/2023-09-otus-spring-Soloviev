@@ -13,11 +13,10 @@ import { AuthorDto } from '@dto/author-dto';
   styleUrl: './author-editor.component.scss'
 })
 export class AuthorEditorComponent {
-    @Input() authorDto: AuthorDto = new AuthorDto(0, "");
-    error: unknown = "";
-
+    @Input() author: AuthorDto = new AuthorDto(0, "");
     @Output() addAuthorEvent = new EventEmitter();
     @Output() saveAuthorEvent = new EventEmitter();
+    error: unknown = "";
 
     /**
      * Inject Service
@@ -31,8 +30,8 @@ export class AuthorEditorComponent {
      */
     onClickAdd(): void  {
         this.getAuthor();
-        const res = this.authorsService.create(this.authorDto).subscribe((res: AuthorDto) => {
-            this.authorDto = res;
+        const res = this.authorsService.create(this.author).subscribe((res: AuthorDto) => {
+            this.author = res;
             this.addAuthorEvent.emit(res);
             this.error = `added: ${res.fullName}`;
         });
@@ -43,8 +42,8 @@ export class AuthorEditorComponent {
      */
     onClickEdit(): void  {
         this.getAuthor();
-        const res = this.authorsService.update(this.authorDto).subscribe((res: AuthorDto) => {
-            this.authorDto = res;
+        const res = this.authorsService.update(this.author).subscribe((res: AuthorDto) => {
+            this.author = res;
             this.saveAuthorEvent.emit(res);
             this.error = `save: ${res.fullName}`;
         });
@@ -63,6 +62,6 @@ export class AuthorEditorComponent {
         if (! elemAuthorName) {
             return;
         }
-        this.authorDto = new AuthorDto(Number(elemAuthorId.textContent), elemAuthorName.value);
+        this.author = new AuthorDto(Number(elemAuthorId.textContent), elemAuthorName.value);
     }
 }

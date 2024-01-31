@@ -23,8 +23,6 @@ export class CommentsComponent {
     comment: CommentDto = new CommentDto(0, "", new BookDto(0, "", new AuthorDto(0, ""), []));
     error: unknown = "";
 
-
-
     /**
      * Inject Service
      * @param commentsService
@@ -37,9 +35,9 @@ export class CommentsComponent {
     /**
      * get a Comments from Service via REST
      */
-    private findCommentsByBookById(bookId: number): void {
+    private findCommentsByBookId(bookId: number): void {
         try {
-            const resp = this.commentsService.findCommentsByBookById(bookId).subscribe((comments: CommentDto[]) => {
+            const resp = this.commentsService.findCommentsByBookId(bookId).subscribe((comments: CommentDto[]) => {
                 this.comments = comments;
             });
         } catch(error) {
@@ -54,7 +52,7 @@ export class CommentsComponent {
      */
     ngOnChanges(changes: { book: SimpleChange }) {
         // Extract changes to the input property by its name
-        const book = { ...this.book, ...changes['book'] };
+        const book = { ...this.book, ...changes['book'].currentValue };
 
         if (book.id < 1) {
             return;
@@ -105,9 +103,10 @@ export class CommentsComponent {
         }
         this.onKey(elem);
     }
+
     /**
      * Triggered when user edit comment
-     * Fill the Genre model, after click on table.row
+     * Fill the Comment model, after click on table.row
      * @param target
      */
     onKey(target: HTMLInputElement) {
@@ -120,7 +119,7 @@ export class CommentsComponent {
      * @param book
      */
     receiveClickBookEvent(book: BookDto): void {
-        this.findCommentsByBookById(book.id);
+        this.findCommentsByBookId(book.id);
     }
 
 }

@@ -18,7 +18,7 @@ import { AuthorDto } from '@dto/author-dto';
 })
 export class AuthorsComponent {
     authors: AuthorDto[] = [];
-    authorDto: AuthorDto = new AuthorDto(0, "");
+    author: AuthorDto = new AuthorDto(0, "");
     error: unknown = "";
 
     /**
@@ -45,7 +45,7 @@ export class AuthorsComponent {
     onClickDelete(authorDto: AuthorDto): void  {
         try {
             const res = this.authorsService.delete(authorDto).subscribe((authorRes: AuthorDto) => {
-                this.authorDto = authorRes;
+                this.author = authorRes;
                 const index = this.authors.findIndex((a: AuthorDto) => {
                     return a.id === authorRes.id;
                 });
@@ -62,8 +62,8 @@ export class AuthorsComponent {
      * Fill Author Editor model
      * @param author
      */
-    onCellClick(author: AuthorDto): void  {
-        this.authorDto = author;
+    onRowClick(author: AuthorDto): void  {
+        this.author = author;
     }
 
     /**

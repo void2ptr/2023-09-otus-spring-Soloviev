@@ -15,7 +15,7 @@ export class CommentsService {
 
     constructor(private http: HttpClient) { }
 
-    public findCommentsByBookById(bookId: number): Observable<CommentDto[]> {
+    public findCommentsByBookId(bookId: number): Observable<CommentDto[]> {
       let url = `${this.api}/books/${bookId | 0}/comments`;
       return this.http.get<CommentDto[]>(url, { headers: this.headers }).pipe(
           retry(0)
@@ -33,7 +33,7 @@ export class CommentsService {
   public update(comment: CommentDto): Observable<CommentDto> {
       let url = `${this.api}/books/${comment.book.id | 0}/comments/${comment.id | 0}`;
       const body = JSON.stringify(comment);
-      return this.http.post<CommentDto>(url, body, { headers: this.headers }).pipe(
+      return this.http.put<CommentDto>(url, body, { headers: this.headers }).pipe(
             retry(0),
      );
   }

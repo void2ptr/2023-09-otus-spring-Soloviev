@@ -70,10 +70,10 @@ export class BooksComponent {
     }
 
     /**
-     * Click on book row.cell - send selected book to Child component via update model
+     * Click on book row - send selected book to Child component via update model
      * @param book
      */
-    onCellClick(book: BookDto): void  {
+    onRowClick(book: BookDto): void  {
         this.book = book;
     }
 

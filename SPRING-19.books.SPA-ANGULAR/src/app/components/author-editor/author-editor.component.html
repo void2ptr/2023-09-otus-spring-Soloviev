@@ -2,11 +2,11 @@
     <!-- row -->
     <h3     class="editor-header">Author Editor:</h3>
     <!-- row -->
-    <label  class="editor-label1" for="author-id">ID:</label>
-    <label  class="editor-id"      id="author-id">{{ authorDto.id }}</label>
+    <label  class="editor-label1">ID:</label>
+    <label  class="editor-id"    id="author-id">{{ author.id }}</label>
     <!-- row -->
     <label  class="editor-label2" for="author-name">fullName:</label>
-    <input  class="editor-name"    id="author-name" value="{{ authorDto.fullName }}" size="30">
+    <input  class="editor-name"    id="author-name" value="{{ author.fullName }}" size="30">
     <!-- row -->
     <button class="editor-button1  button" (click)="onClickAdd()">Add</button>
     <button class="editor-button2  button" (click)="onClickEdit()">Save</button>

@@ -5,15 +5,15 @@
             <span class="table-header">Name</span>
             <span class="table-header">Delete</span>
         </header>
-        <div class="author-row" id="authors-row-{{author.id}}" *ngFor="let author of authors" >
-            <span (click)="onCellClick(author)">{{author.id}}</span>
-            <span (click)="onCellClick(author)">{{author.fullName}}</span>
+        <div class="author-row" id="authors-row-{{author.id}}" *ngFor="let author of authors" (click)="onRowClick(author)">
+            <span>{{author.id}}</span>
+            <span>{{author.fullName}}</span>
             <button class="button-mid" (click)="onClickDelete(author)">Delete</button>
         </div>
     </aside>
     <aside class="side-right">
        <app-author-editor
-            [authorDto]="authorDto"
+            [author]="author"
             (addAuthorEvent)="receiveAddAuthorEvent($event)"
             (saveAuthorEvent)="receiveSaveAuthorEvent($event)"
        ></app-author-editor>
