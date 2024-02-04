@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Delete Author</title>
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <nav th:insert="/menu/header :: top-menu"></nav>
+    <h3 th:text="#{author-delete-title}">Удаление Автора</h3>
+
+    <form class="edit-form" enctype="application/x-www-form-urlencoded"
+          th:method="post"
+          th:action="@{/authors/__${author.id}__/delete}" action=""
+          th:object="${author}">
+        <!--  -->
+        <input type="hidden" id="author-id-input" name="id" th:value="${author.id}" value="-1">
+        <!--  -->
+        <label for="author-name-input" th:text="#{author-add-name}">Автор был известен как :</label>
+        <label type="text" id="author-name-input" name="fullName" th:text="${author.fullName}">John Doe</label>
+        <!--  -->
+        <button type="reset"  th:text="#{button-caption-reset}">Reset</button>
+        <button type="submit" th:text="#{button-caption-delete}">Удалить</button>
+    </form>
+
+    <nav th:insert="/menu/footer :: bottom-menu"></nav>
+</body>
+</html>

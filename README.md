@@ -17,3 +17,5 @@
 - [SPRING-18](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/tree/main/SPRING-18.books.Spring-MVC-View) - Spring MVC View
 - [SPRING-19](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/tree/main/SPRING-19.books.SPA-ANGULAR) - Современные приложения на Spring MVC - front
 - [SPRING-19](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/tree/main/SPRING-19.books.SPA-BACK) - Современные приложения на Spring MVC - back
+
+- [SPRING-24](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/tree/main/SPRING-24.security.Form-based) - Spring Security: Механизмы аутентификации
