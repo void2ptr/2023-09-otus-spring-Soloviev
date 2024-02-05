@@ -1,0 +1,66 @@
+table, th, td {
+    border: 1px solid;
+}
+table, option {
+   background-color: #d3d3d32e;
+}
+thead {
+   background-color: #d3d3d3f7;
+}
+th, td {
+   padding: 2px 5px 2px 5px;
+}
+caption {
+    text-align: initial;
+}
+
+.nav-header-top {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-content: center;
+    align-items: center;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 10px;
+    background-color: #d3d3d345;
+}
+
+/* genres */
+.genres-div {
+   display: inline-block;
+   text-decoration: none;
+   white-space: nowrap;
+}
+.genres-div:not(:last-child):after {
+  content: ', ';
+  margin-right: 10px;
+}
+
+
+.edit-form {
+    display: grid;
+    grid-template-rows: auto auto;
+    grid-template-columns: max-content 200px;
+    align-items: baseline;
+    justify-items: stretch;
+    gap: 10px;
+}
+
+.book-comments-main {
+    display: grid;
+    grid-template-columns: 10px max-content 30px;
+    align-items: baseline;
+    justify-items: stretch;
+    gap: 10px;
+}
+
+.custom-select:hover:not(:disabled),
+.custom-select:focus:not(:disabled),
+.custom-select:active:not(:disabled){
+    color: black;
+}
+
+select{
+    color: gray;
+}
