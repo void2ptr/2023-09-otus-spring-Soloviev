@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" type="text/css" />
+    <title>Genres list</title>
+</head>
+<body>
+    <nav th:insert="/menu/header :: top-menu"></nav>
+    <h1 th:text="#{genre-title}">>Страница для работы с Жанрами</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th th:text="#{common-field-id}">ID</th>
+            <th th:text="#{common-field-name}">Название</th>
+            <th th:text="#{common-field-action}">Действия</th>
+            <th>
+                <a th:href="@{/genres/add}"
+                   href="/genres/genres.html"
+                   th:text="#{button-caption-add}">Add</a>
+            </th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="genre : ${genres}">
+            <td th:text="${genre.id}">Id</td>
+            <td th:text="${genre.name}">Opera</td>
+            <td><a th:href="@{/genres/__${genre.id}__/edit}"
+                   href="/genres/genres.html"
+                   th:text="#{button-caption-edit}">Edit</a>
+            </td>
+            <td><a th:href="@{/genres/__${genre.id}__/delete}"
+                   href="/genres/genres.html"
+                   th:text="#{button-caption-delete}">Del</a>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <nav th:insert="/menu/footer :: bottom-menu"></nav>
+</body>
+</html>
