@@ -8,11 +8,17 @@ import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabas
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.context.annotation.Import;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
+import ru.otus.hw.config.DatabaseConfig;
+import ru.otus.hw.data.AclRepository;
 import ru.otus.hw.dto.AuthorDto;
 import ru.otus.hw.model.Author;
+import ru.otus.hw.security.acl.AclConfig;
+import ru.otus.hw.security.acl.PermissionService;
 import ru.otus.hw.service.AuthorService;
+import ru.otus.hw.service.AuthorServiceImpl;
 
 import java.nio.charset.StandardCharsets;
 import java.util.List;

@@ -20,7 +20,6 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import ru.otus.hw.security.acl.IEntity;
 
 import java.util.List;
 
@@ -35,7 +34,7 @@ import java.util.List;
         attributeNodes = {@NamedAttributeNode("author"), @NamedAttributeNode("genres")})
 @NamedEntityGraph(name = "book-author-entity-graph",
         attributeNodes = @NamedAttributeNode("author"))
-public class Book implements IEntity {
+public class Book {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

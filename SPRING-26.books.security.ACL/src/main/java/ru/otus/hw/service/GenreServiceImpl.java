@@ -38,7 +38,7 @@ public class GenreServiceImpl implements GenreService {
     @Transactional(readOnly = true)
     @Override
     public Optional<GenreDto> findGenreById(long id) {
-        Optional<Genre> genre = genreRepository.findById(id);
+        Optional<Genre> genre = genreRepository.findGenreById(id);
         if (genre.isEmpty()) {
             throw new EntityNotFoundException("Genres with ids '%d' not found".formatted(id));
         }
@@ -66,12 +66,12 @@ public class GenreServiceImpl implements GenreService {
     @Transactional
     @Override
     public void delete(long genreId) {
-        List<Book> books = bookRepository.findAllByGenresId(genreId);
+        List<Book> books = bookRepository.findByGenresId(genreId);
         if (!books.isEmpty()) {
             throw new EntityNotFoundException("The Book for the Genre '%d' exists, stop deleting".formatted(genreId));
         }
 
-        var genre = genreRepository.findById(genreId)
+        var genre = genreRepository.findGenreById(genreId)
                 .orElseThrow(() -> new EntityNotFoundException("ERROR: Genre '%d' not found".formatted(genreId)));
         genreRepository.delete(genre);
     }
@@ -81,7 +81,7 @@ public class GenreServiceImpl implements GenreService {
 
         Genre saved = genreRepository.save(genre);
 
-        permissionService.addPermission(false, saved,
+        permissionService.addPermission(false, Genre.class, saved.getId(),
                 List.of(BasePermission.READ, BasePermission.WRITE, BasePermission.DELETE));
     }
 }

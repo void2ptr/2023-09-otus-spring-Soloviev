@@ -16,7 +16,6 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.otus.hw.security.acl.IEntity;
 
 //@Data
 @AllArgsConstructor
@@ -27,7 +26,7 @@ import ru.otus.hw.security.acl.IEntity;
 @Table(name = "comments")
 @NamedEntityGraph(name = "comment-book-entity-graph",
         attributeNodes = {@NamedAttributeNode("book")})
-public class Comment implements IEntity {
+public class Comment {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

@@ -2,6 +2,7 @@ package ru.otus.hw.repository;
 
 import org.springframework.data.jpa.repository.EntityGraph;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.lang.NonNull;
 import org.springframework.security.access.prepost.PostAuthorize;
 import org.springframework.security.access.prepost.PostFilter;
 import ru.otus.hw.model.Comment;
@@ -20,6 +21,6 @@ public interface CommentRepository extends JpaRepository<Comment, Long> {
     Optional<Comment> findCommentById(Long id);
 
     @PostAuthorize("hasPermission(#id, 'ru.otus.hw.model.Comment', 'DELETE')")
-    void deleteById(long id);
+    void deleteById(@NonNull Long id);
 
 }

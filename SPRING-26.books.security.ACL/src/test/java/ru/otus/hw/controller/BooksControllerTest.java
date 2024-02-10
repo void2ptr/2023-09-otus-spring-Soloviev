@@ -94,9 +94,9 @@ class BooksControllerTest {
                 new AuthorDto(1, "Author_1"),
                 new AuthorDto(2, "Author_2"));
         List<Author> authors = authorRepository.findAll();
-        Optional<Book> bookOpt = bookRepository.findAllById(bookId);
+        Optional<Book> bookOpt = bookRepository.findBookById(bookId);
         given(authorRepository.findAll()).willReturn(authors);
-        given(bookRepository.findAllById(bookId)).willReturn(bookOpt);
+        given(bookRepository.findBookById(bookId)).willReturn(bookOpt);
 
         // test
         String content = mockMvc.perform(get("/books/add"))
@@ -164,7 +164,7 @@ class BooksControllerTest {
         BookIdsDto bookIdsDto = new BookIdsDto(1, "The Book", 1, List.of(1L));
 
         given(authorRepository.findAuthorById(1L)).willReturn(Optional.of(new Author(1L, "author")));
-        given(genreRepository.findAllByIdIn(List.of(1L))).willReturn(List.of(new Genre(1L, "genre")));
+        given(genreRepository.findGenresByIdIn(List.of(1L))).willReturn(List.of(new Genre(1L, "genre")));
 
         // test
         mockMvc.perform(post("/books/add")
@@ -185,7 +185,7 @@ class BooksControllerTest {
         BookIdsDto bookIdsDto = new BookIdsDto(bookId, "The Book", 1, List.of(1L, 2L));
         given(authorRepository.findAuthorById(bookIdsDto.getAuthorId()))
                 .willReturn(Optional.of(new Author(bookIdsDto.getAuthorId(), "author")));
-        given(genreRepository.findAllByIdIn(bookIdsDto.getGenresId()))
+        given(genreRepository.findGenresByIdIn(bookIdsDto.getGenresId()))
                 .willReturn(List.of(new Genre(1L, "genre"), new Genre(2L, "genre")));
 
         // test

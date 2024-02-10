@@ -113,7 +113,7 @@ public class BooksController {
     }
 
     private List<Genre> findGenres(List<Long> genresIds) {
-        var genres = genreRepository.findAllByIdIn(genresIds);
+        var genres = genreRepository.findGenresByIdIn(genresIds);
         if (genres.isEmpty()) {
             throw new EntityNotFoundException("Genres with ids [%s] not found" .formatted(genresIds));
         }
@@ -122,7 +122,7 @@ public class BooksController {
 
     private List<AuthorDto> findAuthorsNotInBook(long bookId) {
         List<Author> authors = authorRepository.findAll();
-        Optional<Book> bookById = bookRepository.findAllById(bookId);
+        Optional<Book> bookById = bookRepository.findBookById(bookId);
         bookById.ifPresent(book -> authors.removeAll(List.of(book.getAuthor())));
 
         return authors.stream()
@@ -132,7 +132,7 @@ public class BooksController {
 
     private List<GenreDto> findGenresNotInBook(long bookId) {
         List<Genre> genres = genreRepository.findAll();
-        Optional<Book> bookById = bookRepository.findAllById(bookId);
+        Optional<Book> bookById = bookRepository.findBookById(bookId);
         bookById.ifPresent(book -> genres.removeAll(book.getGenres()));
 
         return genres.stream()

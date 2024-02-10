@@ -62,7 +62,7 @@ public class AuthorServiceImpl implements AuthorService {
     @Transactional
     @Override
     public boolean delete(long authorId) {
-        if (bookRepository.existsById(authorId)) {
+        if (!bookRepository.findByAuthorId(authorId).isEmpty()) {
             throw new EntityNotFoundException("The Book for the Author '%d' exists, stop deleting".formatted(authorId));
         }
 
@@ -76,7 +76,7 @@ public class AuthorServiceImpl implements AuthorService {
 
     private Optional<Author> save(Author author) {
         Author saved = authorRepository.save(author);
-        permissionService.addPermission(false, saved,
+        permissionService.addPermission(false, Author.class, saved.getId(),
                 List.of(BasePermission.READ, BasePermission.WRITE, BasePermission.DELETE));
         return Optional.of(saved);
     }

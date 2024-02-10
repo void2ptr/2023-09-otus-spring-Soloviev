@@ -18,10 +18,10 @@ public interface GenreRepository extends JpaRepository<Genre, Long> {
 
     @PostAuthorize("hasPermission(#id, 'ru.otus.hw.model.Genre', 'READ')")
     @NonNull
-    Optional<Genre> findById(long id);
+    Optional<Genre> findGenreById(long id);
 
     @PostFilter("hasPermission(filterObject, 'READ')")
-    List<Genre> findAllByIdIn(List<Long> ids);
+    List<Genre> findGenresByIdIn(List<Long> ids);
 
     @PreAuthorize("hasPermission(#genre, 'DELETE')")
     void delete(@NonNull Genre genre);

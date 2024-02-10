@@ -48,7 +48,7 @@ public class CommentServiceImpl implements CommentService {
 
     @Override
     public Optional<BookDto> findBookById(long bookId) {
-        var bookOpt = bookRepository.findAllById(bookId);
+        var bookOpt = bookRepository.findBookById(bookId);
         if (bookOpt.isEmpty()) {
             throw new EntityNotFoundException("Book with id %d not found".formatted(bookId));
         }
@@ -82,7 +82,7 @@ public class CommentServiceImpl implements CommentService {
 
     private void save(Comment comment) {
         Comment saved = commentRepository.save(comment);
-        permissionService.addPermission(false, saved,
+        permissionService.addPermission(false, Comment.class, saved.getId(),
                 List.of(BasePermission.READ, BasePermission.WRITE, BasePermission.DELETE));
     }
 }

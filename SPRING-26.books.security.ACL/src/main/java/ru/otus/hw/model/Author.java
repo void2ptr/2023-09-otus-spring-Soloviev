@@ -11,7 +11,6 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
-import ru.otus.hw.security.acl.IEntity;
 
 @Data
 @AllArgsConstructor
@@ -20,7 +19,7 @@ import ru.otus.hw.security.acl.IEntity;
 @Setter
 @Entity
 @Table(name = "authors")
-public class Author implements IEntity {
+public class Author {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

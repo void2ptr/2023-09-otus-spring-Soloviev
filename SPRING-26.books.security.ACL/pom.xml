@@ -4,9 +4,9 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.otus.hw</groupId>
-    <artifactId>spring-mvc-study</artifactId>
+    <artifactId>spring-acl-study</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>spring-security-form-based</name>
+    <name>spring-security-acl</name>
 
     <parent>
         <groupId>org.springframework.boot</groupId>

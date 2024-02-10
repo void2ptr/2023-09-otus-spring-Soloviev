@@ -19,13 +19,17 @@ public interface BookRepository extends JpaRepository<Book, Long> {
 
     @PostAuthorize("hasPermission(#id, 'ru.otus.hw.model.Book', 'READ')")
     @EntityGraph("book-author-genres-entity-graph")
-    Optional<Book> findAllById(Long id);
+    Optional<Book> findBookById(Long id);
+
+    @PostFilter("hasPermission(filterObject, 'READ')")
+    @EntityGraph("book-author-entity-graph")
+    List<Book> findByAuthorId(Long id);
 
     @PostFilter("hasPermission(filterObject, 'READ')")
     @EntityGraph("book-author-genres-entity-graph")
-    List<Book> findAllByGenresId(Long id);
+    List<Book> findByGenresId(Long id);
 
     @PostAuthorize("hasPermission(#id, 'ru.otus.hw.model.Book', 'DELETE')")
-    void deleteById(long id);
+    void deleteById(@NonNull Long id);
 
 }

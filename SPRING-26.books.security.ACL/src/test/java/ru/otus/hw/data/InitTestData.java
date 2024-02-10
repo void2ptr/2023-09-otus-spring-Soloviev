@@ -63,7 +63,9 @@ public class InitTestData {
                         List.of(new Role("admin", "ADMIN"))),
                 new User("user", "password",
                         true, true, true, true,
-                        List.of(new Role("user", "USER"))));
+                        List.of(new Role("user", "USER")))
+
+        );
     }
 
 }

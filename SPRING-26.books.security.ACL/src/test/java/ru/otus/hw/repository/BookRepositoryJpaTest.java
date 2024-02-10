@@ -48,7 +48,7 @@ class BookRepositoryJpaTest {
     @ArgumentsSource(BooksArgumentsProvider.class)
     void shouldReturnCorrectBookById(Book expectedBook) {
         // method for test
-        var actualBook = bookRepository.findAllById(expectedBook.getId());
+        var actualBook = bookRepository.findBookById(expectedBook.getId());
         // check
         assertThat(actualBook).isPresent()
                 .get()

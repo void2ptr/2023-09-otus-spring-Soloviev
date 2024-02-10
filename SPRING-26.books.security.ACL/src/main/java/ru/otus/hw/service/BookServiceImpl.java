@@ -35,7 +35,7 @@ public class BookServiceImpl implements BookService {
     @Transactional(readOnly = true)
     @Override
     public Optional<BookDto> findById(long id) {
-        Optional<Book> bookOpt = bookRepository.findAllById(id);
+        Optional<Book> bookOpt = bookRepository.findBookById(id);
         if (bookOpt.isEmpty()) {
             throw new EntityNotFoundException("Book with id '%s' not found".formatted(id));
         }
@@ -65,7 +65,7 @@ public class BookServiceImpl implements BookService {
 
     private void save(Book book) {
         Book saved = bookRepository.save(book);
-        permissionService.addPermission(false, saved,
+        permissionService.addPermission(false, Book.class, saved.getId(),
                 List.of(BasePermission.READ, BasePermission.WRITE, BasePermission.DELETE));
     }
 }
