@@ -1,0 +1,22 @@
+version: "3"
+services:
+  postgres_dev:
+    image: postgres
+    container_name: java-postgres-dev
+    environment:
+      - POSTGRES_USER=usr
+      - POSTGRES_PASSWORD=pwd
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_DB=demoDB
+    ports:
+    - "5430:5432"
+    command: [ "postgres", "-c", "log_statement=all" ]
+  prometheus:
+    image: prom/prometheus:v2.48.1
+    container_name: prometheus-server
+    ports:
+      - "9095:9091"
+    volumes:
+      - /apps/prometheus/configs/prometheus.yaml:/etc/prometheus/prometheus.yaml
+      - /data/prometheus:/prometheus
+    command: --web.enable-lifecycle --config.file=/etc/prometheus/prometheus.yml
