@@ -27,7 +27,7 @@ public class AuthorHealthIndicator implements HealthIndicator {
         long randAuthorId = random.nextLong(count);
         Optional<Author> authorOpt = authorRepository.findAuthorById(randAuthorId);
         if (authorOpt.isPresent()) {
-            return Health.down()
+            return Health.up()
                     .status(Status.UP)
                     .withDetail("author", authorOpt.get().getFullName())
                     .build();
