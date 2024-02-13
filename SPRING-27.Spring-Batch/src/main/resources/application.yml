@@ -1,0 +1,96 @@
+spring:
+  application:
+    name: SPRING-BATCH-STUDY
+  main:
+    banner-mode: "off"
+    allow-circular-references: true
+
+  batch:
+    driver-class-name: org.postgresql.Driver
+    initialize-schema: ALWAYS
+    job:
+      enabled: false
+
+  shell:
+    interactive:
+      enabled: true
+    noninteractive:
+      enabled: false
+
+  datasource:
+    url: jdbc:postgresql://localhost:5430/demoDB
+    username: usr
+    password: pwd
+    driver-class-name: org.postgresql.Driver
+    batch:
+      driverClassName: org.postgresql.Driver
+      url: jdbc:postgresql://localhost:5430/demoDB
+      username: usr
+      password: pwd
+      jdbc:
+        initialize-schema: ALWAYS
+  liquibase:
+    enabled: true
+
+  data:
+    mongodb:
+#      authentication-database: none
+#      username: none
+#      password: none
+      port: 27017
+      host: localhost
+      database: batchStudy
+
+  jpa:
+    platform: org.hibernate.dialect.PostgreSQLDialect
+    open-in-view: false
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+
+    properties:
+      hibernate:
+        format_sql: false
+    show-sql: false
+
+# ---------------------------------------------
+# MongoDB Embedded
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 6.0.5
+    embed:
+      mongo:
+        distribution:
+          IFeatureAwareVersion: 6.0.5
+  config:
+    activate:
+      on-profile: ide
+# ---------------------------------
+# MongoDB Import
+mongock:
+  #  runner-type: "ApplicationRunner" # default
+  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.otus.hw.mongock.changelog
+  mongo-db:
+    write-concern:
+      journal: false
+    read-concern: local
+
+# ---------------------------------------------
+logging:
+  level:
+    ROOT: ERROR
+#    org.springframework.jdbc.core.JdbcTemplate: TRACE
+
+# ---------------------------------------------
+batch:
+  initialize-schema: never
+  initializer:
+    enabled: false
+
+
+
+
