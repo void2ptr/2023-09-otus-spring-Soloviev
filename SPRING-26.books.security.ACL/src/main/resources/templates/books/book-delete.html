@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Delete Book</title>
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <nav th:insert="/menu/header :: top-menu"></nav>
+    <h3 th:text="#{book-delete-title}">Удаление Книги</h3>
+
+    <form class="edit-form"
+          th:method="post"
+          th:action="@{/books/__${book.id}__/delete}" action=""
+          th:object="${book}">
+        <input type="hidden" id="book-id-input"   name="id" th:value="${book.id}" value="-1">
+        <!--  row 1  -->
+        <label for="book-title-input" th:text="#{book-field-title}">Название книги :</label>
+        <input type="text"  id="book-title-input" name="title" th:value="${book.title}" value="John Doe">
+        <!--  row 2  -->
+        <label for="book-author-select" th:text="#{book-field-author}">Автор :</label>
+        <select id="book-author-select" name="authorId">
+            <option th:each="author : ${book.author}"
+                    th:value="${author.id}" value=""
+                    th:text="${author.fullName}" selected>
+            </option>
+            <option th:each="author : ${authors}"
+                    th:value="${author.id}" value=""
+                    th:text="${author.fullName}">
+            </option>
+        </select>
+        <!--  row 3  -->
+        <label for="book-genres-select" th:text="#{book-field-genres}">Жанры :</label>
+        <select id="book-genres-select" name="genresId" multiple size="10">
+            <option th:each="genre : ${book.genres}"
+                    th:value="${genre.id}" value=""
+                    th:text="${genre.name}" selected="selected">
+            </option>
+            <option th:each="genre : ${genres}"
+                    th:value="${genre.id}" value=""
+                    th:text="${genre.name}">
+            </option>
+        </select>
+        <!--  row 4  -->
+        <button type="reset"  th:text="#{button-caption-reset}">Reset</button>
+        <button type="submit" th:text="#{button-caption-delete}">Удалить</button>
+    </form>
+
+    <nav th:insert="/menu/footer :: bottom-menu"></nav>
+</body>
+</html>

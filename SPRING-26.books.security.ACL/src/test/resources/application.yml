@@ -1,0 +1,29 @@
+spring:
+  main:
+    allow-circular-references: true
+  sql-dialect: postgres
+  datasource:
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:postgresql:15:///testDd
+    username: usr
+    password: pwd
+  liquibase:
+    enabled: true
+    default-schema: public
+    liquibase-schema: public
+
+  jpa:
+    database: postgresql
+    database-platform: org.hibernate.dialect.PostgreSQLDialect
+#    open-in-view: false
+#    generate-ddl: false
+    hibernate:
+      ddl-auto: update
+#    properties:
+#      hibernate:
+#        format_sql: false
+#    show-sql: false
+
+logging:
+  level:
+    ROOT: ERROR
