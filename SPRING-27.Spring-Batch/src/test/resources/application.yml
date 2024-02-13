@@ -1,0 +1,44 @@
+spring:
+  main:
+    allow-circular-references: true
+
+  shell:
+    interactive:
+      enabled: true
+    noninteractive:
+      enabled: false
+
+  #    command:
+#      version:
+#        enabled: false
+
+  datasource:
+    driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
+    url: jdbc:tc:postgresql:15:///testDd
+  liquibase:
+    enabled: true
+  data:
+    mongodb:
+      port: 0
+      host: localhost
+
+de:
+  flapdoodle:
+    mongodb:
+      embedded:
+        version: 4.0.2
+
+mongock:
+  runner-type: "InitializingBean"
+  change-logs-scan-package:
+    - ru.otus.hw.data.changelog
+  mongo-db:
+    write-concern:
+      journal: false
+    read-concern: local
+
+logging:
+  file:
+    path: ./log/
+  level:
+    ROOT: ERROR
