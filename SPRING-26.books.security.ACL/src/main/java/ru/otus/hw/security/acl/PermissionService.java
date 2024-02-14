@@ -23,6 +23,7 @@ public class PermissionService {
 
     private final MutableAclService aclService;
 
+    @Transactional
     public void addPermission(boolean isUser, Class<?> clazz, Long id, List<Permission> permissions) {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -37,17 +38,18 @@ public class PermissionService {
         }
     }
 
+    @Transactional
     public void addPermissionForUser(Class<?> clazz, Long id, Permission permission, String username) {
         final Sid sid = new PrincipalSid(username);
         addPermissionForSid(clazz, id, permission, sid);
     }
 
+    @Transactional
     public void addPermissionForAuthority(Class<?> clazz, Long id, Permission permission, String authority) {
         final Sid sid = new GrantedAuthoritySid(authority);
         addPermissionForSid(clazz, id, permission, sid);
     }
 
-    @Transactional
     private void addPermissionForSid(Class<?> clazz, Long id, Permission permission, Sid sid) {
             ObjectIdentity oi = new ObjectIdentityImpl(clazz, id);
             MutableAcl acl;
