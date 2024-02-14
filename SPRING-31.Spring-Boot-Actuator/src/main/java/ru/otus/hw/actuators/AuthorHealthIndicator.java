@@ -11,6 +11,7 @@ import java.security.SecureRandom;
 import java.util.Optional;
 
 
+@SuppressWarnings("unused")
 @Component
 public class AuthorHealthIndicator implements HealthIndicator {
     private final SecureRandom random = new SecureRandom();
@@ -34,7 +35,7 @@ public class AuthorHealthIndicator implements HealthIndicator {
         }
         return Health.down()
                 .status(Status.DOWN)
-                .withDetail("author", "all authors dead %d".formatted(randAuthorId))
+                .withDetail("author", "The author '%d' is dead / absent / deleted".formatted(randAuthorId))
                 .build();
     }
 }
