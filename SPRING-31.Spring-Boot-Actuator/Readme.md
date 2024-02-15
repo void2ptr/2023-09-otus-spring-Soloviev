@@ -14,6 +14,3 @@
 - UI для данных от Spring Boot Actuator реализовывать не нужно.
 - Опционально: переписать приложение на HATEOAS принципах с помощью Spring Data REST Repository
 - Данное задание НЕ засчитывает предыдущие!
-
-
-- [SPRING-31](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/tree/main/SPRING-31.Spring-Boot-Actuator) - Spring Boot Actuator - must have в микросервисах
