@@ -16,5 +16,8 @@
 - Опционально: сделать это в локальном кубе.
 - Приложение желательно реализовать с помощью всех Best Practices Docker (логгирование в stdout и т.д.)
 
-### Run
+### setup ДЗ
+```shell
+mvn clean install
 docker-compose up --build
+```

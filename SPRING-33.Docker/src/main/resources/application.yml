@@ -46,8 +46,10 @@ management:
       enabled: true
 
 logging:
-  file:
-    path: ./logs/
+#  file:
+#    path: ./logs/
+  pattern:
+    console: true
   level:
     ROOT: ERROR
 
