@@ -1,0 +1,22 @@
+version: '3'
+services:
+  postgres:
+    image: "postgres:15"
+    ports:
+      - "5430:5432"
+    container_name: postgres-server
+    environment:
+      - POSTGRES_URL=jdbc:postgresql://localhost:5430
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_DB=demoDB
+    command: [ "postgres", "-c", "log_statement=all" ]
+  prometheus:
+    image: prom/prometheus
+    container_name: prometheus-server
+    ports:
+      - "9095:9090"
+    volumes:
+      - /apps/prometheus/configs/prometheus.yaml:/etc/prometheus/prometheus.yaml
+      - /data/prometheus-data:/prometheus

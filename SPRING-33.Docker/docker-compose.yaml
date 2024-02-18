@@ -1,0 +1,43 @@
+version: '3'
+services:
+  postgres:
+    image: "postgres:15"
+    container_name: postgres
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_URL=jdbc:postgresql://localhost:5430
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=demoDB
+    command: [ "postgres", "-c", "log_statement=all" ]
+  prometheus:
+    image: "prom/prometheus:v2.48.1"
+    container_name: prometheus
+    ports:
+      - "9095:9090"
+#    volumes:
+#      - /apps/prometheus/configs/prometheus.yaml:/etc/prometheus/prometheus.yaml
+#      - /data/prometheus-data:/prometheus
+    command: --web.enable-lifecycle --config.file=/etc/prometheus/prometheus.yml
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: service-app-cont
+    depends_on:
+      - postgres
+      - prometheus
+    ports:
+      - "8080:8080"
+    # Эти свойства перегружают соответствующие в application.yml
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/demoDB
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      #      - SPRING_DATASOURCE_DB=demoDB
+      - SPRING_LIQUIBASE_URL=jdbc:postgresql://postgres:5432/demoDB
+      - SPRING_LIQUIBASE_USER=postgres
+      - SPRING_LIQUIBASE_PASSWORD=postgres
+#      - POSTGRES=service-postgres-db
