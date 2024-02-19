@@ -23,3 +23,5 @@
 - [SPRING-26](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/tree/main/SPRING-26.books.security.ACL) - Spring Security: ACL
 
 - [SPRING-31](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/tree/main/SPRING-31.Spring-Boot-Actuator) - Spring Boot Actuator - must have в микросервисах
+- [SPRING-33](https://github.com/void2ptr/2023-09-otus-spring-Soloviev/tree/main/SPRING-33.Docker) - Docker, оркестрация
+
