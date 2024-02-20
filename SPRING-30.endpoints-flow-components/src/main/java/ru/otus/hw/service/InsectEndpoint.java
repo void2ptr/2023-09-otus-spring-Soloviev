@@ -10,6 +10,7 @@ import java.util.Collection;
 @MessagingGateway
 public interface InsectEndpoint {
 
+    @SuppressWarnings("unused")
     @Gateway(requestChannel = "caterpillarChannel.input", replyChannel = "butterflyChannel.output")
     Collection<Butterfly> startMetamorphoses(Collection<Caterpillar> caterpillar);
 

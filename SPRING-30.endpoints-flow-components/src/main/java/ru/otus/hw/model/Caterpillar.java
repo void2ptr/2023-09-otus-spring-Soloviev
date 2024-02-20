@@ -9,17 +9,17 @@ import lombok.Getter;
 @Getter
 public class Caterpillar {
 
-    private String kind;
+    private String body;
 
 
-    public Caterpillar(String kind) {
-        this.kind = kind;
+    public Caterpillar(String body) {
+        this.body = body;
     }
 
     @Override
     public String toString() {
         return "Caterpillar{" +
-                "kind='" + kind + '\'' +
+                "body='" + body + '\'' +
                 '}';
     }
 }

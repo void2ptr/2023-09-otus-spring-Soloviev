@@ -2,9 +2,9 @@ package ru.otus.hw.config;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Import;
 import org.springframework.integration.dsl.PollerSpec;
 import org.springframework.integration.scheduling.PollerMetadata;
@@ -26,14 +26,15 @@ import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 class InsectChannelConfigTest {
 
     @Autowired
-    private ApplicationContext ctx;
+    private ListableBeanFactory beanFactory;
 
     private Map<String, MessageChannel> channels;
 
     @BeforeEach
     public void setUp(){
-        channels = ctx.getBeansOfType(MessageChannel.class);
+        channels = beanFactory.getBeansOfType(MessageChannel.class);
     }
+
     @Test
     void caterpillarChannel() {
         MessageChannel channel = channels.get("caterpillarChannel.input");
@@ -56,7 +57,7 @@ class InsectChannelConfigTest {
 
     @Test
     void poller() {
-        Map<String, PollerSpec> pollerChannels = ctx.getBeansOfType(PollerSpec.class);
+        Map<String, PollerSpec> pollerChannels = beanFactory.getBeansOfType(PollerSpec.class);
         PollerSpec poller = pollerChannels.get("&" + PollerMetadata.DEFAULT_POLLER);
         assertThat(poller).isNotNull();
     }

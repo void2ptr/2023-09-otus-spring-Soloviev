@@ -13,6 +13,7 @@ import ru.otus.hw.mapper.CocoonMapper;
 import ru.otus.hw.service.MetamorphosesService;
 
 
+@SuppressWarnings("unused")
 @Configuration
 public class InsectChannelConfig {
     private static final Integer QUEUE_CAPACITY = 10;
@@ -31,11 +32,13 @@ public class InsectChannelConfig {
         return MessageChannels.publishSubscribe();
     }
 
+    @SuppressWarnings("unused")
     @Bean(name = PollerMetadata.DEFAULT_POLLER)
     public PollerSpec poller() {
         return Pollers.fixedRate(POLLER_PERIOD).maxMessagesPerPoll(POLLER_PER_SIZE);
     }
 
+    @SuppressWarnings("unused")
     @Bean
     public IntegrationFlow transformationFlow(MetamorphosesService metamorphosesService) {
         return IntegrationFlow

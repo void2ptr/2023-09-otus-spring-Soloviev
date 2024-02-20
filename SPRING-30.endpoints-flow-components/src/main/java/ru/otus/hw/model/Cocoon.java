@@ -6,17 +6,18 @@ import lombok.Getter;
 import lombok.Setter;
 
 
+@SuppressWarnings("unused")
 @AllArgsConstructor
 @Getter
 @Setter
 public class Cocoon {
 
-    private String cocoon;
+    private String silk;
 
     @Override
     public String toString() {
         return "Cocoon{" +
-                "cocoon='" + cocoon + '\'' +
+                "silk='" + silk + '\'' +
                 '}';
     }
 }

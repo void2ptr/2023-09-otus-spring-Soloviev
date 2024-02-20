@@ -10,6 +10,8 @@ import ru.otus.hw.model.Caterpillar;
 import java.util.Collection;
 import java.util.List;
 
+
+@SuppressWarnings("unused")
 @Service
 @RequiredArgsConstructor
 @Slf4j
