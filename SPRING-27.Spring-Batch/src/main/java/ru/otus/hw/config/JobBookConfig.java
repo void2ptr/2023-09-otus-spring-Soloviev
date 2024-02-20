@@ -12,6 +12,7 @@ import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.data.MongoItemWriter;
 import org.springframework.batch.item.data.builder.MongoItemWriterBuilder;
@@ -24,9 +25,12 @@ import org.springframework.lang.NonNull;
 import org.springframework.transaction.PlatformTransactionManager;
 import ru.otus.hw.model.mongo.MongoBook;
 import ru.otus.hw.model.postgres.Book;
+import ru.otus.hw.service.BatchLinkService;
+import ru.otus.hw.service.CleanUpService;
 import ru.otus.hw.service.MongoBookService;
 import ru.otus.hw.service.processor.BookProcessor;
 
+@SuppressWarnings("unused")
 @RequiredArgsConstructor
 @Configuration
 public class JobBookConfig {
@@ -45,6 +49,10 @@ public class JobBookConfig {
 
     private final MongoBookService mongoBookService;
 
+    private final BatchLinkService batchLinkService;
+
+    private final CleanUpService cleanUpService;
+
     @Bean
     public JpaPagingItemReader<Book> bookItemReader() {
         return new JpaPagingItemReaderBuilder<Book>()
@@ -57,7 +65,7 @@ public class JobBookConfig {
 
     @Bean
     public BookProcessor bookItemProcessor() {
-        return new BookProcessor(mongoBookService);
+        return new BookProcessor(mongoBookService, batchLinkService);
     }
 
     @Bean
@@ -72,7 +80,7 @@ public class JobBookConfig {
     public Step transformBookStep(
             JpaPagingItemReader<Book> reader,
             MongoItemWriter<MongoBook> writer,
-            ItemProcessor<Book, MongoBook> processor) throws Exception {
+            ItemProcessor<Book, MongoBook> processor) {
         return new StepBuilder("transformBookStep", jobRepository)
                 .<Book, MongoBook>chunk(CHUNK_SIZE, platformTransactionManager)
                 .reader(reader)
@@ -82,11 +90,11 @@ public class JobBookConfig {
     }
 
     @Bean
-    public Job importBookJob(Step transformBookStep, Step cleanUpStep) {
+    public Job importBookJob(Step transformBookStep, Step cleanUpBookStep) {
         return new JobBuilder(IMPORT_BOOK_JOB_NAME, jobRepository)
                 .incrementer(new RunIdIncrementer())
                 .flow(transformBookStep)
-                .next(cleanUpStep)
+                .next(cleanUpBookStep)
                 .end()
                 .listener(new JobExecutionListener() {
                     @Override
@@ -99,6 +107,24 @@ public class JobBookConfig {
                         logger.info("Конец job");
                     }
                 })
+                .build();
+    }
+
+
+    @Bean
+    public MethodInvokingTaskletAdapter cleanUpBookTasklet() {
+        MethodInvokingTaskletAdapter adapter = new MethodInvokingTaskletAdapter();
+
+        adapter.setTargetObject(cleanUpService);
+        adapter.setTargetMethod("cleanUp");
+
+        return adapter;
+    }
+
+    @Bean
+    public Step cleanUpBookStep() {
+        return new StepBuilder("cleanUpBookStep", jobRepository)
+                .tasklet(cleanUpBookTasklet(), platformTransactionManager)
                 .build();
     }
 }

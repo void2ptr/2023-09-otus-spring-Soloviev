@@ -18,15 +18,13 @@ spring:
       enabled: false
 
   datasource:
-    url: jdbc:postgresql://localhost:5430/demoDB
-    username: usr
-    password: pwd
+    url: jdbc:postgresql://localhost:5432/demoDB
+#    ?currentSchema="batch"
+    username: postgres
+    password: postgres
     driver-class-name: org.postgresql.Driver
     batch:
       driverClassName: org.postgresql.Driver
-      url: jdbc:postgresql://localhost:5430/demoDB
-      username: usr
-      password: pwd
       jdbc:
         initialize-schema: ALWAYS
   liquibase:

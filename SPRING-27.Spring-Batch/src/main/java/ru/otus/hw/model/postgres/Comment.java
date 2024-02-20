@@ -17,7 +17,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-//@Data
+@SuppressWarnings("unused")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

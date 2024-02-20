@@ -5,6 +5,7 @@ import com.github.cloudyrock.mongock.ChangeLog;
 import com.github.cloudyrock.mongock.ChangeSet;
 import com.mongodb.client.MongoDatabase;
 
+@SuppressWarnings("unused")
 @ChangeLog(order = "000")
 public class DatabaseChangeCreateDb {
 

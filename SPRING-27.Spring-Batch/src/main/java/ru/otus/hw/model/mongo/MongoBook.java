@@ -11,6 +11,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.List;
 
+@SuppressWarnings("unused")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -27,14 +28,10 @@ public class MongoBook {
 
     private List<MongoGenre> genres;
 
-    @Indexed
-    private String externalLink;
-
-    public MongoBook(String title, List<MongoAuthor> authors, List<MongoGenre> genres, String externalLink) {
+    public MongoBook(String title, List<MongoAuthor> authors, List<MongoGenre> genres) {
         this.id = ObjectId.get().toString();
         this.title = title;
         this.authors = authors;
         this.genres = genres;
-        this.externalLink = externalLink;
     }
 }

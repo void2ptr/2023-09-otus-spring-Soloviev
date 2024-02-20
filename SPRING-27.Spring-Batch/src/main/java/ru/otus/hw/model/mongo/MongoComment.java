@@ -10,6 +10,7 @@ import org.springframework.data.mongodb.core.index.Indexed;
 import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
+@SuppressWarnings("unused")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
@@ -25,13 +26,9 @@ public class MongoComment {
     @DBRef
     private MongoBook mongoBook;
 
-    @Indexed
-    private String externalLink;
-
-    public MongoComment(String description, MongoBook mongoBook, String externalLink) {
+    public MongoComment(String description, MongoBook mongoBook) {
         this.id = ObjectId.get().toString();
         this.description = description;
         this.mongoBook = mongoBook;
-        this.externalLink = externalLink;
     }
 }

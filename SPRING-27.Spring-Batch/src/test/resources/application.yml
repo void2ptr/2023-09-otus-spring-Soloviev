@@ -1,26 +1,40 @@
 spring:
   main:
     allow-circular-references: true
+#    allow-bean-definition-overriding: true
 
   shell:
     interactive:
-      enabled: true
-    noninteractive:
       enabled: false
+    noninteractive:
+      enabled: true
+    command:
+      version:
+        enabled: false
 
-  #    command:
+  batch:
+    driver-class-name: org.postgresql.Driver
+    initialize-schema: ALWAYS
+    job:
+      enabled: false
+#      name: singleStepJob # multipleStepJob
 #      version:
 #        enabled: false
 
   datasource:
     driver-class-name: org.testcontainers.jdbc.ContainerDatabaseDriver
-    url: jdbc:tc:postgresql:15:///testDd
+    url: jdbc:tc:postgresql:15:///tests
   liquibase:
     enabled: true
+
   data:
     mongodb:
+#      url: mongodb://localhost:0/tests
       port: 0
-      host: localhost
+      host: 127.0.0.1
+      database: tests
+#      username: none
+#      password: none
 
 de:
   flapdoodle:
@@ -29,7 +43,8 @@ de:
         version: 4.0.2
 
 mongock:
-  runner-type: "InitializingBean"
+  runner-type: "ApplicationRunner" # default
+  #  runner-type: "InitializingBean"
   change-logs-scan-package:
     - ru.otus.hw.data.changelog
   mongo-db:

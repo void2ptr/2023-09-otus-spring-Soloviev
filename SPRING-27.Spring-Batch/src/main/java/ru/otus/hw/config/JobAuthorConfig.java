@@ -12,6 +12,7 @@ import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.data.MongoItemWriter;
 import org.springframework.batch.item.data.builder.MongoItemWriterBuilder;
@@ -24,8 +25,11 @@ import org.springframework.lang.NonNull;
 import org.springframework.transaction.PlatformTransactionManager;
 import ru.otus.hw.model.mongo.MongoAuthor;
 import ru.otus.hw.model.postgres.Author;
+import ru.otus.hw.service.BatchLinkService;
+import ru.otus.hw.service.CleanUpService;
 import ru.otus.hw.service.processor.AuthorProcessor;
 
+@SuppressWarnings("unused")
 @RequiredArgsConstructor
 @Configuration
 public class JobAuthorConfig {
@@ -42,6 +46,10 @@ public class JobAuthorConfig {
 
     private final EntityManagerFactory postgresqlEntityManagerFactory;
 
+    private final BatchLinkService batchLinkService;
+
+    private final CleanUpService cleanUpService;
+
     @Bean
     public JpaPagingItemReader<Author> authorItemReader() {
         return new JpaPagingItemReaderBuilder<Author>()
@@ -54,7 +62,7 @@ public class JobAuthorConfig {
 
     @Bean
     public AuthorProcessor authorItemProcessor() {
-        return new AuthorProcessor();
+        return new AuthorProcessor(batchLinkService);
     }
 
     @Bean
@@ -69,7 +77,7 @@ public class JobAuthorConfig {
     public Step transformAuthorStep(
             JpaPagingItemReader<Author> reader,
             MongoItemWriter<MongoAuthor> writer,
-            ItemProcessor<Author, MongoAuthor> processor) throws Exception {
+            ItemProcessor<Author, MongoAuthor> processor) {
 
         return new StepBuilder("transformAuthorStep", jobRepository)
                 .<Author, MongoAuthor>chunk(CHUNK_SIZE, platformTransactionManager)
@@ -80,11 +88,11 @@ public class JobAuthorConfig {
     }
 
     @Bean
-    public Job importAuthorJob(Step transformAuthorStep, Step cleanUpStep) {
+    public Job importAuthorJob(Step transformAuthorStep, Step cleanUpAuthorStep) {
         return new JobBuilder(IMPORT_AUTHOR_JOB_NAME, jobRepository)
                 .incrementer(new RunIdIncrementer())
                 .flow(transformAuthorStep)
-                .next(cleanUpStep)
+                .next(cleanUpAuthorStep)
                 .end()
                 .listener(new JobExecutionListener() {
                     @Override
@@ -97,6 +105,24 @@ public class JobAuthorConfig {
                         logger.info("Конец job");
                     }
                 })
+                .build();
+    }
+
+
+    @Bean
+    public MethodInvokingTaskletAdapter cleanUpAuthorTasklet() {
+        MethodInvokingTaskletAdapter adapter = new MethodInvokingTaskletAdapter();
+
+        adapter.setTargetObject(cleanUpService);
+        adapter.setTargetMethod("cleanUp");
+
+        return adapter;
+    }
+
+    @Bean
+    public Step cleanUpAuthorStep() {
+        return new StepBuilder("cleanUpAuthorStep", jobRepository)
+                .tasklet(cleanUpAuthorTasklet(), platformTransactionManager)
                 .build();
     }
 }

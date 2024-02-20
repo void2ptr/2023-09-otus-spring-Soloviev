@@ -12,6 +12,7 @@ import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
 import org.springframework.batch.core.repository.JobRepository;
 import org.springframework.batch.core.step.builder.StepBuilder;
+import org.springframework.batch.core.step.tasklet.MethodInvokingTaskletAdapter;
 import org.springframework.batch.item.ItemProcessor;
 import org.springframework.batch.item.data.MongoItemWriter;
 import org.springframework.batch.item.data.builder.MongoItemWriterBuilder;
@@ -24,8 +25,12 @@ import org.springframework.lang.NonNull;
 import org.springframework.transaction.PlatformTransactionManager;
 import ru.otus.hw.model.mongo.MongoGenre;
 import ru.otus.hw.model.postgres.Genre;
+import ru.otus.hw.service.BatchLinkService;
+import ru.otus.hw.service.CleanUpService;
 import ru.otus.hw.service.processor.GenreProcessor;
 
+
+@SuppressWarnings("unused")
 @RequiredArgsConstructor
 @Configuration
 public class JobGenreConfig {
@@ -42,6 +47,10 @@ public class JobGenreConfig {
 
     private final EntityManagerFactory postgresqlEntityManagerFactory;
 
+    private final BatchLinkService batchLinkService;
+
+    private final CleanUpService cleanUpService;
+
     @Bean
     public JpaPagingItemReader<Genre> genreItemReader() {
         return new JpaPagingItemReaderBuilder<Genre>()
@@ -54,7 +63,7 @@ public class JobGenreConfig {
 
     @Bean
     public GenreProcessor genreProcessor() {
-        return new GenreProcessor();
+        return new GenreProcessor(batchLinkService);
     }
 
     @Bean
@@ -69,7 +78,7 @@ public class JobGenreConfig {
     public Step transformGenreStep(
             JpaPagingItemReader<Genre> reader,
             MongoItemWriter<MongoGenre> writer,
-            ItemProcessor<Genre, MongoGenre> processor) throws Exception {
+            ItemProcessor<Genre, MongoGenre> processor) {
 
         return new StepBuilder("transformGenreStep", jobRepository)
                 .<Genre, MongoGenre>chunk(CHUNK_SIZE, platformTransactionManager)
@@ -80,11 +89,11 @@ public class JobGenreConfig {
     }
 
     @Bean
-    public Job importGenreJob(Step transformGenreStep, Step cleanUpStep) {
+    public Job importGenreJob(Step transformGenreStep, Step cleanUpGenreStep) {
         return new JobBuilder(IMPORT_GENRE_JOB_NAME, jobRepository)
                 .incrementer(new RunIdIncrementer())
                 .flow(transformGenreStep)
-                .next(cleanUpStep)
+                .next(cleanUpGenreStep)
                 .end()
                 .listener(new JobExecutionListener() {
                     @Override
@@ -99,4 +108,22 @@ public class JobGenreConfig {
                 })
                 .build();
     }
+
+    @Bean
+    public MethodInvokingTaskletAdapter cleanUpGenreTasklet() {
+        MethodInvokingTaskletAdapter adapter = new MethodInvokingTaskletAdapter();
+
+        adapter.setTargetObject(cleanUpService);
+        adapter.setTargetMethod("cleanUp");
+
+        return adapter;
+    }
+
+    @Bean
+    public Step cleanUpGenreStep() {
+        return new StepBuilder("cleanUpGenreStep", jobRepository)
+                .tasklet(cleanUpGenreTasklet(), platformTransactionManager)
+                .build();
+    }
+
 }

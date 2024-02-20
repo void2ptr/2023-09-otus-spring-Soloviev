@@ -23,7 +23,7 @@ import org.hibernate.annotations.FetchMode;
 
 import java.util.List;
 
-//@Data
+@SuppressWarnings("unused")
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter

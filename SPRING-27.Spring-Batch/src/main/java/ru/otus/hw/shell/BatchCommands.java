@@ -17,6 +17,8 @@ import static ru.otus.hw.config.JobBookConfig.IMPORT_BOOK_JOB_NAME;
 import static ru.otus.hw.config.JobCommentConfig.IMPORT_COMMENT_JOB_NAME;
 import static ru.otus.hw.config.JobGenreConfig.IMPORT_GENRE_JOB_NAME;
 
+
+@SuppressWarnings("unused")
 @RequiredArgsConstructor
 @ShellComponent
 public class BatchCommands {
