@@ -1,0 +1,19 @@
+<main class="nav-header-top" th:fragment="top-menu">
+    <span><a href="/index"          th:text="#{index-link-main}">Главная</a></span>
+    <span><a href="/books"   th:text="#{index-link-book}">Книги</a></span>
+    <span><a href="/authors" th:text="#{index-link-author}">Авторы</a></span>
+    <span><a href="/genres"  th:text="#{index-link-genre}">Жанры</a></span>
+
+    <span><a href="/logout"  th:text="#{index-link-logout}">Logout</a></span>
+    <aside>
+        <div><a href="#" th:href="@{?(lang=en)}"
+                th:text="#{en-lang-switch-button-caption}"
+                th:title="#{lang-switcher-header}">EN</a></div>
+        <div><a href="#" th:href="@{?(lang=ru)}"
+                th:text="#{ru-lang-switch-button-caption}"
+                th:title="#{lang-switcher-header}">RU</a></div>
+    </aside>
+
+</main>
+
+

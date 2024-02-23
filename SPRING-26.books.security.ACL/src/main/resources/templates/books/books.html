@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title></title></head>
+    <meta charset="UTF-8"/>
+    <title>Books list</title>
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" type="text/css" />
+<body>
+    <nav th:insert="/menu/header :: top-menu"></nav>
+    <h1 th:text="#{books-title}">Страница для работы с Книгами</h1>
+
+    <table>
+        <thead>
+        <tr>
+            <th th:text="#{common-field-id}">ID</th>
+            <th th:text="#{common-field-name}">Название</th>
+            <th th:text="#{books-field-author}">Автор</th>
+            <th th:text="#{books-field-genre}">Жанры</th>
+            <th th:text="#{common-field-action}">Действия</th>
+            <th><a th:href="@{/books/add}"
+                   href="/book/books.html"
+                   th:text="#{button-caption-add}">Add</a></th>
+            <th th:text="#{books-field-comments}">Комментарии</th>
+        </tr>
+        </thead>
+        <tbody>
+            <tr th:each="book : ${books}">
+                <td th:text="${book.id}">Id</td>
+                <td th:text="${book.title}">No title</td>
+                <td>
+                    <div th:each="author : ${book.author}">
+                        <span th:text="${author.fullName}"></span>
+                    </div>
+               </td>
+               <td>
+                    <span class="genres-div" th:each="genre : ${book.genres}" th:text="${genre.name}"></span>
+                </td>
+                <td>
+                    <a th:href="@{/books/__${book.id}__/edit}"
+                       href="/book/books.html"
+                       th:text="#{button-caption-edit}">Edit</a>
+                </td>
+                <td>
+                    <a th:href="@{/books/__${book.id}__/delete}"
+                       href="/book/books.html"
+                       th:text="#{button-caption-delete}">Delete</a>
+                </td>
+                <td>
+                    <a th:href="@{/books/__${book.id}__/comments}"
+                       href="/comment/comments.html"
+                       th:text="#{button-caption-comments}">Мнения</a>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+
+    <nav th:insert="/menu/footer :: bottom-menu"></nav>
+</body>
+</html>

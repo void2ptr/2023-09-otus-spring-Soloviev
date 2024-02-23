@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Delete Genre</title>
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <nav th:insert="/menu/header :: top-menu"></nav>
+    <h3 th:text="#{genre-delete-title}">Удаление Жанра</h3>
+
+    <form class="edit-form"
+          th:method="post"
+          th:action="@{/genres/__${genre.id}__/delete}" action=""
+          th:object="${genre}">
+            <!--  -->
+            <input type="hidden" id="genre-id-input" name="id" th:value="${genre.id}" value="-1">
+            <!--  -->
+            <label for="genre-name-input" th:text="#{genre-add-name}">Название жанра :</label>
+            <input type="text"  id="genre-name-input" name="name" th:value="${genre.name}" value="Opus">
+            <!--  -->
+            <button type="reset"  th:text="#{button-caption-reset}">Reset</button>
+            <button type="submit" th:text="#{button-caption-delete}">Удалить</button>
+    </form>
+
+    <nav th:insert="/menu/footer :: bottom-menu"></nav>
+</body>
+</html>

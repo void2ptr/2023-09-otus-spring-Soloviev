@@ -1,0 +1,56 @@
+spring:
+  application:
+    name: SPRING-ACTUATOR-STUDY
+  datasource:
+    url: jdbc:postgresql://localhost:5430/demoDB
+    username: usr
+    password: pwd
+  liquibase:
+    enabled: true
+
+  sql:
+    init:
+      mode: always
+  jpa:
+    open-in-view: false
+    generate-ddl: false
+    hibernate:
+      ddl-auto: none
+    properties:
+      hibernate:
+        format_sql: true
+    show-sql: false
+  jmx:
+    enabled: true
+
+  data:
+    rest:
+      basePath: /rest
+
+
+# Полный список endpoint здесь:
+#  https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html
+management:
+  endpoints:
+    web:
+      exposure:
+#        include: "*"
+        include: health,logfile,loggers,prometheus
+  endpoint:
+    health:
+      show-details: always
+  health:
+    defaults:
+      enabled: true
+
+logging:
+  file:
+    path: ./spring-actuator-study/
+  level:
+    ROOT: ERROR
+
+server:
+  port: 8080
+  error:
+     include-exception: true
+#     include-stacktrace: always

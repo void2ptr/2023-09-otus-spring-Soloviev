@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Edit Book</title>
+    <link th:href="@{/css/style.css}" href="/css/style.css" rel="stylesheet" type="text/css" />
+</head>
+<body>
+    <nav th:insert="/menu/header :: top-menu"></nav>
+    <h3> <span th:text="#{comment-edit-title}">Добавление комментария к книге</span>
+        "<span th:text="${book.title}">No Book</span>"
+    </h3>
+
+    <form class="edit-form"
+          th:method="post"
+          th:action="@{/books/__${book.id}__/comments/__${comment.id}__/edit}" action=""
+          th:object="${comment}">
+        <!--       -->
+        <input type="hidden" id="comment-id-input" name="id" th:value="*{id}" value="-1">
+        <input type="hidden" id="comment-book-input" name="book" th:value="*{book.id}">
+        <!--       -->
+        <label for="comment-description-input" th:text="#{comment-field-name}">Комментарий:</label>
+        <textarea id="comment-description-input" name="description" maxlength="255"
+               th:text="*{description}">no comment
+        </textarea>
+        <!--        -->
+        <button type="reset"  th:text="#{button-caption-reset}">Reset</button>
+        <button type="submit" th:text="#{button-caption-edit}">Сохранить</button>
+    </form>
+
+    <nav th:insert="/menu/footer :: bottom-menu"></nav>
+</body>
+</html>
