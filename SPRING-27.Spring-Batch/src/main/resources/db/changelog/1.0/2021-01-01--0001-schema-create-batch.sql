@@ -1,0 +1,3 @@
+--changeset solo: 2024-01-01--0001-schema-create-batch
+-- CREATE SCHEMA IF NOT EXISTS batch;
+--rollback DROP SCHEMA batch;
