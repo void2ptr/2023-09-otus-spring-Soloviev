@@ -14,4 +14,9 @@ public interface InsectEndpoint {
     @Gateway(requestChannel = "caterpillarChannel.input", replyChannel = "butterflyChannel.output")
     Collection<Butterfly> startMetamorphoses(Collection<Caterpillar> caterpillar);
 
+
+    @SuppressWarnings("unused")
+    @Gateway(requestChannel = "butterflyInputChannel.input", replyChannel = "desInspectionChannel.output")
+    Collection<Butterfly> startDesInspection(Collection<Butterfly> butterflies);
+
 }
