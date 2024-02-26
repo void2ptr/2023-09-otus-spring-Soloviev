@@ -12,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Getter
-public class AppConfig {
+public class AppProps {
 
     @Value("${application.data.path}")
     private String path;

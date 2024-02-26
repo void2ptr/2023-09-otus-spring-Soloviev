@@ -5,7 +5,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
-import ru.otus.hw.config.AppConfig;
+import ru.otus.hw.config.AppProps;
 import ru.otus.hw.dao.dto.CaterpillarDto;
 import ru.otus.hw.model.Caterpillar;
 
@@ -22,11 +22,11 @@ public class InsectRepository {
 
     private static final char FIELD_SEPARATOR = ';';
 
-    private final AppConfig appConfig;
+    private final AppProps appProps;
 
     public List<Caterpillar> findAll() {
-        List<Caterpillar> questions = new ArrayList<>();
-        ClassPathResource resource = new ClassPathResource(appConfig.getPath());
+        List<Caterpillar> caterpillars = new ArrayList<>();
+        ClassPathResource resource = new ClassPathResource(appProps.getPath());
 
         try (InputStreamReader streamReader = new InputStreamReader(resource.getInputStream(),
                 StandardCharsets.UTF_8)) {
@@ -37,13 +37,13 @@ public class InsectRepository {
                     .withType(CaterpillarDto.class)
                     .build();
             for (CaterpillarDto dto : csvToBeans) {
-                questions.add(dto.toCaterpillar());
+                caterpillars.add(dto.toCaterpillar());
             }
         } catch (Exception e) {
             throw new RuntimeException("Problem to read file: %s".formatted(e.getMessage()));
         }
 
-        return questions;
+        return caterpillars;
     }
 
 }

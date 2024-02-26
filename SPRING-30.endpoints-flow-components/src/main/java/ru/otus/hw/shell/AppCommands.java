@@ -28,5 +28,4 @@ public class AppCommands {
         desInspectionService.startDesInspection();
     }
 
-
 }

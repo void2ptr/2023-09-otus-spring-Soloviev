@@ -1,11 +1,10 @@
 package ru.otus.hw.config;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-import org.springframework.beans.factory.ListableBeanFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.context.annotation.Import;
+import org.springframework.context.annotation.Lazy;
 import org.springframework.integration.dsl.PollerSpec;
 import org.springframework.integration.scheduling.PollerMetadata;
 import org.springframework.messaging.Message;
@@ -20,20 +19,21 @@ import java.util.Map;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
+
+
 @SpringBootTest
 @ContextConfiguration(classes = InsectChannelConfig.class)
 @Import({MetamorphosesService.class})
 class InsectChannelConfigTest {
 
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
     @Autowired
-    private ListableBeanFactory beanFactory;
-
     private Map<String, MessageChannel> channels;
 
-    @BeforeEach
-    public void setUp(){
-        channels = beanFactory.getBeansOfType(MessageChannel.class);
-    }
+
+    @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
+    @Autowired
+    private Map<String, PollerSpec> pollerChannels;
 
     @Test
     void caterpillarChannel() {
@@ -57,7 +57,6 @@ class InsectChannelConfigTest {
 
     @Test
     void poller() {
-        Map<String, PollerSpec> pollerChannels = beanFactory.getBeansOfType(PollerSpec.class);
         PollerSpec poller = pollerChannels.get("&" + PollerMetadata.DEFAULT_POLLER);
         assertThat(poller).isNotNull();
     }
