@@ -3,7 +3,7 @@ package ru.otus.hw.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.otus.hw.dao.InsectRepository;
+import ru.otus.hw.dao.ButterflyRepository;
 import ru.otus.hw.model.Butterfly;
 
 import java.util.Collection;
@@ -17,10 +17,10 @@ public class DesInspectionService {
 
     private final InsectEndpoint insectEndpoint;
 
-    private final InsectRepository insectRepository;
+    private final ButterflyRepository butterflyRepository;
 
     public void startDesInspection() {
-        Collection<Butterfly> butterflies = insectRepository.getButterflies();
+        Collection<Butterfly> butterflies = butterflyRepository.getButterflies();
         Collection<Butterfly> dust = insectEndpoint.startDesInspection(butterflies);
         log.warn(" \nsend:    {}, \nreceive: {}", butterflies, dust);
     }

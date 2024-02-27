@@ -14,7 +14,9 @@ import org.springframework.context.annotation.Configuration;
 @Getter
 public class AppProps {
 
-    @Value("${application.data.path}")
-    private String path;
+    @Value("${application.data.path-input}")
+    private String pathInput;
 
+    @Value("${application.data.path-output}")
+    private String pathOutput;
 }

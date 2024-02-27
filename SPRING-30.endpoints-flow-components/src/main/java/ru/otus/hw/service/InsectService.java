@@ -3,7 +3,8 @@ package ru.otus.hw.service;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
-import ru.otus.hw.dao.InsectRepository;
+import ru.otus.hw.dao.ButterflyRepository;
+import ru.otus.hw.dao.CaterpillarRepository;
 import ru.otus.hw.model.Butterfly;
 import ru.otus.hw.model.Caterpillar;
 
@@ -19,12 +20,14 @@ public class InsectService {
 
     private final InsectEndpoint insectEndpoint;
 
-    private final InsectRepository insectRepository;
+    private final CaterpillarRepository caterpillarRepository;
+
+    private final ButterflyRepository butterflyRepository;
 
     public void startMutation() {
-        List<Caterpillar> caterpillars = insectRepository.findCaterpillar();
+        List<Caterpillar> caterpillars = caterpillarRepository.findCaterpillar();
         Collection<Butterfly> butterflies = insectEndpoint.startMetamorphoses(caterpillars);
-        insectRepository.setButterflies(butterflies);
+        butterflyRepository.saveButterflies(butterflies);
 
         log.warn(" \nsend:    {}, \nreceive: {}", caterpillars, butterflies);
     }

@@ -18,4 +18,5 @@ logging:
 
 application:
   data:
-    path: caterpillars.csv
+    path-input: caterpillars.csv
+    path-output: butterflies.csv

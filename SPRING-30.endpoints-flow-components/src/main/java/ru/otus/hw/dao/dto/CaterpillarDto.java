@@ -7,9 +7,9 @@ import ru.otus.hw.model.Caterpillar;
 public class CaterpillarDto {
 
     @CsvBindByPosition(position = 0)
-    private String kind;
+    private String body;
 
     public Caterpillar toCaterpillar() {
-        return new Caterpillar(kind);
+        return new Caterpillar(body);
     }
 }
