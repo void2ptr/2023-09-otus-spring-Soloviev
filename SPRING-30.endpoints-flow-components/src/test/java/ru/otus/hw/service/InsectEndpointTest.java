@@ -34,7 +34,7 @@ class InsectEndpointTest {
     @Test
     void startMetamorphoses() {
         List<Caterpillar> caterpillars = List.of(new Caterpillar("TEST"));
-        given(insectRepository.findAll()).willReturn(caterpillars);
+        given(insectRepository.findCaterpillar()).willReturn(caterpillars);
         given(appProps.getPath()).willReturn("");
 
         Collection<Butterfly> butterflies = insectEndpoint.startMetamorphoses(caterpillars);
