@@ -7,7 +7,7 @@ import org.springframework.integration.channel.NullChannel;
 import org.springframework.integration.dsl.IntegrationFlow;
 import org.springframework.integration.dsl.MessageChannelSpec;
 import org.springframework.integration.dsl.MessageChannels;
-import org.springframework.messaging.support.GenericMessage;
+import ru.otus.hw.model.Butterfly;
 
 
 @SuppressWarnings("unused")
@@ -36,7 +36,8 @@ public class DesInspectionChannelConfig {
                 .from(butterflyInputChannel())
 //                .split()
                 .channel("from-butterfly-to-null")
-                .transform(m -> new NullChannel().send(new GenericMessage<>(m)))
+                .transform(m -> new NullChannel())
+                .transform(new Butterfly(""))
 //                .aggregate()
                 .channel(desInspectionChannel())
                 .get();

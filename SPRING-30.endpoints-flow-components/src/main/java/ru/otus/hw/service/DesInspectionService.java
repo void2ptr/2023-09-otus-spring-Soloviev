@@ -6,7 +6,7 @@ import org.springframework.stereotype.Service;
 import ru.otus.hw.dao.ButterflyRepository;
 import ru.otus.hw.model.Butterfly;
 
-import java.util.Collection;
+import java.util.List;
 
 
 @SuppressWarnings("unused")
@@ -15,13 +15,14 @@ import java.util.Collection;
 @Slf4j
 public class DesInspectionService {
 
-    private final InsectEndpoint insectEndpoint;
+    private final DesInsectEndpoint desInsectEndpoint;
 
     private final ButterflyRepository butterflyRepository;
 
     public void startDesInspection() {
-        Collection<Butterfly> butterflies = butterflyRepository.getButterflies();
-        Collection<Butterfly> dust = insectEndpoint.startDesInspection(butterflies);
+        List<Butterfly> butterflies = butterflyRepository.findButterflies();
+        List<Butterfly> dust = desInsectEndpoint.startDesInspection(butterflies);
+        butterflyRepository.saveButterflies(dust);
         log.warn(" \nsend:    {}, \nreceive: {}", butterflies, dust);
     }
 }

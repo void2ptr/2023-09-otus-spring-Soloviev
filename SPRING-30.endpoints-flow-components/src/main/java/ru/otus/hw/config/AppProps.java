@@ -5,10 +5,10 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.context.annotation.Configuration;
+import org.springframework.stereotype.Component;
 
 @SuppressWarnings("unused")
-@Configuration
+@Component
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Getter

@@ -8,7 +8,6 @@ import ru.otus.hw.dao.CaterpillarRepository;
 import ru.otus.hw.model.Butterfly;
 import ru.otus.hw.model.Caterpillar;
 
-import java.util.Collection;
 import java.util.List;
 
 
@@ -26,7 +25,7 @@ public class InsectService {
 
     public void startMutation() {
         List<Caterpillar> caterpillars = caterpillarRepository.findCaterpillar();
-        Collection<Butterfly> butterflies = insectEndpoint.startMetamorphoses(caterpillars);
+        List<Butterfly> butterflies = insectEndpoint.startMetamorphoses(caterpillars);
         butterflyRepository.saveButterflies(butterflies);
 
         log.warn(" \nsend:    {}, \nreceive: {}", caterpillars, butterflies);
