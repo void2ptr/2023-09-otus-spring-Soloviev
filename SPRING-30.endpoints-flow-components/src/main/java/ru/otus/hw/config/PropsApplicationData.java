@@ -12,7 +12,7 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Getter
-public class AppProps {
+public class PropsApplicationData {
 
     @Value("${application.data.path-input}")
     private String pathInput;

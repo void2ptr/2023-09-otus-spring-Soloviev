@@ -5,7 +5,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.context.annotation.Import;
-import ru.otus.hw.config.AppProps;
+import ru.otus.hw.config.PropsApplicationData;
 import ru.otus.hw.config.InsectChannelConfig;
 import ru.otus.hw.dao.CaterpillarRepository;
 import ru.otus.hw.model.Butterfly;
@@ -26,7 +26,7 @@ class InsectEndpointTest {
     private InsectEndpoint insectEndpoint;
 
     @MockBean
-    private AppProps appProps;
+    private PropsApplicationData propsApplicationData;
 
     @MockBean
     private CaterpillarRepository caterpillarRepository;
@@ -35,7 +35,7 @@ class InsectEndpointTest {
     void startMetamorphoses() {
         List<Caterpillar> caterpillars = List.of(new Caterpillar("TEST"));
         given(caterpillarRepository.findCaterpillar()).willReturn(caterpillars);
-        given(appProps.getPathInput()).willReturn("");
+        given(propsApplicationData.getPathInput()).willReturn("");
 
         Collection<Butterfly> butterflies = insectEndpoint.startMetamorphoses(caterpillars);
 
