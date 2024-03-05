@@ -16,7 +16,7 @@ logging:
 
 #    org.springframework.integration: debug
 
-application:
+insects:
   data:
     path-input: caterpillars.csv
     path-output: butterflies.csv

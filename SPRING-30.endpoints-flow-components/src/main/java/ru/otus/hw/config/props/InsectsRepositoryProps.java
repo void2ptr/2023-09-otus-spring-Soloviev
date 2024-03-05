@@ -1,4 +1,4 @@
-package ru.otus.hw.config;
+package ru.otus.hw.config.props;
 
 
 import lombok.AllArgsConstructor;
@@ -12,11 +12,11 @@ import org.springframework.stereotype.Component;
 @RequiredArgsConstructor
 @AllArgsConstructor
 @Getter
-public class PropsApplicationData {
+public class InsectsRepositoryProps {
 
-    @Value("${application.data.path-input}")
+    @Value("${insects.data.path-input}")
     private String pathInput;
 
-    @Value("${application.data.path-output}")
+    @Value("${insects.data.path-output}")
     private String pathOutput;
 }

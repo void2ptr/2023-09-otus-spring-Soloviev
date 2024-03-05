@@ -5,7 +5,7 @@ import com.opencsv.bean.CsvToBeanBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
-import ru.otus.hw.config.PropsApplicationData;
+import ru.otus.hw.config.props.InsectsRepositoryProps;
 import ru.otus.hw.dao.dto.CaterpillarDto;
 import ru.otus.hw.model.Caterpillar;
 
@@ -24,10 +24,10 @@ public class CaterpillarRepository {
 
     private final List<Caterpillar> caterpillars = new ArrayList<>();
 
-    private final PropsApplicationData propsApplicationData;
+    private final InsectsRepositoryProps insectsRepositoryProps;
 
     public List<Caterpillar> findCaterpillar() {
-        ClassPathResource resource = new ClassPathResource(propsApplicationData.getPathInput());
+        ClassPathResource resource = new ClassPathResource(insectsRepositoryProps.getPathInput());
 
         try (InputStreamReader streamReader = new InputStreamReader(resource.getInputStream(),
                 StandardCharsets.UTF_8)) {

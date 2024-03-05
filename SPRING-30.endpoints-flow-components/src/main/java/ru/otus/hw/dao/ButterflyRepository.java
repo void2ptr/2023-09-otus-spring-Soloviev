@@ -6,7 +6,7 @@ import com.opencsv.bean.StatefulBeanToCsv;
 import com.opencsv.bean.StatefulBeanToCsvBuilder;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Repository;
-import ru.otus.hw.config.PropsApplicationData;
+import ru.otus.hw.config.props.InsectsRepositoryProps;
 import ru.otus.hw.dao.dto.ButterflyDto;
 import ru.otus.hw.dao.dto.CsvBean;
 import ru.otus.hw.model.Butterfly;
@@ -32,7 +32,7 @@ public class ButterflyRepository {
 
     private static final char FIELD_SEPARATOR = ';';
 
-    private final PropsApplicationData propsApplicationData;
+    private final InsectsRepositoryProps insectsRepositoryProps;
 
     @SuppressWarnings("unused")
     public void saveButterflies(List<Butterfly> butterflies) {
@@ -40,7 +40,7 @@ public class ButterflyRepository {
                 .map(ButterflyDto::new)
                 .collect(Collectors.toList());
 
-        try (Writer writer  = new FileWriter(propsApplicationData.getPathOutput())) {
+        try (Writer writer  = new FileWriter(insectsRepositoryProps.getPathOutput())) {
             StatefulBeanToCsv<CsvBean> sbc = new StatefulBeanToCsvBuilder<CsvBean>(writer)
                     .withQuotechar(FIELD_QUOTE)
                     .withSeparator(FIELD_SEPARATOR)
@@ -54,7 +54,7 @@ public class ButterflyRepository {
 
     public List<Butterfly> findButterflies() {
         List<Butterfly> butterflies = new ArrayList<>();
-        File fileUrl = new File(propsApplicationData.getPathOutput());
+        File fileUrl = new File(insectsRepositoryProps.getPathOutput());
 
         try (InputStreamReader streamReader = new InputStreamReader(new FileInputStream(fileUrl),
                 StandardCharsets.UTF_8)) {
