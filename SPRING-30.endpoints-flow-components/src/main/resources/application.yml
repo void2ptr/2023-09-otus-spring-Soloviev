@@ -1,0 +1,22 @@
+spring:
+  application:
+    name: SPRING-MESSAGE-CHANNEL-STUDY
+  main:
+    banner-mode: "off"
+  shell:
+    interactive:
+      enabled: true
+    noninteractive:
+      enabled: false
+
+
+logging:
+  level:
+    root: info
+
+#    org.springframework.integration: debug
+
+insects:
+  data:
+    path-input: caterpillars.csv
+    path-output: butterflies.csv
