@@ -7,6 +7,7 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Repository;
 import ru.otus.hw.config.props.InsectsRepositoryProps;
 import ru.otus.hw.dao.dto.CaterpillarDto;
+import ru.otus.hw.exeption.FileReadExceptions;
 import ru.otus.hw.model.Caterpillar;
 
 import java.io.InputStreamReader;
@@ -41,7 +42,7 @@ public class CaterpillarRepository {
                 caterpillars.add(dto.toCaterpillar());
             }
         } catch (Exception e) {
-            throw new RuntimeException("Problem to read file: %s".formatted(e.getMessage()));
+            throw new FileReadExceptions("Read file error", e);
         }
 
         return caterpillars;

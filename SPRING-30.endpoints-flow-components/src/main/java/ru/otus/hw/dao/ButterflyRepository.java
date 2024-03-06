@@ -9,6 +9,8 @@ import org.springframework.stereotype.Repository;
 import ru.otus.hw.config.props.InsectsRepositoryProps;
 import ru.otus.hw.dao.dto.ButterflyDto;
 import ru.otus.hw.dao.dto.CsvBean;
+import ru.otus.hw.exeption.FileReadExceptions;
+import ru.otus.hw.exeption.FileWriteExceptions;
 import ru.otus.hw.model.Butterfly;
 
 import java.io.File;
@@ -48,7 +50,7 @@ public class ButterflyRepository {
 
             sbc.write(csvData);
         } catch (Exception e) {
-            throw new RuntimeException("Problem to write file: %s".formatted(e.getMessage()));
+            throw new FileWriteExceptions("Write file error", e);
         }
     }
 
@@ -68,7 +70,7 @@ public class ButterflyRepository {
                 butterflies.add(dto.toButterfly());
             }
         } catch (Exception e) {
-            throw new RuntimeException("Problem to read file: %s".formatted(e.getMessage()));
+            throw new FileReadExceptions("Read file error", e);
         }
 
         return butterflies;
