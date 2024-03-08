@@ -1,0 +1,40 @@
+spring:
+  r2dbc:
+#    driverClassName: org.postgresql.Driver
+#    embedded-directory: target
+    url: r2dbc:postgresql://localhost:5440/testDB
+    username: usr
+    password: pwd
+  flyway:
+#    driverClassName: org.postgresql.Driver
+#    skipExecutingMigrations: true
+    sql-migration-prefix: VT
+#    embedded-directory: target
+    url: jdbc:postgresql://localhost:5440/testDB
+    user: usr
+    password: pwd
+#  datasource:
+#    url: r2dbc:h2:mem:testdb
+
+#  sql:
+#    init:
+#      mode: always
+#      data-locations: data/V2__initial_data.sql
+#      schema-locations: data/V1__initial_schema.sql
+#
+#  jpa:
+#    generate-ddl: true
+#    hibernate:
+#      ddl-auto: none
+#    properties:
+#      hibernate:
+##        format_sql: true
+#    show-sql: false
+#
+#  shell:
+#    interactive:
+#      enabled: false
+
+logging:
+  level:
+    ROOT: ERROR
