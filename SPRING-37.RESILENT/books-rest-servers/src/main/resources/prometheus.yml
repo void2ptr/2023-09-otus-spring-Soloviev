@@ -1,0 +1,25 @@
+# https://prometheus.io/docs/prometheus/latest/configuration/configuration/
+global:
+  # How frequently to scrape targets by default.
+  scrape_interval: 5s
+  # How long until a scrape request times out.
+  scrape_timeout:  5s
+
+# Rule files specifies a list of globs. Rules and alerts are read from
+# all matching files.
+rule_files:
+#  - first_rule.yaml
+#  - second_rule.yaml
+
+# Scrape config files specifies a list of globs. Scrape configs are read from
+# all matching files and appended to the list of scrape configs.
+#scrape_config_files:
+
+# A list of scrape configurations.
+# Prometheus endpoint
+scrape_configs:
+  - job_name: 'server-spring-actuator'
+    metrics_path: /actuator/prometheus
+    scrape_interval: 5s
+    static_configs:
+      - targets: ['app-server:8090']

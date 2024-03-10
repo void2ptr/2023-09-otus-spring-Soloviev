@@ -1,0 +1,15 @@
+spring:
+  main:
+    allow-circular-references: true
+
+server:
+  port: 9999
+
+logging:
+  level:
+    ROOT: ERROR
+
+feign:
+  client:
+    name: test-client
+    url: http://localhost:${wiremock.server.port:0}

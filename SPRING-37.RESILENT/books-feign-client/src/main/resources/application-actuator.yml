@@ -1,0 +1,24 @@
+spring:
+  jmx:
+    enabled: true
+
+# Полный список endpoint здесь:
+#  https://docs.spring.io/spring-boot/docs/current/reference/html/production-ready-endpoints.html
+management:
+  server:
+    port: 8091
+  contextPath: /management
+  add-application-context-header: false
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+#        include: health,logfile,loggers,prometheus
+  endpoint:
+    health:
+      show-details: always
+  health:
+    defaults.enabled: true
+    circuitbreakers.enabled: true
+    ratelimiters.enabled: true
+  security.enabled: false

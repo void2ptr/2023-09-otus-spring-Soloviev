@@ -1,0 +1,31 @@
+version: '3'
+services:
+  postgres-dev:
+    image: "postgres:15"
+    container_name: postgres-dev
+    restart: unless-stopped
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_URL=jdbc:postgresql://localhost:5430
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_HOST_AUTH_METHOD=trust
+      - POSTGRES_DB=demoDB
+    command: [ "postgres", "-c", "log_statement=all" ]
+    volumes:
+      - postgres-storage:/var/lib/postgresql/data
+
+  prometheus-dev:
+    image: "prom/prometheus:v2.48.1"
+    container_name: prometheus-dev
+    restart: unless-stopped
+    ports:
+      - "9095:9090"
+    command: --web.enable-lifecycle --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - prometheus-storage:/prometheus
+
+volumes:
+  postgres-storage: {}
+  prometheus-storage: {}

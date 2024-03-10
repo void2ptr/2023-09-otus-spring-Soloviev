@@ -1,0 +1,104 @@
+version: '3.8'
+
+services:
+  app-server:
+    build:
+      context: books-rest-servers
+      dockerfile: Dockerfile
+    image: app-image-service-37
+    container_name: app-cont-service-37
+    restart: always
+    depends_on:
+      - postgres
+      - prometheus
+    ports:
+      - "8080:8080"
+      - "8090:8090"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    # Эти свойства перегружают соответствующие в application.yml
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://postgres:5432/demoDB
+      - SPRING_DATASOURCE_USERNAME=postgres
+      - SPRING_DATASOURCE_PASSWORD=postgres
+      - SPRING_LIQUIBASE_URL=jdbc:postgresql://postgres:5432/demoDB
+      - SPRING_LIQUIBASE_USER=postgres
+      - SPRING_LIQUIBASE_PASSWORD=postgres
+    volumes:
+      - app-server-storage:/tmp/app
+      - ./modules:/var/www/html/modules
+
+  app-client:
+    build:
+      context: books-feign-client
+      dockerfile: Dockerfile
+    image: app-image-client-37
+    container_name:  app-cont-client-37
+    restart: always
+    depends_on:
+      - app-server
+    ports:
+      - "8981:8981"
+      - "8091:8091"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    environment:
+      - FEIGN_CLIENT_NAME=call-to-books-store
+      - FEIGN_CLIENT_URL=http://app-server:8080
+    volumes:
+      - app-client-storage:/tmp/app
+
+  postgres:
+    image: "postgres:15"
+    container_name: postgres
+    restart: always
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_URL=jdbc:postgresql://localhost:5430
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=demoDB
+    command: [ "postgres", "-c", "log_statement=all" ]
+    volumes:
+      - postgres-storage:/var/lib/postgresql/data
+
+  prometheus:
+    image: "prom/prometheus"
+    container_name: prometheus
+    restart: always
+    ports:
+      - "9095:9090"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    command: --web.enable-lifecycle --config.file=/etc/prometheus/prometheus.yml
+    volumes:
+      - ./docker/prometheus.yml:/etc/prometheus/prometheus.yml
+      - prometheus-storage:/prometheus
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    environment:
+#      - GF_SECURITY_ADMIN_USER=admin
+#      - GF_SECURITY_ADMIN_PASSWORD=admin
+      - GF_AUTH_ANONYMOUS_ENABLED=true
+      - GF_AUTH_ANONYMOUS_ORG_ROLE=Admin
+      - GF_AUTH_DISABLE_LOGIN_FORM=true
+#      - GF_LOG_LEVEL=debug
+    volumes:
+      - ./docker/grafana/dashboard.yaml:/etc/grafana/provisioning/dashboards/main.yaml
+      - ./docker/grafana/datasource.yaml:/etc/grafana/provisioning/datasources/main.yaml
+      - ./docker/grafana/dashboards:/var/lib/grafana/dashboards
+      - grafana-storage:/var/lib/grafana
+
+volumes:
+  postgres-storage: {}
+  prometheus-storage: {}
+  grafana-storage: {}
+  app-server-storage: {}
+  app-client-storage: {}
+

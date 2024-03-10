@@ -1,0 +1,52 @@
+# resilience4j
+endpoints:
+  health.mapping.DOWN: OK
+  health.mapping.OUT_OF_SERVICE : OK
+
+info:
+  name: ${spring.application.name}
+  description: resilience4j study
+  environment: ${spring.profiles.active}
+  version: 0.0.1
+
+resilience4j.circuitbreaker:
+  configs:
+    default:
+      slidingWindowSize: 100
+      permittedNumberOfCallsInHalfOpenState: 10
+      slowCallDurationThreshold: 4s
+      slowCallRateThreshold: 90
+      failureRateThreshold: 50
+      waitDurationInOpenState: 60s
+      minimumNumberOfCalls: 10
+      registerHealthIndicator: true
+    operation:
+      slidingWindowSize: 100
+      permittedNumberOfCallsInHalfOpenState: 10
+      slowCallDurationThreshold: 4s
+      slowCallRateThreshold: 90
+      failureRateThreshold: 50
+      waitDurationInOpenState: 10s
+      minimumNumberOfCalls: 10
+  instances:
+    # Authors
+    ControllerAuthorFindAll.baseConfig: default
+    ControllerAuthorFindById.baseConfig: operation
+    ControllerAuthorInsert.baseConfig: operation
+    ControllerAuthorsUpdate.baseConfig: operation
+    ControllerAuthorsDelete.baseConfig: operation
+    # Books
+    ControllerBooksFindAll.baseConfig: default
+    ControllerBooksInsert.baseConfig: operation
+    ControllerBooksUpdate.baseConfig: operation
+    ControllerBooksDelete.baseConfig: operation
+    # Comments
+    ControllerCommentFindCommentsByBookById.baseConfig: default
+    ControllerCommentInsert.baseConfig: operation
+    ControllerCommentUpdate.baseConfig: operation
+    ControllerCommentDelete.baseConfig: operation
+    # Genres
+    ControllerGenresFindAll.baseConfig: default
+    ControllerGenresInsert.baseConfig: operation
+    ControllerGenresUpdate.baseConfig: operation
+    ControllerGenresDelete.baseConfig: operation
