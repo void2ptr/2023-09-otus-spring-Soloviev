@@ -1,6 +1,8 @@
 package ru.otus.hw.service;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.dto.CommentDto;
@@ -14,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Slf4j
 @Service
 public class CommentServiceImpl implements CommentService {
     private final CommentRepository commentRepository;
@@ -21,6 +24,7 @@ public class CommentServiceImpl implements CommentService {
     private final BookRepository bookRepository;
 
     @Transactional(readOnly = true)
+    @CircuitBreaker(name = "ControllerCommentFindCommentsByBookById", fallbackMethod = "recoverFindCommentsByBookById")
     @Override
     public List<CommentDto> findCommentByBookId(long bookId) {
         return commentRepository.findCommentsByBookId(bookId)
@@ -30,12 +34,14 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Transactional
+    @CircuitBreaker(name = "ControllerCommentInsert", fallbackMethod = "recoverInsert")
     @Override
     public CommentDto insert(CommentDto commentDto) {
         return CommentMapper.toDto(this.save(commentDto.getBook().getId(), 0, commentDto.getDescription()));
     }
 
     @Transactional
+    @CircuitBreaker(name = "ControllerCommentUpdate", fallbackMethod = "recoverUpdate")
     @Override
     public CommentDto update(CommentDto commentDto) {
         var commentOpt = commentRepository.findCommentById(commentDto.getId());
@@ -47,6 +53,7 @@ public class CommentServiceImpl implements CommentService {
     }
 
     @Transactional
+    @CircuitBreaker(name = "ControllerCommentDelete", fallbackMethod = "recoverDelete")
     @Override
     public CommentDto delete(long commentId) {
         Comment commentBefore = commentRepository.findCommentById(commentId).orElseThrow(() ->
@@ -63,5 +70,25 @@ public class CommentServiceImpl implements CommentService {
         var book = bookRepository.findAllById(bookId).orElseThrow(() ->
                 new EntityNotFoundException("ERROR: book '%d' not found".formatted(bookId)));
         return commentRepository.save(new Comment(commentId, description, book));
+    }
+
+    private List<CommentDto> recoverFindCommentsByBookById(long id, Exception ex) {
+        log.warn(ex.getMessage(), ex);
+        return findCommentByBookId(id);
+    }
+
+    private CommentDto recoverInsert(CommentDto commentDto, Exception ex) {
+        log.warn(ex.getMessage(), ex);
+        return insert(commentDto);
+    }
+
+    private CommentDto recoverUpdate(CommentDto commentDto, Exception ex) {
+        log.warn(ex.getMessage(), ex);
+        return update(commentDto);
+    }
+
+    private CommentDto recoverDelete(long commentId, Exception ex) {
+        log.warn(ex.getMessage(), ex);
+        return delete(commentId);
     }
 }

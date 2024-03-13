@@ -30,8 +30,8 @@ resilience4j.circuitbreaker:
       minimumNumberOfCalls: 10
   instances:
     # Authors
-    ControllerAuthorFindAll.baseConfig: default
-    ControllerAuthorFindById.baseConfig: operation
-    ControllerAuthorInsert.baseConfig: operation
-    ControllerAuthorsUpdate.baseConfig: operation
-    ControllerAuthorsDelete.baseConfig: operation
+    ClientAuthorFindAll.baseConfig: default
+    ClientAuthorFindById.baseConfig: operation
+    ClientAuthorInsert.baseConfig: operation
+    ClientAuthorsUpdate.baseConfig: operation
+    ClientAuthorsDelete.baseConfig: operation

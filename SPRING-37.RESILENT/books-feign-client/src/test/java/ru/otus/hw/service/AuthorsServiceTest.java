@@ -1,4 +1,4 @@
-package ru.otus.hw.feign;
+package ru.otus.hw.service;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,8 +24,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @AutoConfigureWireMock(port = 9091)
 @ContextConfiguration(classes = {WireMockConfig.class})
-@ActiveProfiles("test")
-class AuthorsFeignClientTest {
+class AuthorsServiceTest {
 
     private static final String FILE_NAME = "payload/authors-response.json";
 
@@ -33,7 +32,7 @@ class AuthorsFeignClientTest {
     private WireMockServer wireMockServer;
 
     @Autowired
-    private AuthorsFeignClient authorsFeignClient;
+    private AuthorsService authorsService;
 
     @Autowired
     private ObjectMapper objectMapper;
@@ -56,7 +55,7 @@ class AuthorsFeignClientTest {
         WireMockSetup.setupMockResponse(wireMockServer, "GET", "/api/v1/authors",
                 objectMapper.writeValueAsString(expected));
 
-        assertThat(authorsFeignClient.findAll())
+        assertThat(authorsService.findAll())
                 .isNotNull()
                 .usingRecursiveComparison()
                 .ignoringExpectedNullFields()
@@ -70,7 +69,7 @@ class AuthorsFeignClientTest {
         WireMockSetup.setupMockResponse(wireMockServer, "GET","/api/v1/authors/" + id,
                 objectMapper.writeValueAsString(authorDto));
 
-        assertThat(authorsFeignClient.findById(id))
+        assertThat(authorsService.findById(id))
                 .usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(authorDto);
@@ -83,7 +82,7 @@ class AuthorsFeignClientTest {
         WireMockSetup.setupMockResponse(wireMockServer, "POST", "/api/v1/authors",
                 objectMapper.writeValueAsString(authorDto));
 
-        assertThat(authorsFeignClient.insertAction(authorDto))
+        assertThat(authorsService.insertAction(authorDto))
                 .usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(authorDto);
@@ -96,7 +95,7 @@ class AuthorsFeignClientTest {
         WireMockSetup.setupMockResponse(wireMockServer, "PUT", "/api/v1/authors",
                 objectMapper.writeValueAsString(authorDto));
 
-        assertThat(authorsFeignClient.updateAction(authorDto))
+        assertThat(authorsService.updateAction(authorDto))
                 .usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(authorDto);
@@ -109,7 +108,7 @@ class AuthorsFeignClientTest {
         WireMockSetup.setupMockResponse(wireMockServer, "DELETE","/api/v1/authors/" + id,
                 objectMapper.writeValueAsString(authorDto));
 
-        assertThat(authorsFeignClient.deleteAction(id))
+        assertThat(authorsService.deleteAction(id))
                 .usingRecursiveComparison()
                 .ignoringExpectedNullFields()
                 .isEqualTo(authorDto);

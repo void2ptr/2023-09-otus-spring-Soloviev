@@ -1,6 +1,8 @@
 package ru.otus.hw.service;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.dto.AuthorDto;
@@ -17,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Slf4j
 @Service
 public class BookServiceImpl implements BookService {
     private final AuthorRepository authorRepository;
@@ -26,6 +29,7 @@ public class BookServiceImpl implements BookService {
     private final BookRepository bookRepository;
 
     @Transactional(readOnly = true)
+    @CircuitBreaker(name = "ControllerBooksFindById", fallbackMethod = "recoverFindById")
     @Override
     public Optional<BookDto> findById(long id) {
         Optional<Book> bookOpt = bookRepository.findAllById(id);
@@ -36,6 +40,7 @@ public class BookServiceImpl implements BookService {
     }
 
     @Transactional(readOnly = true)
+    @CircuitBreaker(name = "ControllerBooksFindAll", fallbackMethod = "recoverFindAll")
     @Override
     public List<BookDto> findAll() {
         return bookRepository.findAll()
@@ -45,18 +50,21 @@ public class BookServiceImpl implements BookService {
     }
 
     @Transactional
+    @CircuitBreaker(name = "ControllerBooksInsert", fallbackMethod = "recoverInsert")
     @Override
     public BookDto insert(BookDto bookDto) {
         return save(0, bookDto.getTitle(), bookDto.getAuthor(), bookDto.getGenres());
     }
 
     @Transactional
+    @CircuitBreaker(name = "ControllerBooksUpdate", fallbackMethod = "recoverUpdate")
     @Override
     public BookDto update(BookDto bookDto) {
         return save(bookDto.getId(), bookDto.getTitle(), bookDto.getAuthor(), bookDto.getGenres());
     }
 
     @Transactional
+    @CircuitBreaker(name = "ControllerBooksDelete", fallbackMethod = "recoverDelete")
     @Override
     public BookDto delete(long id) {
         Book bookBefore = bookRepository.findById(id).orElseThrow(() ->
@@ -82,5 +90,30 @@ public class BookServiceImpl implements BookService {
         }
         var book = new Book(id, title, author.get(), genres);
         return BookMapper.toDto(bookRepository.save(book));
+    }
+
+    public Optional<BookDto> recoverFindById(long id, Exception ex) {
+        log.warn(ex.getMessage(), ex);
+        return findById(id);
+    }
+
+    public List<BookDto> recoverFindAll(Exception ex) {
+        log.warn(ex.getMessage(), ex);
+        return findAll();
+    }
+
+    public BookDto recoverInsert(BookDto bookDto, Exception ex) {
+        log.warn(ex.getMessage(), ex);
+        return insert(bookDto);
+    }
+
+    public BookDto recoverUpdate(BookDto bookDto, Exception ex) {
+        log.warn(ex.getMessage(), ex);
+        return update(bookDto);
+    }
+
+    public BookDto recoverDelete(long id, Exception ex) {
+        log.warn(ex.getMessage(), ex);
+        return delete(id);
     }
 }

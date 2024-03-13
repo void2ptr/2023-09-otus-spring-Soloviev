@@ -1,6 +1,8 @@
 package ru.otus.hw.service;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.dto.GenreDto;
@@ -15,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RequiredArgsConstructor
+@Slf4j
 @Service
 public class GenreServiceImpl implements GenreService {
     private final GenreRepository genreRepository;
@@ -22,6 +25,7 @@ public class GenreServiceImpl implements GenreService {
     private final BookRepository bookRepository;
 
     @Transactional(readOnly = true)
+    @CircuitBreaker(name = "ControllerGenresFindAll", fallbackMethod = "recoverFindAll")
     @Override
     public List<GenreDto> findAll() {
         return genreRepository.findAll()
@@ -31,6 +35,7 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Transactional(readOnly = true)
+    @CircuitBreaker(name = "ControllerGenresFindById", fallbackMethod = "recoverFindById")
     @Override
     public Optional<GenreDto> findGenreById(long id) {
         Genre genre = genreRepository.findById(id)
@@ -40,12 +45,14 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Transactional
+    @CircuitBreaker(name = "ControllerGenresInsert", fallbackMethod = "recoverInsert")
     @Override
     public GenreDto insert(GenreDto genre) {
         return this.save(genre);
     }
 
     @Transactional
+    @CircuitBreaker(name = "ControllerGenresUpdate", fallbackMethod = "recoverUpdate")
     @Override
     public GenreDto update(GenreDto genre) {
         Optional<Genre> genreBefore = genreRepository.findById(genre.getId());
@@ -56,6 +63,7 @@ public class GenreServiceImpl implements GenreService {
     }
 
     @Transactional
+    @CircuitBreaker(name = "ControllerGenresDelete", fallbackMethod = "recoverDelete")
     @Override
     public GenreDto delete(long id) {
         List<Book> books = bookRepository.findAllByGenresId(id);
@@ -72,7 +80,32 @@ public class GenreServiceImpl implements GenreService {
         return GenreMapper.toDto(genreBefore);
     }
 
+    private List<GenreDto> recoverFindAll(Exception ex) {
+        log.warn(ex.getMessage(), ex);
+        return findAll();
+    }
+
+    private Optional<GenreDto> recoverFindById(long id, Exception ex) {
+        log.warn(ex.getMessage(), ex);
+        return findGenreById(id);
+    }
+
     private GenreDto save(GenreDto genreDto) {
         return GenreMapper.toDto(genreRepository.save(GenreMapper.toGenre(genreDto)));
+    }
+
+    private GenreDto recoverInsert(GenreDto genreDto, Exception ex) {
+        log.warn(ex.getMessage(), ex);
+        return insert(genreDto);
+    }
+
+    private GenreDto recoverUpdate(GenreDto genreDto, Exception ex) {
+        log.warn(ex.getMessage(), ex);
+        return update(genreDto);
+    }
+
+    private GenreDto recoverDelete(long id, Exception ex) {
+        log.warn(ex.getMessage(), ex);
+        return delete(id);
     }
 }

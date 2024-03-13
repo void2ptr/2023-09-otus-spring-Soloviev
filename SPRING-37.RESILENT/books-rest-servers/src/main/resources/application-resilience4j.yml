@@ -30,23 +30,24 @@ resilience4j.circuitbreaker:
       minimumNumberOfCalls: 10
   instances:
     # Authors
-    ControllerAuthorFindAll.baseConfig: default
-    ControllerAuthorFindById.baseConfig: operation
-    ControllerAuthorInsert.baseConfig: operation
-    ControllerAuthorsUpdate.baseConfig: operation
-    ControllerAuthorsDelete.baseConfig: operation
+    ServerAuthorFindAll.baseConfig: default
+    ServerAuthorFindById.baseConfig: operation
+    ServerAuthorInsert.baseConfig: operation
+    ServerAuthorsUpdate.baseConfig: operation
+    ServerAuthorsDelete.baseConfig: operation
     # Books
-    ControllerBooksFindAll.baseConfig: default
-    ControllerBooksInsert.baseConfig: operation
-    ControllerBooksUpdate.baseConfig: operation
-    ControllerBooksDelete.baseConfig: operation
+    ServerBooksFindAll.baseConfig: default
+    ServerBooksFindById.baseConfig: operation
+    ServerBooksInsert.baseConfig: operation
+    ServerBooksUpdate.baseConfig: operation
+    ServerBooksDelete.baseConfig: operation
     # Comments
-    ControllerCommentFindCommentsByBookById.baseConfig: default
-    ControllerCommentInsert.baseConfig: operation
-    ControllerCommentUpdate.baseConfig: operation
-    ControllerCommentDelete.baseConfig: operation
+    ServerCommentFindCommentsByBookById.baseConfig: default
+    ServerCommentInsert.baseConfig: operation
+    ServerCommentUpdate.baseConfig: operation
+    ServerCommentDelete.baseConfig: operation
     # Genres
-    ControllerGenresFindAll.baseConfig: default
-    ControllerGenresInsert.baseConfig: operation
-    ControllerGenresUpdate.baseConfig: operation
-    ControllerGenresDelete.baseConfig: operation
+    ServerGenresFindAll.baseConfig: default
+    ServerGenresInsert.baseConfig: operation
+    ServerGenresUpdate.baseConfig: operation
+    ServerGenresDelete.baseConfig: operation

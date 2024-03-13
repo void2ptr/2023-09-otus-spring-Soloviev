@@ -9,7 +9,6 @@ import org.springframework.test.context.ActiveProfiles;
 
 @TestConfiguration
 @Slf4j
-@ActiveProfiles("test")
 public class WireMockConfig {
 
     @Bean(name = "wireMockServer", initMethod = "start", destroyMethod = "stop")

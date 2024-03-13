@@ -1,6 +1,5 @@
 package ru.otus.hw.controller;
 
-import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -10,7 +9,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 import ru.otus.hw.dto.AuthorDto;
-import ru.otus.hw.feign.AuthorsFeignClient;
+import ru.otus.hw.service.AuthorsService;
 
 import java.util.List;
 
@@ -18,36 +17,31 @@ import java.util.List;
 @RequiredArgsConstructor
 public class AuthorsController {
 
-    private final AuthorsFeignClient authorsFeignClient;
+    private final AuthorsService authorsService;
 
-    @GetMapping("/api/v1/feign/authors")
-    @CircuitBreaker(name = "ControllerAuthorFindAll")
+    @GetMapping("/api/v1/authors")
     public List<AuthorDto> findAll() {
-        return authorsFeignClient.findAll();
+        return authorsService.findAll();
     }
 
-    @GetMapping("/api/v1/feign/authors/{id}")
-    @CircuitBreaker(name = "ControllerAuthorFindById")
+    @GetMapping("/api/v1/authors/{id}")
     public AuthorDto findById(@PathVariable("id") Long id) {
-        return authorsFeignClient.findById(id);
+        return authorsService.findById(id);
     }
 
-    @PostMapping("/api/v1/feign/authors")
-    @CircuitBreaker(name = "ControllerAuthorInsert")
+    @PostMapping("/api/v1/authors")
     public AuthorDto insertAction(@RequestBody AuthorDto authorDto) {
-        return authorsFeignClient.insertAction(authorDto);
+        return authorsService.insertAction(authorDto);
     }
 
-    @PutMapping("/api/v1/feign/authors")
-    @CircuitBreaker(name = "ControllerAuthorsUpdate")
+    @PutMapping("/api/v1/authors")
     public AuthorDto updateAction(@RequestBody AuthorDto authorDto) {
-        return authorsFeignClient.updateAction(authorDto);
+        return authorsService.updateAction(authorDto);
     }
 
-    @DeleteMapping("/api/v1/feign/authors/{id}")
-    @CircuitBreaker(name = "ControllerAuthorsDelete")
+    @DeleteMapping("/api/v1/authors/{id}")
     public AuthorDto deleteAction(@PathVariable("id") long id) {
-        return authorsFeignClient.deleteAction(id);
+        return authorsService.deleteAction(id);
     }
 
 }

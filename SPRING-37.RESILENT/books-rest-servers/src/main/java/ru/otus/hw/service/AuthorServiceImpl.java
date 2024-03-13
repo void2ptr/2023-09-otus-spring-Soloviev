@@ -1,6 +1,8 @@
 package ru.otus.hw.service;
 
+import io.github.resilience4j.circuitbreaker.annotation.CircuitBreaker;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import ru.otus.hw.dto.AuthorDto;
@@ -16,6 +18,7 @@ import java.util.Optional;
 
 
 @RequiredArgsConstructor
+@Slf4j
 @Service
 public class AuthorServiceImpl implements AuthorService {
     private final AuthorRepository authorRepository;
@@ -24,6 +27,7 @@ public class AuthorServiceImpl implements AuthorService {
 
 
     @Transactional(readOnly = true)
+    @CircuitBreaker(name = "ServerAuthorFindAll", fallbackMethod = "recoverFindAll")
     @Override
     public List<AuthorDto> findAll() {
         return authorRepository.findAll()
@@ -33,6 +37,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Transactional(readOnly = true)
+    @CircuitBreaker(name = "ServerAuthorFindById", fallbackMethod = "recoverFindById")
     @Override
     public AuthorDto findAuthorById(long id) {
         return AuthorMapper.toDto(authorRepository.findAuthorById(id)
@@ -40,12 +45,14 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Transactional
+    @CircuitBreaker(name = "ServerAuthorInsert", fallbackMethod = "recoverInsert")
     @Override
     public AuthorDto insert(AuthorDto authorDto) {
         return this.save(new AuthorDto(0, authorDto.getFullName()));
     }
 
     @Transactional
+    @CircuitBreaker(name = "ServerAuthorsUpdate", fallbackMethod = "recoverUpdate")
     @Override
     public AuthorDto update(AuthorDto authorDto) {
         authorRepository.findAuthorById(authorDto.getId())
@@ -56,6 +63,7 @@ public class AuthorServiceImpl implements AuthorService {
     }
 
     @Transactional
+    @CircuitBreaker(name = "ServerAuthorsDelete", fallbackMethod = "recoverDelete")
     @Override
     public AuthorDto delete(long id) {
         List<Book> books = bookRepository.findAllBooksByAuthorId(id);
@@ -79,4 +87,31 @@ public class AuthorServiceImpl implements AuthorService {
     private AuthorDto save(AuthorDto authorDto) {
         return AuthorMapper.toDto(authorRepository.save(AuthorMapper.toAuthor(authorDto)));
     }
+
+    public List<AuthorDto> recoverFindAll(Exception ex) {
+        log.warn(ex.getMessage(), ex);
+
+        return findAll();
+    }
+
+    public AuthorDto recoverFindById(Long id, Exception ex) {
+        log.warn(ex.getMessage(), ex);
+        return findAuthorById(id);
+    }
+
+    public AuthorDto recoverInsert(AuthorDto authorDto, Exception ex) {
+        log.warn(ex.getMessage(), ex);
+        return insert(authorDto);
+    }
+
+    public AuthorDto recoverUpdate(AuthorDto authorDto, Exception ex) {
+        log.warn(ex.getMessage(), ex);
+        return update(authorDto);
+    }
+
+    public AuthorDto recoverDelete(long id, Exception ex) {
+        log.warn(ex.getMessage(), ex);
+        return delete(id);
+    }
+
 }
