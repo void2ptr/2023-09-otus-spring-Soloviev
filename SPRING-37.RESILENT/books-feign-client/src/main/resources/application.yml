@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: spring-study-web-client
+
+server:
+  port: 8981
+  error:
+    include-exception: true
+#    include-stacktrace: always
+
+feign:
+  client:
+    config:
+      default:
+        connectTimeout: 5000
+        readTimeout: 5000
+        loggerLevel: basic
+    name: ${spring.application.name}
+    url: http://localhost:8080
+
+logging:
+#  file:
+#    path: ./logs/
+  pattern:
+    console: true
+  level:
+    ROOT: ERROR
+
+spring.profiles.include:
+  - 'actuator'
+  - 'resilience4j'
